@@ -8,16 +8,6 @@
 //!   service_principal_type, app_role_assignment_required, sign_in_audience
 //! Tags: flat string array same as app registration.
 
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_service_principal;
-//  pub use az_entra_service_principal::create_az_entra_service_principal_contract;
-//
-//////////////////////////////////////////////////////
-
 use execution_engine::strategies::{
     CollectionMode, CollectionStrategy, CtnContract, ObjectFieldSpec, PerformanceHints,
     StateFieldSpec,
@@ -32,9 +22,9 @@ pub fn create_az_entra_service_principal_contract() -> CtnContract {
         .add_required_field(ObjectFieldSpec {
             name: "client_id".to_string(),
             data_type: DataType::String,
-            description: "Application (client) ID — the appId of the backing app registration"
+            description: "Application (client) ID - the appId of the backing app registration"
                 .to_string(),
-            example_values: vec!["d4e5f6a7-b8c9-0123-4567-890abcdef012".to_string()],
+            example_values: vec!["22222222-2222-2222-2222-222222222222".to_string()],
             validation_notes: Some("Pass appId, not the service principal object id".to_string()),
         });
 
@@ -60,21 +50,21 @@ pub fn create_az_entra_service_principal_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Service principal object ID",
-            "b8c9d0e1-2345-6789-0abc-def012345678",
+            "33333333-3333-3333-3333-333333333333",
         ),
         (
             "app_id",
             DataType::String,
             str_eq.clone(),
             "Application (client) ID",
-            "d4e5f6a7-b8c9-0123-4567-890abcdef012",
+            "22222222-2222-2222-2222-222222222222",
         ),
         (
             "display_name",
             DataType::String,
             str_eq.clone(),
             "Service principal display name",
-            "example-org-esp-daemon",
+            "prooflayer-demo-esp-daemon",
         ),
         (
             "sign_in_audience",

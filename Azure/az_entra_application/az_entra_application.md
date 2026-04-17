@@ -7,7 +7,7 @@ Validates an Azure Entra ID application registration via the Azure CLI. Lookup i
 **Platform:** Azure (requires `az` CLI binary authenticated via service principal)
 **Collection Method:** Single Azure CLI command per object via `AzClient`
 
-**Note:** Tags on Entra app registrations are a flat string array — not `[{Key,Value}]` like AWS. Example: `["esp-daemon","fedramp","example-org"]`. In record checks use `field tags.* string = \`fedramp\` at_least_one`.
+**Note:** Tags on Entra app registrations are a flat string array — not `[{Key,Value}]` like AWS. Example: `["esp-daemon","fedramp","prooflayer"]`. In record checks use `field tags.* string = \`fedramp\` at_least_one`.
 
 **Note:** `signInAudience` should be `AzureADMyOrg` for single-tenant apps. Any other value indicates the app accepts credentials from outside the tenant.
 
@@ -17,8 +17,8 @@ Validates an Azure Entra ID application registration via the Azure CLI. Lookup i
 
 | Field          | Type   | Required | Description                               | Example                                |
 | -------------- | ------ | -------- | ----------------------------------------- | -------------------------------------- |
-| `display_name` | string | No\*     | App registration display name for lookup  | `example-org-esp-daemon`           |
-| `client_id`    | string | No\*     | Application (client) ID for direct lookup | `d4e5f6a7-b8c9-0123-4567-890abcdef012` |
+| `display_name` | string | No\*     | App registration display name for lookup  | `prooflayer-demo-esp-daemon`           |
+| `client_id`    | string | No\*     | Application (client) ID for direct lookup | `22222222-2222-2222-2222-222222222222` |
 
 \* At least one of `display_name` or `client_id` must be provided.
 
@@ -32,38 +32,38 @@ Validates an Azure Entra ID application registration via the Azure CLI. Lookup i
 ### By client_id:
 
 ```
-az ad app show --id d4e5f6a7-b8c9-0123-4567-890abcdef012 --output json
+az ad app show --id 22222222-2222-2222-2222-222222222222 --output json
 ```
 
 ### By display_name:
 
 ```
-az ad app list --display-name example-org-esp-daemon --output json
+az ad app list --display-name prooflayer-demo-esp-daemon --output json
 ```
 
 **Sample response (abbreviated):**
 
 ```json
 {
-  "appId": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
-  "id": "e5f6a7b8-c901-2345-6789-0abcdef01234",
-  "displayName": "example-org-esp-daemon",
+  "appId": "22222222-2222-2222-2222-222222222222",
+  "id": "55555555-5555-5555-5555-555555555555",
+  "displayName": "prooflayer-demo-esp-daemon",
   "signInAudience": "AzureADMyOrg",
   "publisherDomain": "binarysparklabs.com",
-  "tags": ["esp-daemon", "fedramp", "example-org"],
+  "tags": ["esp-daemon", "fedramp", "prooflayer"],
   "passwordCredentials": [
     {
       "displayName": "esp-daemon-secret",
       "endDateTime": "2027-01-01T00:00:00Z",
       "hint": "gdo",
-      "keyId": "f6a7b8c9-0123-4567-890a-bcdef0123456"
+      "keyId": "66666666-6666-6666-6666-666666666666"
     }
   ],
   "requiredResourceAccess": [
     {
       "resourceAppId": "00000003-0000-0000-c000-000000000000",
       "resourceAccess": [
-        { "id": "e1f2a3b4-5678-9012-abcd-ef3456789012", "type": "Scope" }
+        { "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d", "type": "Scope" }
       ]
     }
   ]
@@ -98,14 +98,14 @@ az ad app list --display-name example-org-esp-daemon --output json
 ## RecordData Structure
 
 ```
-appId                                    → "d4e5f6a7-b8c9-0123-4567-890abcdef012"
-id                                       → "e5f6a7b8-c901-2345-6789-0abcdef01234"
-displayName                              → "example-org-esp-daemon"
+appId                                    → "22222222-2222-2222-2222-222222222222"
+id                                       → "55555555-5555-5555-5555-555555555555"
+displayName                              → "prooflayer-demo-esp-daemon"
 signInAudience                           → "AzureADMyOrg"
 publisherDomain                          → "binarysparklabs.com"
 tags.0                                   → "esp-daemon"
 tags.1                                   → "fedramp"
-tags.2                                   → "example-org"
+tags.2                                   → "prooflayer"
 tags.*                                   → (all tags via wildcard)
 passwordCredentials.0.displayName        → "esp-daemon-secret"
 passwordCredentials.0.endDateTime        → "2027-01-01T00:00:00Z"
@@ -154,7 +154,7 @@ The SPN used to run the daemon must have the **Directory Readers** Entra directo
 
 ```esp
 OBJECT esp_daemon_app
-    display_name `example-org-esp-daemon`
+    display_name `prooflayer-demo-esp-daemon`
 OBJECT_END
 
 STATE esp_app_compliant

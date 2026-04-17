@@ -1,15 +1,5 @@
 //! AzRoleAssignmentExecutor
 
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_role_assignment;
-//  pub use az_role_assignment::AzRoleAssignmentExecutor;
-//
-//////////////////////////////////////////////////////
-
 use common::results::Outcome;
 use execution_engine::execution::{
     evaluate_existence_check, evaluate_item_check, evaluate_state_operator,

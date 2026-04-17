@@ -1,129 +1,32 @@
-//! Azure CLI Client
+//! Azure Entra ID Application Registration Collector
 //!
-//! Thin wrapper around `Command::new("az")` mirroring the AwsClient pattern.
-//! Authentication is via environment (az login already done via SPN).
+//! Lookup by display_name: az ad app list --display-name <n>  -> takes first result
+//! Lookup by client_id:    az ad app show --id <client_id>
 //!
-//! Usage:
-//!   let client = AzClient::new();
-//!   let resp = client.execute(&["ad", "app", "show", "--id", "c79bed94-..."])?;
-
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_application;
-//  pub use az_entra_application::AzEntraApplicationCollector;
-//
-//////////////////////////////////////////////////////
-
-use serde_json::Value;
-use std::process::Command;
-
-#[derive(Debug)]
-pub enum AzError {
-    CommandFailed(String),
-    JsonParse(String),
-    NotFound,
-}
-
-impl std::fmt::Display for AzError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            AzError::CommandFailed(s) => write!(f, "az command failed: {}", s),
-            AzError::JsonParse(s) => write!(f, "JSON parse error: {}", s),
-            AzError::NotFound => write!(f, "resource not found"),
-        }
-    }
-}
-
-pub struct AzClient;
-
-impl AzClient {
-    pub fn new() -> Self {
-        Self
-    }
-
-    /// Execute an `az` command with the given args.
-    /// Always appends `--output json` unless already present.
-    pub fn execute(&self, args: &[&str]) -> Result<Value, AzError> {
-        let mut cmd = Command::new("az");
-        cmd.args(args);
-
-        // Ensure JSON output
-        if !args.contains(&"--output") && !args.contains(&"-o") {
-            cmd.args(["--output", "json"]);
-        }
-
-        let output = cmd
-            .output()
-            .map_err(|e| AzError::CommandFailed(format!("failed to spawn az: {}", e)))?;
-
-        if !output.status.success() {
-            let stderr = String::from_utf8_lossy(&output.stderr).to_string();
-            if stderr.contains("does not exist")
-                || stderr.contains("Not Found")
-                || stderr.contains("Resource 'microsoft.graph")
-            {
-                return Err(AzError::NotFound);
-            }
-            return Err(AzError::CommandFailed(stderr));
-        }
-
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        serde_json::from_str(&stdout).map_err(|e| AzError::JsonParse(format!("{}: {}", e, stdout)))
-    }
-}
-
-impl Default for AzClient {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-// =============================================================================
-// az_entra_application collector
-// =============================================================================
-//
-// Azure Entra ID Application Registration Collector
-//
-// Lookup by display_name: az ad app list --display-name <n>  → takes first result
-// Lookup by client_id:    az ad app show --id <client_id>
-//
-// Tags are a flat string array — not [{Key,Value}] like AWS.
-//   ["esp-daemon","fedramp","example-org"]
-//   Access via record check: field tags.* string = `fedramp` at_least_one
-//
-// ## RecordData Field Paths
-//
-// ```text
-// appId                                    → "d4e5f6a7-b8c9-0123-4567-890abcdef012"
-// id                                       → "e5f6a7b8-c901-2345-6789-0abcdef01234"
-// displayName                              → "example-org-esp-daemon"
-// signInAudience                           → "AzureADMyOrg"
-// publisherDomain                          → "binarysparklabs.com"
-// tags.0                                   → "esp-daemon"
-// tags.1                                   → "fedramp"
-// tags.*                                   → (all tags via wildcard)
-// passwordCredentials.0.displayName        → "esp-daemon-secret"
-// passwordCredentials.0.endDateTime        → "2027-01-01T00:00:00Z"
-// requiredResourceAccess.0.resourceAppId   → "00000003-0000-0000-c000-000000000000"
-// ```
+//! Tags are a flat string array - not [{Key,Value}] like AWS.
+//!   ["esp-daemon","fedramp","prooflayer"]
+//!   Access via record check: field tags.* string = `fedramp` at_least_one
 
 use common::results::{CollectionMethod, CollectionMethodType};
 use execution_engine::execution::BehaviorHints;
-use execution_engine::strategies::{CollectedData, CollectionError, CtnContract, CtnDataCollector};
+use execution_engine::strategies::{
+    CollectedData, CollectionError, CtnContract, CtnDataCollector, SystemCommandExecutor,
+};
 use execution_engine::types::common::{RecordData, ResolvedValue};
 use execution_engine::types::execution_context::{ExecutableObject, ExecutableObjectElement};
+use std::time::Duration;
 
+#[derive(Clone)]
 pub struct AzEntraApplicationCollector {
     id: String,
+    executor: SystemCommandExecutor,
 }
 
 impl AzEntraApplicationCollector {
-    pub fn new() -> Self {
+    pub fn new(id: impl Into<String>, executor: SystemCommandExecutor) -> Self {
         Self {
-            id: "az_entra_application_collector".to_string(),
+            id: id.into(),
+            executor,
         }
     }
 
@@ -139,11 +42,23 @@ impl AzEntraApplicationCollector {
         }
         None
     }
-}
 
-impl Default for AzEntraApplicationCollector {
-    fn default() -> Self {
-        Self::new()
+    fn is_not_found(stderr: &str) -> bool {
+        stderr.contains("does not exist")
+            || stderr.contains("Not Found")
+            || stderr.contains("Resource 'microsoft.graph")
+            || stderr.contains("(ResourceNotFound)")
+            || stderr.contains("(NotFound)")
+            || stderr.contains("404")
+    }
+
+    fn set_not_found(data: &mut CollectedData) {
+        data.add_field("found".to_string(), ResolvedValue::Boolean(false));
+        let empty = RecordData::from_json_value(serde_json::json!({}));
+        data.add_field(
+            "resource".to_string(),
+            ResolvedValue::RecordData(Box::new(empty)),
+        );
     }
 }
 
@@ -166,8 +81,6 @@ impl CtnDataCollector for AzEntraApplicationCollector {
             });
         }
 
-        let client = AzClient::new();
-
         let mut data = CollectedData::new(
             object.identifier.clone(),
             "az_entra_application".to_string(),
@@ -184,11 +97,36 @@ impl CtnDataCollector for AzEntraApplicationCollector {
             })
             .unwrap();
 
+        // Build argv depending on lookup mode
+        let args: Vec<String> = if let Some(ref id) = client_id {
+            vec![
+                "ad".to_string(),
+                "app".to_string(),
+                "show".to_string(),
+                "--id".to_string(),
+                id.clone(),
+                "--output".to_string(),
+                "json".to_string(),
+            ]
+        } else {
+            let name = display_name.as_ref().unwrap();
+            vec![
+                "ad".to_string(),
+                "app".to_string(),
+                "list".to_string(),
+                "--display-name".to_string(),
+                name.clone(),
+                "--output".to_string(),
+                "json".to_string(),
+            ]
+        };
+        let command_str = format!("az {}", args.join(" "));
+
         let mut method_builder = CollectionMethod::builder()
             .method_type(CollectionMethodType::ApiCall)
             .description("Query Entra ID app registration via Azure CLI")
             .target(&target)
-            .command("az ad app");
+            .command(&command_str);
         if let Some(ref n) = display_name {
             method_builder = method_builder.input("display_name", n);
         }
@@ -197,106 +135,101 @@ impl CtnDataCollector for AzEntraApplicationCollector {
         }
         data.set_method(method_builder.build());
 
-        // Execute lookup
-        let app_result = if let Some(ref id) = client_id {
-            client.execute(&["ad", "app", "show", "--id", id.as_str()])
+        let arg_refs: Vec<&str> = args.iter().map(|s| s.as_str()).collect();
+        let output = self
+            .executor
+            .execute("az", &arg_refs, Some(Duration::from_secs(30)))
+            .map_err(|e| CollectionError::CollectionFailed {
+                object_id: object.identifier.clone(),
+                reason: format!("Failed to execute az: {}", e),
+            })?;
+
+        if output.exit_code != 0 {
+            if Self::is_not_found(&output.stderr) {
+                Self::set_not_found(&mut data);
+                return Ok(data);
+            }
+            return Err(CollectionError::CollectionFailed {
+                object_id: object.identifier.clone(),
+                reason: format!(
+                    "az ad app failed (exit {}): {}",
+                    output.exit_code,
+                    output.stderr.trim()
+                ),
+            });
+        }
+
+        let parsed: serde_json::Value = serde_json::from_str(output.stdout.trim()).map_err(|e| {
+            CollectionError::CollectionFailed {
+                object_id: object.identifier.clone(),
+                reason: format!("Failed to parse az ad app JSON: {}", e),
+            }
+        })?;
+
+        // Pick the app record: direct object for `show`, first array element for `list`.
+        let app = if client_id.is_some() {
+            parsed
         } else {
-            let name = display_name.as_ref().unwrap();
-            match client.execute(&["ad", "app", "list", "--display-name", name.as_str()]) {
-                Ok(arr) => {
-                    // list returns an array — take first element
-                    if let Some(first) = arr.as_array().and_then(|a| a.first()).cloned() {
-                        Ok(first)
-                    } else {
-                        Err(AzError::NotFound)
-                    }
+            match parsed.as_array().and_then(|a| a.first()).cloned() {
+                Some(first) => first,
+                None => {
+                    // Empty list = not found
+                    Self::set_not_found(&mut data);
+                    return Ok(data);
                 }
-                Err(e) => Err(e),
             }
         };
 
-        match app_result {
-            Err(AzError::NotFound) | Err(AzError::CommandFailed(_))
-                if { matches!(app_result, Err(AzError::NotFound)) } =>
-            {
-                data.add_field("found".to_string(), ResolvedValue::Boolean(false));
-                let empty = RecordData::from_json_value(serde_json::json!({}));
-                data.add_field(
-                    "resource".to_string(),
-                    ResolvedValue::RecordData(Box::new(empty)),
-                );
-            }
-            Err(e) => {
-                return Err(CollectionError::CollectionFailed {
-                    object_id: object.identifier.clone(),
-                    reason: format!("Azure CLI error (az ad app): {}", e),
-                });
-            }
-            Ok(app) => {
-                data.add_field("found".to_string(), ResolvedValue::Boolean(true));
+        data.add_field("found".to_string(), ResolvedValue::Boolean(true));
 
-                if let Some(v) = app
-                    .get("appId")
-                    .and_then(|v: &serde_json::Value| v.as_str())
-                {
-                    data.add_field("app_id".to_string(), ResolvedValue::String(v.to_string()));
-                }
-                if let Some(v) = app.get("id").and_then(|v: &serde_json::Value| v.as_str()) {
-                    data.add_field(
-                        "object_id".to_string(),
-                        ResolvedValue::String(v.to_string()),
-                    );
-                }
-                if let Some(v) = app
-                    .get("displayName")
-                    .and_then(|v: &serde_json::Value| v.as_str())
-                {
-                    data.add_field(
-                        "display_name".to_string(),
-                        ResolvedValue::String(v.to_string()),
-                    );
-                }
-                if let Some(v) = app
-                    .get("signInAudience")
-                    .and_then(|v: &serde_json::Value| v.as_str())
-                {
-                    data.add_field(
-                        "sign_in_audience".to_string(),
-                        ResolvedValue::String(v.to_string()),
-                    );
-                }
-                if let Some(v) = app
-                    .get("publisherDomain")
-                    .and_then(|v: &serde_json::Value| v.as_str())
-                {
-                    data.add_field(
-                        "publisher_domain".to_string(),
-                        ResolvedValue::String(v.to_string()),
-                    );
-                }
-
-                // Password credentials
-                let pwd_count = app
-                    .get("passwordCredentials")
-                    .and_then(|v: &serde_json::Value| v.as_array())
-                    .map(|a| a.len() as i64)
-                    .unwrap_or(0);
-                data.add_field(
-                    "password_credential_count".to_string(),
-                    ResolvedValue::Integer(pwd_count),
-                );
-                data.add_field(
-                    "has_password_credentials".to_string(),
-                    ResolvedValue::Boolean(pwd_count > 0),
-                );
-
-                let record_data = RecordData::from_json_value(app.clone());
-                data.add_field(
-                    "resource".to_string(),
-                    ResolvedValue::RecordData(Box::new(record_data)),
-                );
-            }
+        if let Some(v) = app.get("appId").and_then(|v| v.as_str()) {
+            data.add_field("app_id".to_string(), ResolvedValue::String(v.to_string()));
         }
+        if let Some(v) = app.get("id").and_then(|v| v.as_str()) {
+            data.add_field(
+                "object_id".to_string(),
+                ResolvedValue::String(v.to_string()),
+            );
+        }
+        if let Some(v) = app.get("displayName").and_then(|v| v.as_str()) {
+            data.add_field(
+                "display_name".to_string(),
+                ResolvedValue::String(v.to_string()),
+            );
+        }
+        if let Some(v) = app.get("signInAudience").and_then(|v| v.as_str()) {
+            data.add_field(
+                "sign_in_audience".to_string(),
+                ResolvedValue::String(v.to_string()),
+            );
+        }
+        if let Some(v) = app.get("publisherDomain").and_then(|v| v.as_str()) {
+            data.add_field(
+                "publisher_domain".to_string(),
+                ResolvedValue::String(v.to_string()),
+            );
+        }
+
+        // Password credentials
+        let pwd_count = app
+            .get("passwordCredentials")
+            .and_then(|v| v.as_array())
+            .map(|a| a.len() as i64)
+            .unwrap_or(0);
+        data.add_field(
+            "password_credential_count".to_string(),
+            ResolvedValue::Integer(pwd_count),
+        );
+        data.add_field(
+            "has_password_credentials".to_string(),
+            ResolvedValue::Boolean(pwd_count > 0),
+        );
+
+        let record_data = RecordData::from_json_value(app);
+        data.add_field(
+            "resource".to_string(),
+            ResolvedValue::RecordData(Box::new(record_data)),
+        );
 
         Ok(data)
     }
@@ -320,28 +253,8 @@ impl CtnDataCollector for AzEntraApplicationCollector {
     fn collector_id(&self) -> &str {
         &self.id
     }
+
     fn supports_batch_collection(&self) -> bool {
         false
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_collector_id() {
-        assert_eq!(
-            AzEntraApplicationCollector::new().collector_id(),
-            "az_entra_application_collector"
-        );
-    }
-
-    #[test]
-    fn test_supported_ctn_types() {
-        assert_eq!(
-            AzEntraApplicationCollector::new().supported_ctn_types(),
-            vec!["az_entra_application"]
-        );
     }
 }

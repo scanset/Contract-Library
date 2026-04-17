@@ -15,23 +15,23 @@ Validates an Azure Entra ID security group via the Azure CLI using `az ad group 
 
 | Field          | Type   | Required | Description                     | Example                      |
 | -------------- | ------ | -------- | ------------------------------- | ---------------------------- |
-| `display_name` | string | **Yes**  | Group display name or object ID | `aws-example-org-admins` |
+| `display_name` | string | **Yes**  | Group display name or object ID | `aws-prooflayer-demo-admins` |
 
 ---
 
 ## Commands Executed
 
 ```
-az ad group show --group aws-example-org-admins --output json
+az ad group show --group aws-prooflayer-demo-admins --output json
 ```
 
 **Sample response (abbreviated):**
 
 ```json
 {
-  "id": "a7b8c9d0-1234-5678-90ab-cdef01234567",
-  "displayName": "aws-example-org-admins",
-  "description": "ExampleOrg AWS admins - maps to ExampleOrgAdmin permission set",
+  "id": "44444444-4444-4444-4444-444444444444",
+  "displayName": "aws-prooflayer-demo-admins",
+  "description": "ProofLayer AWS admins - maps to ProofLayerAdmin permission set",
   "securityEnabled": true,
   "mailEnabled": false,
   "groupTypes": [],
@@ -65,9 +65,9 @@ az ad group show --group aws-example-org-admins --output json
 ## RecordData Structure
 
 ```
-id                → "a7b8c9d0-1234-5678-90ab-cdef01234567"
-displayName       → "aws-example-org-admins"
-description       → "ExampleOrg AWS admins - maps to ExampleOrgAdmin permission set"
+id                → "44444444-4444-4444-4444-444444444444"
+displayName       → "aws-prooflayer-demo-admins"
+description       → "ProofLayer AWS admins - maps to ProofLayerAdmin permission set"
 securityEnabled   → true
 mailEnabled       → false
 createdDateTime   → "2026-03-23T19:58:34Z"
@@ -113,14 +113,14 @@ Directory Readers role on the SPN running the daemon.
 
 ```esp
 OBJECT admins_group
-    display_name `aws-example-org-admins`
+    display_name `aws-prooflayer-demo-admins`
 OBJECT_END
 
 STATE admins_group_compliant
     found boolean = true
     security_enabled boolean = true
     mail_enabled boolean = false
-    description string contains `ExampleOrgAdmin`
+    description string contains `ProofLayerAdmin`
 STATE_END
 
 CTN az_entra_group

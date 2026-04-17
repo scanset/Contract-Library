@@ -1,15 +1,5 @@
 //! AzEntraGroupExecutor
 
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_group;
-//  pub use az_entra_group::AzEntraGroupExecutor;
-//
-//////////////////////////////////////////////////////
-
 use common::results::Outcome;
 use execution_engine::execution::{
     evaluate_existence_check, evaluate_item_check, evaluate_state_operator,

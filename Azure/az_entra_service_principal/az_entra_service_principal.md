@@ -15,28 +15,28 @@ Validates an Azure Entra ID service principal via the Azure CLI using `az ad sp 
 
 | Field       | Type   | Required | Description                                              | Example                                |
 | ----------- | ------ | -------- | -------------------------------------------------------- | -------------------------------------- |
-| `client_id` | string | **Yes**  | Application (client) ID — the `appId` of the backing app | `d4e5f6a7-b8c9-0123-4567-890abcdef012` |
+| `client_id` | string | **Yes**  | Application (client) ID — the `appId` of the backing app | `22222222-2222-2222-2222-222222222222` |
 
 ---
 
 ## Commands Executed
 
 ```
-az ad sp show --id d4e5f6a7-b8c9-0123-4567-890abcdef012 --output json
+az ad sp show --id 22222222-2222-2222-2222-222222222222 --output json
 ```
 
 **Sample response (abbreviated):**
 
 ```json
 {
-  "id": "b8c9d0e1-2345-6789-0abc-def012345678",
-  "appId": "d4e5f6a7-b8c9-0123-4567-890abcdef012",
-  "displayName": "example-org-esp-daemon",
+  "id": "33333333-3333-3333-3333-333333333333",
+  "appId": "22222222-2222-2222-2222-222222222222",
+  "displayName": "prooflayer-demo-esp-daemon",
   "accountEnabled": true,
   "appRoleAssignmentRequired": false,
   "servicePrincipalType": "Application",
   "signInAudience": "AzureADMyOrg",
-  "tags": ["esp-daemon", "fedramp", "example-org"],
+  "tags": ["esp-daemon", "fedramp", "prooflayer"],
   "keyCredentials": [],
   "passwordCredentials": []
 }
@@ -71,9 +71,9 @@ az ad sp show --id d4e5f6a7-b8c9-0123-4567-890abcdef012 --output json
 ## RecordData Structure
 
 ```
-id                          → "b8c9d0e1-2345-6789-0abc-def012345678"
-appId                       → "d4e5f6a7-b8c9-0123-4567-890abcdef012"
-displayName                 → "example-org-esp-daemon"
+id                          → "33333333-3333-3333-3333-333333333333"
+appId                       → "22222222-2222-2222-2222-222222222222"
+displayName                 → "prooflayer-demo-esp-daemon"
 accountEnabled              → true
 appRoleAssignmentRequired   → false
 servicePrincipalType        → "Application"
@@ -126,7 +126,7 @@ Directory Readers role on the SPN running the daemon.
 
 ```esp
 OBJECT esp_daemon_sp
-    client_id `d4e5f6a7-b8c9-0123-4567-890abcdef012`
+    client_id `22222222-2222-2222-2222-222222222222`
 OBJECT_END
 
 STATE esp_sp_compliant

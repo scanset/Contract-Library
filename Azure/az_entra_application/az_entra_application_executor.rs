@@ -1,15 +1,5 @@
 //! AzEntraApplicationExecutor
 
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_application;
-//  pub use az_entra_application::AzEntraApplicationExecutor;
-//
-//////////////////////////////////////////////////////
-
 use common::results::Outcome;
 use execution_engine::execution::{
     evaluate_existence_check, evaluate_item_check, evaluate_state_operator,

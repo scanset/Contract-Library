@@ -1,21 +1,11 @@
 //! Azure RBAC Role Assignment CTN Contract + Collector
 //!
 //! Single call: az role assignment list --assignee <principal_id> [--scope <scope>]
-//! Returns array — finds first matching roleDefinitionName when role_name provided,
+//! Returns array - finds first matching roleDefinitionName when role_name provided,
 //! otherwise validates the first result.
 //!
 //! Key scalars: role_definition_name, scope, principal_type, principal_id,
 //!   role_definition_id, assignment_id
-
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_role_assignment;
-//  pub use az_role_assignment::create_az_role_assignment_contract;
-//
-//////////////////////////////////////////////////////
 
 use execution_engine::strategies::{
     CollectionMode, CollectionStrategy, CtnContract, ObjectFieldSpec, PerformanceHints,
@@ -32,7 +22,7 @@ pub fn create_az_role_assignment_contract() -> CtnContract {
             name: "principal_id".to_string(),
             data_type: DataType::String,
             description: "Service principal or user object ID to list assignments for".to_string(),
-            example_values: vec!["b8c9d0e1-2345-6789-0abc-def012345678".to_string()],
+            example_values: vec!["33333333-3333-3333-3333-333333333333".to_string()],
             validation_notes: Some("Service principal object ID (not appId)".to_string()),
         });
 
@@ -55,7 +45,7 @@ pub fn create_az_role_assignment_contract() -> CtnContract {
             name: "scope".to_string(),
             data_type: DataType::String,
             description: "Scope to filter assignments".to_string(),
-            example_values: vec!["/subscriptions/c9d0e1f2-3456-7890-abcd-ef0123456789".to_string()],
+            example_values: vec!["/subscriptions/66666666-6666-6666-6666-666666666666".to_string()],
             validation_notes: Some("Passed as --scope to az role assignment list".to_string()),
         });
 
@@ -88,14 +78,14 @@ pub fn create_az_role_assignment_contract() -> CtnContract {
             DataType::String,
             str_full.clone(),
             "Assignment scope",
-            "/subscriptions/ca228a4b-...",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/...",
         ),
         (
             "principal_id",
             DataType::String,
             str_eq.clone(),
             "Assignee principal object ID",
-            "b8c9d0e1-2345-6789-0abc-def012345678",
+            "33333333-3333-3333-3333-333333333333",
         ),
         (
             "principal_type",

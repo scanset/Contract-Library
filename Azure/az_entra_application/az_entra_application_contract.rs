@@ -4,19 +4,9 @@
 //! az ad app list --display-name <name> OR az ad app show --id <client_id>
 //!
 //! Object requires either display_name or client_id.
-//! Tags are a flat string array: ["esp-daemon","fedramp","example-org"]
+//! Tags are a flat string array: ["esp-daemon","fedramp","prooflayer"]
 //! sign_in_audience should be "AzureADMyOrg" for single-tenant apps.
 //! has_password_credentials derived from passwordCredentials array length.
-
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_application;
-//  pub use az_entra_application::create_az_entra_application_contract;
-//
-//////////////////////////////////////////////////////
 
 use execution_engine::strategies::{
     CollectionMode, CollectionStrategy, CtnContract, ObjectFieldSpec, PerformanceHints,
@@ -37,7 +27,7 @@ pub fn create_az_entra_application_contract() -> CtnContract {
             name: "display_name".to_string(),
             data_type: DataType::String,
             description: "App registration display name for lookup".to_string(),
-            example_values: vec!["example-org-esp-daemon".to_string()],
+            example_values: vec!["prooflayer-demo-esp-daemon".to_string()],
             validation_notes: Some(
                 "Used as --display-name with az ad app list. Use display_name OR client_id."
                     .to_string(),
@@ -50,7 +40,7 @@ pub fn create_az_entra_application_contract() -> CtnContract {
             name: "client_id".to_string(),
             data_type: DataType::String,
             description: "Application (client) ID for direct lookup".to_string(),
-            example_values: vec!["d4e5f6a7-b8c9-0123-4567-890abcdef012".to_string()],
+            example_values: vec!["22222222-2222-2222-2222-222222222222".to_string()],
             validation_notes: Some(
                 "Used as --id with az ad app show. Use client_id OR display_name.".to_string(),
             ),
@@ -95,7 +85,7 @@ pub fn create_az_entra_application_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Application (client) ID".to_string(),
-            example_values: vec!["d4e5f6a7-b8c9-0123-4567-890abcdef012".to_string()],
+            example_values: vec!["22222222-2222-2222-2222-222222222222".to_string()],
             validation_notes: None,
         });
 
@@ -106,7 +96,7 @@ pub fn create_az_entra_application_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "App registration object ID".to_string(),
-            example_values: vec!["e5f6a7b8-c901-2345-6789-0abcdef01234".to_string()],
+            example_values: vec!["55555555-5555-5555-5555-555555555555".to_string()],
             validation_notes: None,
         });
 
@@ -117,7 +107,7 @@ pub fn create_az_entra_application_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "App registration display name".to_string(),
-            example_values: vec!["example-org-esp-daemon".to_string()],
+            example_values: vec!["prooflayer-demo-esp-daemon".to_string()],
             validation_notes: None,
         });
 

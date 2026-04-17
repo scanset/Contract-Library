@@ -6,16 +6,6 @@
 //!   security_enabled, mail_enabled
 //! No tags on Entra groups.
 
-///////////////////////////////////////////////////////
-///
-///
-/// mod.rs additions
-///
-/// pub mod az_entra_group;
-//  pub use az_entra_group::create_az_entra_group_contract;
-//
-//////////////////////////////////////////////////////
-
 use execution_engine::strategies::{
     CollectionMode, CollectionStrategy, CtnContract, ObjectFieldSpec, PerformanceHints,
     StateFieldSpec,
@@ -31,7 +21,7 @@ pub fn create_az_entra_group_contract() -> CtnContract {
             name: "display_name".to_string(),
             data_type: DataType::String,
             description: "Group display name or object ID".to_string(),
-            example_values: vec!["aws-example-org-admins".to_string()],
+            example_values: vec!["aws-prooflayer-demo-admins".to_string()],
             validation_notes: Some("Passed directly to az ad group show --group".to_string()),
         });
 
@@ -57,21 +47,21 @@ pub fn create_az_entra_group_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Group object ID",
-            "a7b8c9d0-1234-5678-90ab-cdef01234567",
+            "44444444-4444-4444-4444-444444444444",
         ),
         (
             "display_name",
             DataType::String,
             str_eq.clone(),
             "Group display name",
-            "aws-example-org-admins",
+            "aws-prooflayer-demo-admins",
         ),
         (
             "description",
             DataType::String,
             str_full.clone(),
             "Group description",
-            "ExampleOrg AWS admins - maps to ExampleOrgAdmin permission set",
+            "ProofLayer AWS admins - maps to ProofLayerAdmin permission set",
         ),
     ] {
         contract
