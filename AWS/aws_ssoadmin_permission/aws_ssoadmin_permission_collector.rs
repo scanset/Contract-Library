@@ -13,7 +13,7 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! PermissionSet.Name                        → "ExampleOrgAdmin"
+//! PermissionSet.Name                        → "ProofLayerAdmin"
 //! PermissionSet.PermissionSetArn            → "arn:aws:sso:::permissionSet/..."
 //! PermissionSet.Description                 → "Full admin access..."
 //! PermissionSet.SessionDuration             → "PT4H"

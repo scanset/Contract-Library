@@ -25,7 +25,7 @@ pub fn create_aws_cloudwatch_log_group_contract() -> CtnContract {
             name: "log_group_name".to_string(),
             data_type: DataType::String,
             description: "Log group name (exact match via prefix lookup)".to_string(),
-            example_values: vec!["/example-org/security/findings".to_string()],
+            example_values: vec!["/prooflayer-demo/security/findings".to_string()],
             validation_notes: Some("Required; exact log group name".to_string()),
         });
 
@@ -86,7 +86,7 @@ pub fn create_aws_cloudwatch_log_group_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Log group name".to_string(),
-            example_values: vec!["/example-org/security/findings".to_string()],
+            example_values: vec!["/prooflayer-demo/security/findings".to_string()],
             validation_notes: None,
         });
 
@@ -103,7 +103,7 @@ pub fn create_aws_cloudwatch_log_group_contract() -> CtnContract {
             ],
             description: "Log group ARN (without :* suffix)".to_string(),
             example_values: vec![
-                "arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings"
+                "arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings"
                     .to_string(),
             ],
             validation_notes: None,

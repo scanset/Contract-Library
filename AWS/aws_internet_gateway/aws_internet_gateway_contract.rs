@@ -9,7 +9,7 @@
 //! STATE igw_attached
 //!     found boolean = true
 //!     attachment_state string = `available`
-//!     attached_vpc_id string = `vpc-0fedcba9876543210`
+//!     attached_vpc_id string = `vpc-051afae9e049b137a`
 //! STATE_END
 //! ```
 
@@ -43,7 +43,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
             name: "internet_gateway_id".to_string(),
             data_type: DataType::String,
             description: "Internet Gateway ID for direct lookup".to_string(),
-            example_values: vec!["igw-0123456789abcdef0".to_string()],
+            example_values: vec!["igw-067bbc16268608ad6".to_string()],
             validation_notes: Some("Takes precedence over vpc_id lookup".to_string()),
         });
 
@@ -53,7 +53,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
             name: "vpc_id".to_string(),
             data_type: DataType::String,
             description: "VPC ID to find attached Internet Gateway".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Filters by attachment.vpc-id".to_string()),
         });
 
@@ -63,7 +63,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
             name: "tags".to_string(),
             data_type: DataType::String,
             description: "Tag filter in Key=Value format".to_string(),
-            example_values: vec!["Name=example-igw".to_string()],
+            example_values: vec!["Name=scanset-igw".to_string()],
             validation_notes: Some("Used for tag-based lookup".to_string()),
         });
 
@@ -103,7 +103,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Internet Gateway ID".to_string(),
-            example_values: vec!["igw-0123456789abcdef0".to_string()],
+            example_values: vec!["igw-067bbc16268608ad6".to_string()],
             validation_notes: Some("Validate the resolved IGW ID".to_string()),
         });
 
@@ -114,7 +114,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of the Name tag".to_string(),
-            example_values: vec!["example-igw".to_string()],
+            example_values: vec!["scanset-igw".to_string()],
             validation_notes: Some("Extracted from Tags array".to_string()),
         });
 
@@ -125,7 +125,7 @@ pub fn create_aws_internet_gateway_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC ID from the first attachment".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("VpcId from Attachments[0]".to_string()),
         });
 

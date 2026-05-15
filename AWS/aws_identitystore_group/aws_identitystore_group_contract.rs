@@ -37,7 +37,7 @@ pub fn create_aws_identitystore_group_contract() -> CtnContract {
             name: "group_name".to_string(),
             data_type: DataType::String,
             description: "Group display name (exact match against DisplayName)".to_string(),
-            example_values: vec!["ExampleOrgAdmins".to_string()],
+            example_values: vec!["ProofLayerAdmins".to_string()],
             validation_notes: Some(
                 "Matched against DisplayName field in list-groups results".to_string(),
             ),
@@ -97,7 +97,7 @@ pub fn create_aws_identitystore_group_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Group ID (UUID format)".to_string(),
-            example_values: vec!["d0e1f2a3-4567-8901-abcd-ef2345678901".to_string()],
+            example_values: vec!["5428f418-1091-70f7-0b97-ead5a09be747".to_string()],
             validation_notes: None,
         });
 
@@ -108,7 +108,7 @@ pub fn create_aws_identitystore_group_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Group display name".to_string(),
-            example_values: vec!["ExampleOrgAdmins".to_string()],
+            example_values: vec!["ProofLayerAdmins".to_string()],
             validation_notes: None,
         });
 
@@ -119,7 +119,7 @@ pub fn create_aws_identitystore_group_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_full.clone(),
             description: "Group description".to_string(),
-            example_values: vec!["Maps to Entra group aws-example-org-admins".to_string()],
+            example_values: vec!["Maps to Entra group aws-prooflayer-demo-admins".to_string()],
             validation_notes: None,
         });
 

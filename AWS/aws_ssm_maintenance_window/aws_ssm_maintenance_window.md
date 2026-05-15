@@ -13,7 +13,7 @@ Validates AWS SSM Maintenance Window configuration via the AWS CLI. Makes a sing
 
 | Field         | Type   | Required | Description                                      | Example                       |
 | ------------- | ------ | -------- | ------------------------------------------------ | ----------------------------- |
-| `window_name` | string | **Yes**  | Maintenance window name (exact match via filter) | `example-org-backup-prep` |
+| `window_name` | string | **Yes**  | Maintenance window name (exact match via filter) | `prooflayer-demo-backup-prep` |
 | `region`      | string | No       | AWS region override (passed as `--region`)       | `us-east-1`                   |
 
 - `window_name` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -30,7 +30,7 @@ Validates AWS SSM Maintenance Window configuration via the AWS CLI. Makes a sing
 **Resulting command:**
 
 ```
-aws ssm describe-maintenance-windows --filters Key=Name,Values=example-org-backup-prep --output json
+aws ssm describe-maintenance-windows --filters Key=Name,Values=prooflayer-demo-backup-prep --output json
 ```
 
 **Sample response:**
@@ -40,7 +40,7 @@ aws ssm describe-maintenance-windows --filters Key=Name,Values=example-org-backu
   "WindowIdentities": [
     {
       "WindowId": "mw-0a4a75b49ee74fe35",
-      "Name": "example-org-backup-prep",
+      "Name": "prooflayer-demo-backup-prep",
       "Description": "Pre-backup PostgreSQL dump",
       "Enabled": true,
       "Duration": 1,
@@ -107,7 +107,7 @@ An empty `WindowIdentities` array or no exact name match sets `found = false` â€
 | Path                | Type    | Example Value                   |
 | ------------------- | ------- | ------------------------------- |
 | `WindowId`          | string  | `"mw-0a4a75b49ee74fe35"`        |
-| `Name`              | string  | `"example-org-backup-prep"` |
+| `Name`              | string  | `"prooflayer-demo-backup-prep"` |
 | `Enabled`           | boolean | `true`                          |
 | `Duration`          | integer | `1`                             |
 | `Cutoff`            | integer | `0`                             |
@@ -166,7 +166,7 @@ An empty `WindowIdentities` array or no exact name match sets `found = false` â€
 
 ```esp
 OBJECT backup_prep_mw
-    window_name `example-org-backup-prep`
+    window_name `prooflayer-demo-backup-prep`
     region `us-east-1`
 OBJECT_END
 

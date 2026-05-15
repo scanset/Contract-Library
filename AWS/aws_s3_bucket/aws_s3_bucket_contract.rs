@@ -58,7 +58,7 @@ pub fn create_aws_s3_bucket_contract() -> CtnContract {
             name: "bucket_name".to_string(),
             data_type: DataType::String,
             description: "S3 bucket name (exact match)".to_string(),
-            example_values: vec!["example-org-security-findings".to_string()],
+            example_values: vec!["prooflayer-demo-security-findings".to_string()],
             validation_notes: Some("Required; exact bucket name".to_string()),
         });
 
@@ -99,7 +99,7 @@ pub fn create_aws_s3_bucket_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Bucket name".to_string(),
-            example_values: vec!["example-org-security-findings".to_string()],
+            example_values: vec!["prooflayer-demo-security-findings".to_string()],
             validation_notes: None,
         });
 
@@ -157,7 +157,7 @@ pub fn create_aws_s3_bucket_contract() -> CtnContract {
             ],
             description: "KMS key ARN used for encryption".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: Some("Only present when sse_algorithm is aws:kms".to_string()),

@@ -87,7 +87,7 @@ pub fn create_securityhub_account_contract() -> CtnContract {
             ],
             description: "Security Hub ARN".to_string(),
             example_values: vec![
-                "arn:aws:securityhub:us-east-1:123456789012:hub/default".to_string(),
+                "arn:aws:securityhub:us-east-1:486027077516:hub/default".to_string(),
             ],
             validation_notes: None,
         });

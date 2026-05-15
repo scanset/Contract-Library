@@ -13,7 +13,7 @@ Validates AWS EC2 instance configuration via the AWS CLI. Makes one primary API 
 
 | Field         | Type   | Required | Description                                | Example               |
 | ------------- | ------ | -------- | ------------------------------------------ | --------------------- |
-| `instance_id` | string | **Yes**  | EC2 instance ID (exact match)              | `i-0123456789abcdef0` |
+| `instance_id` | string | **Yes**  | EC2 instance ID (exact match)              | `i-02dc10f9292c0a933` |
 | `region`      | string | No       | AWS region override (passed as `--region`) | `us-east-1`           |
 
 ---
@@ -27,7 +27,7 @@ Validates AWS EC2 instance configuration via the AWS CLI. Makes one primary API 
 **Resulting command:**
 
 ```
-aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
+aws ec2 describe-instances --instance-ids i-02dc10f9292c0a933 --output json
 ```
 
 **Response shape:** `Reservations[0].Instances[0]`
@@ -40,9 +40,9 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
     {
       "Instances": [
         {
-          "InstanceId": "i-0123456789abcdef0",
+          "InstanceId": "i-02dc10f9292c0a933",
           "InstanceType": "t3.large",
-          "ImageId": "ami-0123456789abcdef0",
+          "ImageId": "ami-078448b73f6313465",
           "State": { "Code": 16, "Name": "running" },
           "MetadataOptions": {
             "HttpTokens": "required",
@@ -51,30 +51,30 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
           },
           "PublicDnsName": "",
           "IamInstanceProfile": {
-            "Arn": "arn:aws:iam::123456789012:instance-profile/example-org-ec2-profile"
+            "Arn": "arn:aws:iam::486027077516:instance-profile/prooflayer-demo-ec2-profile"
           },
           "SecurityGroups": [
             {
-              "GroupId": "sg-0123456789abcdef0",
-              "GroupName": "example-org-vm-sg"
+              "GroupId": "sg-0ee1fed6cac898cc7",
+              "GroupName": "prooflayer-demo-vm-sg"
             }
           ],
           "Monitoring": { "State": "disabled" },
           "CurrentInstanceBootMode": "uefi",
           "EbsOptimized": false,
-          "VpcId": "vpc-0123456789abcdef0",
-          "SubnetId": "subnet-0aaaaaaaaaaaaaaaa",
+          "VpcId": "vpc-0ea38d2598962fda8",
+          "SubnetId": "subnet-0765f76c6a2dda34e",
           "RootDeviceName": "/dev/sda1",
           "BlockDeviceMappings": [
             {
               "DeviceName": "/dev/sda1",
               "Ebs": {
-                "VolumeId": "vol-0123456789abcdef0",
+                "VolumeId": "vol-0a53ae7e9518978de",
                 "Status": "attached"
               }
             }
           ],
-          "Tags": [{ "Key": "Name", "Value": "example-org-vm" }]
+          "Tags": [{ "Key": "Name", "Value": "prooflayer-demo-vm" }]
         }
       ]
     }
@@ -113,7 +113,7 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
 **Resulting command:**
 
 ```
-aws ec2 describe-volumes --volume-ids vol-0123456789abcdef0 --output json
+aws ec2 describe-volumes --volume-ids vol-0a53ae7e9518978de --output json
 ```
 
 **Response parsing:**
@@ -178,11 +178,11 @@ Key paths available for record checks:
 | `MetadataOptions.HttpEndpoint`            | string  | `"enabled"`                   |
 | `State.Name`                              | string  | `"running"`                   |
 | `IamInstanceProfile.Arn`                  | string  | `"arn:aws:iam::..."`          |
-| `SecurityGroups.0.GroupId`                | string  | `"sg-0123456789abcdef0"`      |
+| `SecurityGroups.0.GroupId`                | string  | `"sg-0ee1fed6cac898cc7"`      |
 | `Monitoring.State`                        | string  | `"disabled"`                  |
 | `CurrentInstanceBootMode`                 | string  | `"uefi"`                      |
 | `BlockDeviceMappings.0.DeviceName`        | string  | `"/dev/sda1"`                 |
-| `BlockDeviceMappings.0.Ebs.VolumeId`      | string  | `"vol-0123456789abcdef0"`     |
+| `BlockDeviceMappings.0.Ebs.VolumeId`      | string  | `"vol-0a53ae7e9518978de"`     |
 | `BlockDeviceMappings.0.Ebs.Status`        | string  | `"attached"`                  |
 | `Tags.*.Key`                              | string  | (all tag keys via wildcard)   |
 | `Tags.*.Value`                            | string  | (all tag values via wildcard) |
@@ -246,8 +246,8 @@ Key paths available for record checks:
 ### IMDSv2 enforced, no public IP, root volume encrypted (KSI-CNA-MAT, KSI-SVC-VRI)
 
 ```esp
-OBJECT example-org_vm
-    instance_id `i-0123456789abcdef0`
+OBJECT prooflayer_vm
+    instance_id `i-02dc10f9292c0a933`
     region `us-east-1`
 OBJECT_END
 
@@ -263,7 +263,7 @@ STATE_END
 CTN aws_ec2_instance
     TEST all all AND
     STATE_REF instance_hardened
-    OBJECT_REF example-org_vm
+    OBJECT_REF prooflayer_vm
 CTN_END
 ```
 
@@ -318,7 +318,7 @@ Validates AWS EC2 instance configuration via the AWS CLI. Makes one primary API 
 
 | Field         | Type   | Required | Description                                | Example               |
 | ------------- | ------ | -------- | ------------------------------------------ | --------------------- |
-| `instance_id` | string | **Yes**  | EC2 instance ID (exact match)              | `i-0123456789abcdef0` |
+| `instance_id` | string | **Yes**  | EC2 instance ID (exact match)              | `i-02dc10f9292c0a933` |
 | `region`      | string | No       | AWS region override (passed as `--region`) | `us-east-1`           |
 
 ---
@@ -332,7 +332,7 @@ Validates AWS EC2 instance configuration via the AWS CLI. Makes one primary API 
 **Resulting command:**
 
 ```
-aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
+aws ec2 describe-instances --instance-ids i-02dc10f9292c0a933 --output json
 ```
 
 **Response shape:** `Reservations[0].Instances[0]`
@@ -345,9 +345,9 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
     {
       "Instances": [
         {
-          "InstanceId": "i-0123456789abcdef0",
+          "InstanceId": "i-02dc10f9292c0a933",
           "InstanceType": "t3.large",
-          "ImageId": "ami-0123456789abcdef0",
+          "ImageId": "ami-078448b73f6313465",
           "State": { "Code": 16, "Name": "running" },
           "MetadataOptions": {
             "HttpTokens": "required",
@@ -356,30 +356,30 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
           },
           "PublicDnsName": "",
           "IamInstanceProfile": {
-            "Arn": "arn:aws:iam::123456789012:instance-profile/example-org-ec2-profile"
+            "Arn": "arn:aws:iam::486027077516:instance-profile/prooflayer-demo-ec2-profile"
           },
           "SecurityGroups": [
             {
-              "GroupId": "sg-0123456789abcdef0",
-              "GroupName": "example-org-vm-sg"
+              "GroupId": "sg-0ee1fed6cac898cc7",
+              "GroupName": "prooflayer-demo-vm-sg"
             }
           ],
           "Monitoring": { "State": "disabled" },
           "CurrentInstanceBootMode": "uefi",
           "EbsOptimized": false,
-          "VpcId": "vpc-0123456789abcdef0",
-          "SubnetId": "subnet-0aaaaaaaaaaaaaaaa",
+          "VpcId": "vpc-0ea38d2598962fda8",
+          "SubnetId": "subnet-0765f76c6a2dda34e",
           "RootDeviceName": "/dev/sda1",
           "BlockDeviceMappings": [
             {
               "DeviceName": "/dev/sda1",
               "Ebs": {
-                "VolumeId": "vol-0123456789abcdef0",
+                "VolumeId": "vol-0a53ae7e9518978de",
                 "Status": "attached"
               }
             }
           ],
-          "Tags": [{ "Key": "Name", "Value": "example-org-vm" }]
+          "Tags": [{ "Key": "Name", "Value": "prooflayer-demo-vm" }]
         }
       ]
     }
@@ -418,7 +418,7 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --output json
 **Resulting command:**
 
 ```
-aws ec2 describe-volumes --volume-ids vol-0123456789abcdef0 --output json
+aws ec2 describe-volumes --volume-ids vol-0a53ae7e9518978de --output json
 ```
 
 **Response parsing:**
@@ -483,11 +483,11 @@ Key paths available for record checks:
 | `MetadataOptions.HttpEndpoint`            | string  | `"enabled"`                   |
 | `State.Name`                              | string  | `"running"`                   |
 | `IamInstanceProfile.Arn`                  | string  | `"arn:aws:iam::..."`          |
-| `SecurityGroups.0.GroupId`                | string  | `"sg-0123456789abcdef0"`      |
+| `SecurityGroups.0.GroupId`                | string  | `"sg-0ee1fed6cac898cc7"`      |
 | `Monitoring.State`                        | string  | `"disabled"`                  |
 | `CurrentInstanceBootMode`                 | string  | `"uefi"`                      |
 | `BlockDeviceMappings.0.DeviceName`        | string  | `"/dev/sda1"`                 |
-| `BlockDeviceMappings.0.Ebs.VolumeId`      | string  | `"vol-0123456789abcdef0"`     |
+| `BlockDeviceMappings.0.Ebs.VolumeId`      | string  | `"vol-0a53ae7e9518978de"`     |
 | `BlockDeviceMappings.0.Ebs.Status`        | string  | `"attached"`                  |
 | `Tags.*.Key`                              | string  | (all tag keys via wildcard)   |
 | `Tags.*.Value`                            | string  | (all tag values via wildcard) |
@@ -551,8 +551,8 @@ Key paths available for record checks:
 ### IMDSv2 enforced, no public IP, root volume encrypted (KSI-CNA-MAT, KSI-SVC-VRI)
 
 ```esp
-OBJECT example-org_vm
-    instance_id `i-0123456789abcdef0`
+OBJECT prooflayer_vm
+    instance_id `i-02dc10f9292c0a933`
     region `us-east-1`
 OBJECT_END
 
@@ -568,7 +568,7 @@ STATE_END
 CTN aws_ec2_instance
     TEST all all AND
     STATE_REF instance_hardened
-    OBJECT_REF example-org_vm
+    OBJECT_REF prooflayer_vm
 CTN_END
 ```
 

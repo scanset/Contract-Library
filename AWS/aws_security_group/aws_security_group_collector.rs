@@ -13,7 +13,7 @@
 //! IpPermissions.0.IpProtocol          → "tcp"
 //! IpPermissions.0.FromPort            → 5432
 //! IpPermissions.0.ToPort              → 5432
-//! IpPermissions.0.UserIdGroupPairs.0.GroupId → "sg-0cccccccccccccccc0"
+//! IpPermissions.0.UserIdGroupPairs.0.GroupId → "sg-0c25b6408ae5e8fef"
 //! IpPermissions.0.IpRanges.0.CidrIp  → "10.0.0.0/16"
 //! IpPermissionsEgress.0.IpRanges.0.CidrIp → "0.0.0.0/0"
 //! ```

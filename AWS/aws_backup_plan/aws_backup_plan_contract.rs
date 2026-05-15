@@ -37,7 +37,7 @@ pub fn create_aws_backup_plan_contract() -> CtnContract {
             name: "plan_name".to_string(),
             data_type: DataType::String,
             description: "Backup plan name (matched against BackupPlanName)".to_string(),
-            example_values: vec!["example-org-backup-plan".to_string()],
+            example_values: vec!["prooflayer-demo-backup-plan".to_string()],
             validation_notes: Some("Required; exact plan name".to_string()),
         });
 
@@ -82,7 +82,7 @@ pub fn create_aws_backup_plan_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Backup plan name".to_string(),
-            example_values: vec!["example-org-backup-plan".to_string()],
+            example_values: vec!["prooflayer-demo-backup-plan".to_string()],
             validation_notes: None,
         });
 
@@ -99,7 +99,7 @@ pub fn create_aws_backup_plan_contract() -> CtnContract {
             ],
             description: "Backup plan ARN".to_string(),
             example_values: vec![
-            "arn:aws:backup:us-east-1:123456789012:backup-plan:a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+            "arn:aws:backup:us-east-1:486027077516:backup-plan:cacd09f7-daa8-470b-b3e3-3ee04f9b90a8"
                 .to_string(),
         ],
             validation_notes: None,

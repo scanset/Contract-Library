@@ -72,16 +72,16 @@ Each field is only added if the JSON key exists and has the expected type. Missi
 {
   "cluster": {
     "name": "scanset",
-    "arn": "arn:aws:eks:us-east-1:123456789012:cluster/scanset",
+    "arn": "arn:aws:eks:us-east-1:486027077516:cluster/scanset",
     "status": "ACTIVE",
     "version": "1.32",
-    "roleArn": "arn:aws:iam::123456789012:role/example-cluster-role",
+    "roleArn": "arn:aws:iam::486027077516:role/scanset-cluster-role",
     "endpoint": "https://ABC123.gr7.us-east-1.eks.amazonaws.com",
     "resourcesVpcConfig": {
-      "vpcId": "vpc-0fedcba9876543210",
-      "subnetIds": ["subnet-0cccccccccccccccc", "subnet-0a1b2c3d4e5f6a7b8"],
+      "vpcId": "vpc-051afae9e049b137a",
+      "subnetIds": ["subnet-086db34133706913a", "subnet-0a1b2c3d4e5f6a7b8"],
       "securityGroupIds": ["sg-0abc123def456789"],
-      "clusterSecurityGroupId": "sg-0cccccccccccccccc0",
+      "clusterSecurityGroupId": "sg-0c25b6408ae5e8fef",
       "endpointPublicAccess": true,
       "endpointPrivateAccess": true,
       "publicAccessCidrs": ["0.0.0.0/0"]
@@ -172,10 +172,10 @@ let record_data = RecordData::from_json_value(cluster.clone());
 | Path                 | Type    | Example Value                                           |
 | -------------------- | ------- | ------------------------------------------------------- |
 | `name`               | string  | `"scanset"`                                             |
-| `arn`                | string  | `"arn:aws:eks:us-east-1:123456789012:cluster/scanset"`  |
+| `arn`                | string  | `"arn:aws:eks:us-east-1:486027077516:cluster/scanset"`  |
 | `status`             | string  | `"ACTIVE"`                                              |
 | `version`            | string  | `"1.32"`                                                |
-| `roleArn`            | string  | `"arn:aws:iam::123456789012:role/example-cluster-role"` |
+| `roleArn`            | string  | `"arn:aws:iam::486027077516:role/scanset-cluster-role"` |
 | `endpoint`           | string  | `"https://ABC123.gr7.us-east-1.eks.amazonaws.com"`      |
 | `platformVersion`    | string  | `"eks.35"`                                              |
 | `deletionProtection` | boolean | `false`                                                 |
@@ -184,11 +184,11 @@ let record_data = RecordData::from_json_value(cluster.clone());
 
 | Path                                        | Type    | Example Value                |
 | ------------------------------------------- | ------- | ---------------------------- |
-| `resourcesVpcConfig.vpcId`                  | string  | `"vpc-0fedcba9876543210"`    |
+| `resourcesVpcConfig.vpcId`                  | string  | `"vpc-051afae9e049b137a"`    |
 | `resourcesVpcConfig.endpointPublicAccess`   | boolean | `true`                       |
 | `resourcesVpcConfig.endpointPrivateAccess`  | boolean | `true`                       |
-| `resourcesVpcConfig.clusterSecurityGroupId` | string  | `"sg-0cccccccccccccccc0"`     |
-| `resourcesVpcConfig.subnetIds.0`            | string  | `"subnet-0cccccccccccccccc"` |
+| `resourcesVpcConfig.clusterSecurityGroupId` | string  | `"sg-0c25b6408ae5e8fef"`     |
+| `resourcesVpcConfig.subnetIds.0`            | string  | `"subnet-086db34133706913a"` |
 | `resourcesVpcConfig.subnetIds.*`            | string  | (all subnet IDs)             |
 | `resourcesVpcConfig.publicAccessCidrs.0`    | string  | `"0.0.0.0/0"`                |
 | `resourcesVpcConfig.publicAccessCidrs.*`    | string  | (all public CIDRs)           |
@@ -304,9 +304,9 @@ OBJECT_END
 STATE cluster_valid
     found boolean = true
     status string = `ACTIVE`
-    vpc_id string = `vpc-0fedcba9876543210`
+    vpc_id string = `vpc-051afae9e049b137a`
     endpoint_private_access boolean = true
-    cluster_security_group_id string = `sg-0cccccccccccccccc0`
+    cluster_security_group_id string = `sg-0c25b6408ae5e8fef`
 STATE_END
 
 CTN aws_eks_cluster
@@ -351,7 +351,7 @@ STATE cluster_hardened
     record
         field logging.clusterLogging.0.enabled boolean = true
         field identity.oidc.issuer string starts `https://oidc.eks`
-        field resourcesVpcConfig.subnetIds.* string = `subnet-0cccccccccccccccc` at_least_one
+        field resourcesVpcConfig.subnetIds.* string = `subnet-086db34133706913a` at_least_one
     record_end
 STATE_END
 
@@ -373,7 +373,7 @@ OBJECT_END
 STATE auth_config
     found boolean = true
     authentication_mode string = `API_AND_CONFIG_MAP`
-    role_arn string contains `example-cluster-role`
+    role_arn string contains `scanset-cluster-role`
 STATE_END
 
 CTN aws_eks_cluster

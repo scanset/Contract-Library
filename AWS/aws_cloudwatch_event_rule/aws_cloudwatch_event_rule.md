@@ -13,7 +13,7 @@ Validates AWS EventBridge (CloudWatch Events) rule configuration via the AWS CLI
 
 | Field       | Type   | Required | Description                                | Example                              |
 | ----------- | ------ | -------- | ------------------------------------------ | ------------------------------------ |
-| `rule_name` | string | **Yes**  | EventBridge rule name (exact match)        | `example-org-guardduty-findings` |
+| `rule_name` | string | **Yes**  | EventBridge rule name (exact match)        | `prooflayer-demo-guardduty-findings` |
 | `region`    | string | No       | AWS region override (passed as `--region`) | `us-east-1`                          |
 
 ---
@@ -27,20 +27,20 @@ Validates AWS EventBridge (CloudWatch Events) rule configuration via the AWS CLI
 **Resulting command:**
 
 ```
-aws events describe-rule --name example-org-guardduty-findings --output json
+aws events describe-rule --name prooflayer-demo-guardduty-findings --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "Name": "example-org-guardduty-findings",
-  "Arn": "arn:aws:events:us-east-1:123456789012:rule/example-org-guardduty-findings",
+  "Name": "prooflayer-demo-guardduty-findings",
+  "Arn": "arn:aws:events:us-east-1:486027077516:rule/prooflayer-demo-guardduty-findings",
   "EventPattern": "{\"detail\":{\"severity\":[{\"numeric\":[\">=\",4]}]},\"detail-type\":[\"GuardDuty Finding\"],\"source\":[\"aws.guardduty\"]}",
   "State": "ENABLED",
   "Description": "Capture GuardDuty findings severity >= 4",
   "EventBusName": "default",
-  "CreatedBy": "123456789012"
+  "CreatedBy": "486027077516"
 }
 ```
 
@@ -63,7 +63,7 @@ aws events describe-rule --name example-org-guardduty-findings --output json
 **Resulting command:**
 
 ```
-aws events list-targets-by-rule --rule example-org-guardduty-findings --output json
+aws events list-targets-by-rule --rule prooflayer-demo-guardduty-findings --output json
 ```
 
 **Sample response:**
@@ -73,7 +73,7 @@ aws events list-targets-by-rule --rule example-org-guardduty-findings --output j
   "Targets": [
     {
       "Id": "GuardDutyFindingsToLogs",
-      "Arn": "arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings"
+      "Arn": "arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings"
     }
   ]
 }
@@ -139,7 +139,7 @@ let merged = serde_json::json!({
 
 | Path                | Type   | Example Value                                |
 | ------------------- | ------ | -------------------------------------------- |
-| `Rule.Name`         | string | `"example-org-guardduty-findings"`       |
+| `Rule.Name`         | string | `"prooflayer-demo-guardduty-findings"`       |
 | `Rule.State`        | string | `"ENABLED"`                                  |
 | `Rule.EventBusName` | string | `"default"`                                  |
 | `Rule.Description`  | string | `"Capture GuardDuty findings severity >= 4"` |
@@ -156,7 +156,7 @@ let merged = serde_json::json!({
 | Path            | Type   | Example Value                                                                        |
 | --------------- | ------ | ------------------------------------------------------------------------------------ |
 | `Targets.0.Id`  | string | `"GuardDutyFindingsToLogs"`                                                          |
-| `Targets.0.Arn` | string | `"arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings"` |
+| `Targets.0.Arn` | string | `"arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings"` |
 
 ---
 
@@ -210,7 +210,7 @@ let merged = serde_json::json!({
 
 ```esp
 OBJECT guardduty_rule
-    rule_name `example-org-guardduty-findings`
+    rule_name `prooflayer-demo-guardduty-findings`
     region `us-east-1`
 OBJECT_END
 
@@ -218,7 +218,7 @@ STATE rule_compliant
     found boolean = true
     state string = `ENABLED`
     target_count int >= 1
-    target_arn string contains `example-org-security-findings`
+    target_arn string contains `prooflayer-demo-security-findings`
 STATE_END
 
 CTN aws_cloudwatch_event_rule
@@ -232,7 +232,7 @@ CTN_END
 
 ```esp
 OBJECT guardduty_rule
-    rule_name `example-org-guardduty-findings`
+    rule_name `prooflayer-demo-guardduty-findings`
     region `us-east-1`
 OBJECT_END
 
@@ -242,7 +242,7 @@ STATE rule_pattern_valid
     record
         field EventPattern.source.0 string = `aws.guardduty`
         field EventPattern.detail-type.0 string = `GuardDuty Finding`
-        field Targets.0.Arn string contains `example-org-security-findings`
+        field Targets.0.Arn string contains `prooflayer-demo-security-findings`
     record_end
 STATE_END
 

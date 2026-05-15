@@ -15,7 +15,7 @@ Validates AWS IAM Role configurations via the AWS CLI. Collects from three seque
 
 | Field       | Type   | Required | Description                                | Example             |
 | ----------- | ------ | -------- | ------------------------------------------ | ------------------- |
-| `role_name` | string | **Yes**  | IAM role name (exact match, not ARN)       | `example-node-role` |
+| `role_name` | string | **Yes**  | IAM role name (exact match, not ARN)       | `scanset-node-role` |
 | `region`    | string | No       | AWS region override (passed as `--region`) | `us-east-1`         |
 
 - `role_name` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -42,8 +42,8 @@ Retrieves role configuration, trust policy, metadata, and tags.
 **Resulting command:**
 
 ```
-aws iam get-role --role-name example-node-role --output json
-aws iam get-role --role-name example-node-role --region us-east-1 --output json    # with region
+aws iam get-role --role-name scanset-node-role --output json
+aws iam get-role --role-name scanset-node-role --region us-east-1 --output json    # with region
 ```
 
 **Response parsing:**
@@ -66,9 +66,9 @@ aws iam get-role --role-name example-node-role --region us-east-1 --output json 
 ```json
 {
   "Role": {
-    "RoleName": "example-node-role",
+    "RoleName": "scanset-node-role",
     "RoleId": "AROAXCKLYU6GKQOMNQZ3N",
-    "Arn": "arn:aws:iam::123456789012:role/example-node-role",
+    "Arn": "arn:aws:iam::486027077516:role/scanset-node-role",
     "Path": "/",
     "MaxSessionDuration": 3600,
     "CreateDate": "2026-02-21T06:23:14+00:00",
@@ -100,7 +100,7 @@ Retrieves managed (AWS-managed or customer-managed) policies attached to the rol
 **Resulting command:**
 
 ```
-aws iam list-attached-role-policies --role-name example-node-role --output json
+aws iam list-attached-role-policies --role-name scanset-node-role --output json
 ```
 
 **Response parsing:**
@@ -139,7 +139,7 @@ Retrieves inline policy names for the role.
 **Resulting command:**
 
 ```
-aws iam list-role-policies --role-name example-node-role --output json
+aws iam list-role-policies --role-name scanset-node-role --output json
 ```
 
 **Response parsing:**
@@ -214,9 +214,9 @@ Each field is only added if the corresponding JSON key exists and has the expect
 
 | Path                 | Type    | Example Value                                        |
 | -------------------- | ------- | ---------------------------------------------------- |
-| `RoleName`           | string  | `"example-node-role"`                                |
+| `RoleName`           | string  | `"scanset-node-role"`                                |
 | `RoleId`             | string  | `"AROAXCKLYU6GKQOMNQZ3N"`                            |
-| `Arn`                | string  | `"arn:aws:iam::123456789012:role/example-node-role"` |
+| `Arn`                | string  | `"arn:aws:iam::486027077516:role/scanset-node-role"` |
 | `Path`               | string  | `"/"`                                                |
 | `MaxSessionDuration` | integer | `3600`                                               |
 | `CreateDate`         | string  | `"2026-02-21T06:23:14+00:00"`                        |
@@ -340,7 +340,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT node_role
-    role_name `example-node-role`
+    role_name `scanset-node-role`
 OBJECT_END
 
 STATE node_role_valid
@@ -366,7 +366,7 @@ CTN_END
 
 ```esp
 OBJECT flow_logs_role
-    role_name `example-flow-logs-role`
+    role_name `scanset-flow-logs-role`
 OBJECT_END
 
 STATE flow_role_valid
@@ -389,7 +389,7 @@ CTN_END
 
 ```esp
 OBJECT any_role
-    role_name `example-node-role`
+    role_name `scanset-node-role`
 OBJECT_END
 
 STATE no_inline
@@ -409,7 +409,7 @@ CTN_END
 
 ```esp
 OBJECT cluster_role
-    role_name `example-cluster-role`
+    role_name `scanset-cluster-role`
 OBJECT_END
 
 STATE cluster_trust_valid

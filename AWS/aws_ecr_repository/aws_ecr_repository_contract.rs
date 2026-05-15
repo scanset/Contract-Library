@@ -85,7 +85,7 @@ pub fn create_aws_ecr_repository_contract() -> CtnContract {
             ],
             description: "Repository ARN".to_string(),
             example_values: vec![
-                "arn:aws:ecr:us-east-1:123456789012:repository/scanset/transparency-log"
+                "arn:aws:ecr:us-east-1:486027077516:repository/scanset/transparency-log"
                     .to_string(),
             ],
             validation_notes: Some("repositoryArn from API".to_string()),

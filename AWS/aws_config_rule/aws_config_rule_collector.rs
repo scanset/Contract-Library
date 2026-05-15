@@ -11,7 +11,7 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! Rule.ConfigRuleName          → "example-org-ebs-encrypted"
+//! Rule.ConfigRuleName          → "prooflayer-demo-ebs-encrypted"
 //! Rule.ConfigRuleState         → "ACTIVE"
 //! Rule.Source.Owner            → "AWS"
 //! Rule.Source.SourceIdentifier → "ENCRYPTED_VOLUMES"

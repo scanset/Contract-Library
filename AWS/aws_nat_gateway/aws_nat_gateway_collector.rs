@@ -6,13 +6,13 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! NatGatewayId                              → "nat-0123456789abcdef0"
+//! NatGatewayId                              → "nat-07495daebb4aa83f8"
 //! State                                     → "available"
-//! SubnetId                                  → "subnet-0dddddddddddddddd"
-//! VpcId                                     → "vpc-0fedcba9876543210"
+//! SubnetId                                  → "subnet-0a25f664fac5d0e6a"
+//! VpcId                                     → "vpc-051afae9e049b137a"
 //! ConnectivityType                          → "public"
-//! NatGatewayAddresses.0.PublicIp            → "203.0.113.42"
-//! NatGatewayAddresses.0.PrivateIp           → "10.0.0.100"
+//! NatGatewayAddresses.0.PublicIp            → "18.235.52.68"
+//! NatGatewayAddresses.0.PrivateIp           → "10.0.0.198"
 //! NatGatewayAddresses.0.AllocationId        → "eipalloc-00ce2060da88c68b2"
 //! NatGatewayAddresses.0.Status              → "succeeded"
 //! ```

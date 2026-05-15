@@ -17,7 +17,7 @@ Validates AWS IAM user configuration via three sequential AWS CLI calls: `get-us
 
 | Field       | Type   | Required | Description                                                   | Example                          |
 | ----------- | ------ | -------- | ------------------------------------------------------------- | -------------------------------- |
-| `user_name` | string | **Yes**  | IAM user name (exact match, not ARN)                          | `example-org-esp-scanner` |
+| `user_name` | string | **Yes**  | IAM user name (exact match, not ARN)                          | `prooflayer-demo-esp-aws-daemon` |
 | `region`    | string | No       | AWS region override (IAM is global; affects CLI profile only) | `us-east-1`                      |
 
 ---
@@ -27,7 +27,7 @@ Validates AWS IAM user configuration via three sequential AWS CLI calls: `get-us
 ### Command 1: get-user
 
 ```
-aws iam get-user --user-name example-org-esp-scanner --output json
+aws iam get-user --user-name prooflayer-demo-esp-aws-daemon --output json
 ```
 
 **Sample response (abbreviated):**
@@ -36,9 +36,9 @@ aws iam get-user --user-name example-org-esp-scanner --output json
 {
   "User": {
     "Path": "/esp/",
-    "UserName": "example-org-esp-scanner",
+    "UserName": "prooflayer-demo-esp-aws-daemon",
     "UserId": "AIDAXCKLYU6GDIZA6BTVK",
-    "Arn": "arn:aws:iam::123456789012:user/esp/example-org-esp-scanner",
+    "Arn": "arn:aws:iam::486027077516:user/esp/prooflayer-demo-esp-aws-daemon",
     "CreateDate": "2026-03-27T23:45:41+00:00",
     "Tags": [
       { "Key": "Purpose", "Value": "ESP AWS daemon dev container identity" },
@@ -51,14 +51,14 @@ aws iam get-user --user-name example-org-esp-scanner --output json
 ### Command 2: list-user-policies (inline)
 
 ```
-aws iam list-user-policies --user-name example-org-esp-scanner --output json
+aws iam list-user-policies --user-name prooflayer-demo-esp-aws-daemon --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "PolicyNames": ["example-org-esp-scanner-policy"]
+  "PolicyNames": ["prooflayer-demo-esp-aws-daemon-policy"]
 }
 ```
 
@@ -67,7 +67,7 @@ Stored in RecordData as `InlinePolicyNames`.
 ### Command 3: list-attached-user-policies (managed)
 
 ```
-aws iam list-attached-user-policies --user-name example-org-esp-scanner --output json
+aws iam list-attached-user-policies --user-name prooflayer-demo-esp-aws-daemon --output json
 ```
 
 **Sample response:**
@@ -118,15 +118,15 @@ merged["AttachedPolicies"] = attached_policies;   // from list-attached-user-pol
 
 | Path                            | Type   | Example Value                                                         |
 | ------------------------------- | ------ | --------------------------------------------------------------------- |
-| `UserName`                      | string | `"example-org-esp-scanner"`                                    |
-| `Arn`                           | string | `"arn:aws:iam::123456789012:user/esp/example-org-esp-scanner"` |
+| `UserName`                      | string | `"prooflayer-demo-esp-aws-daemon"`                                    |
+| `Arn`                           | string | `"arn:aws:iam::486027077516:user/esp/prooflayer-demo-esp-aws-daemon"` |
 | `Path`                          | string | `"/esp/"`                                                             |
 | `UserId`                        | string | `"AIDAXCKLYU6GDIZA6BTVK"`                                             |
 | `Tags.0.Key`                    | string | `"Purpose"`                                                           |
 | `Tags.0.Value`                  | string | `"ESP AWS daemon dev container identity"`                             |
 | `Tags.*.Key`                    | string | (all tag keys via wildcard)                                           |
 | `Tags.*.Value`                  | string | (all tag values via wildcard)                                         |
-| `InlinePolicyNames.0`           | string | `"example-org-esp-scanner-policy"`                             |
+| `InlinePolicyNames.0`           | string | `"prooflayer-demo-esp-aws-daemon-policy"`                             |
 | `InlinePolicyNames.*`           | string | (all inline policy names via wildcard)                                |
 | `AttachedPolicies.0.PolicyName` | string | (managed policy name if any)                                          |
 | `AttachedPolicies.0.PolicyArn`  | string | (managed policy ARN if any)                                           |
@@ -186,7 +186,7 @@ merged["AttachedPolicies"] = attached_policies;   // from list-attached-user-pol
 
 ```esp
 OBJECT esp_daemon_user
-    user_name `example-org-esp-scanner`
+    user_name `prooflayer-demo-esp-aws-daemon`
     region `us-east-1`
 OBJECT_END
 
@@ -211,7 +211,7 @@ CTN_END
 STATE esp_user_policy_named
     found boolean = true
     record
-        field InlinePolicyNames.0 string = `example-org-esp-scanner-policy`
+        field InlinePolicyNames.0 string = `prooflayer-demo-esp-aws-daemon-policy`
     record_end
 STATE_END
 ```

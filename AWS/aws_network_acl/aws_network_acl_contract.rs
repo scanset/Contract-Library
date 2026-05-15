@@ -39,7 +39,7 @@ pub fn create_aws_network_acl_contract() -> CtnContract {
             name: "nacl_id".to_string(),
             data_type: DataType::String,
             description: "Network ACL ID for direct lookup".to_string(),
-            example_values: vec!["acl-0123456789abcdef0".to_string()],
+            example_values: vec!["acl-0cb139190dfb21ee2".to_string()],
             validation_notes: Some(
                 "Use nacl_id for direct lookup, or vpc_id + tags for named lookup".to_string(),
             ),
@@ -51,7 +51,7 @@ pub fn create_aws_network_acl_contract() -> CtnContract {
             name: "vpc_id".to_string(),
             data_type: DataType::String,
             description: "VPC ID to scope the lookup".to_string(),
-            example_values: vec!["vpc-0123456789abcdef0".to_string()],
+            example_values: vec!["vpc-0ea38d2598962fda8".to_string()],
             validation_notes: Some("Used as --filters Name=vpc-id,Values=<vpc_id>".to_string()),
         });
 
@@ -61,7 +61,7 @@ pub fn create_aws_network_acl_contract() -> CtnContract {
             name: "tags".to_string(),
             data_type: DataType::String,
             description: "Tag filter in Key=Value format".to_string(),
-            example_values: vec!["Name=example-org-nacl-private".to_string()],
+            example_values: vec!["Name=prooflayer-demo-nacl-private".to_string()],
             validation_notes: Some("Parsed as --filters Name=tag:<Key>,Values=<Value>".to_string()),
         });
 
@@ -108,7 +108,7 @@ pub fn create_aws_network_acl_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Network ACL ID".to_string(),
-            example_values: vec!["acl-0123456789abcdef0".to_string()],
+            example_values: vec!["acl-0cb139190dfb21ee2".to_string()],
             validation_notes: None,
         });
 
@@ -119,7 +119,7 @@ pub fn create_aws_network_acl_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "VPC the NACL belongs to".to_string(),
-            example_values: vec!["vpc-0123456789abcdef0".to_string()],
+            example_values: vec!["vpc-0ea38d2598962fda8".to_string()],
             validation_notes: None,
         });
 

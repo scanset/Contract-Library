@@ -18,12 +18,12 @@
 //! ```esp
 //! STATE rds_sg_check
 //!     found boolean = true
-//!     group_name string = `example-rds`
+//!     group_name string = `scanset-rds`
 //!     record
 //!         field IpPermissions.0.IpProtocol string = `tcp`
 //!         field IpPermissions.0.FromPort int = 5432
 //!         field IpPermissions.0.ToPort int = 5432
-//!         field IpPermissions.0.UserIdGroupPairs.*.GroupId string = `sg-0cccccccccccccccc0` at_least_one
+//!         field IpPermissions.0.UserIdGroupPairs.*.GroupId string = `sg-0c25b6408ae5e8fef` at_least_one
 //!         field IpPermissionsEgress.*.IpRanges.*.CidrIp string != `0.0.0.0/0` all
 //!     record_end
 //! STATE_END
@@ -62,7 +62,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
             name: "group_id".to_string(),
             data_type: DataType::String,
             description: "Security group ID for direct lookup".to_string(),
-            example_values: vec!["sg-0bbbbbbbbbbbbbbbb0".to_string()],
+            example_values: vec!["sg-037fd81f76602d39c".to_string()],
             validation_notes: Some(
                 "Takes precedence over group_name if both specified".to_string(),
             ),
@@ -74,7 +74,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
             name: "group_name".to_string(),
             data_type: DataType::String,
             description: "Security group name for filter-based lookup".to_string(),
-            example_values: vec!["example-rds".to_string()],
+            example_values: vec!["scanset-rds".to_string()],
             validation_notes: Some("Used as Name filter if group_id not specified".to_string()),
         });
 
@@ -84,7 +84,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
             name: "vpc_id".to_string(),
             data_type: DataType::String,
             description: "VPC ID to scope the security group lookup".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Optional additional filter".to_string()),
         });
 
@@ -126,7 +126,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Security group ID".to_string(),
-            example_values: vec!["sg-0bbbbbbbbbbbbbbbb0".to_string()],
+            example_values: vec!["sg-037fd81f76602d39c".to_string()],
             validation_notes: Some("Validate the resolved security group ID".to_string()),
         });
 
@@ -142,7 +142,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Security group name".to_string(),
-            example_values: vec!["example-rds".to_string()],
+            example_values: vec!["scanset-rds".to_string()],
             validation_notes: Some("Validate the security group name".to_string()),
         });
 
@@ -153,7 +153,7 @@ pub fn create_aws_security_group_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC the security group belongs to".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Validate VPC association".to_string()),
         });
 

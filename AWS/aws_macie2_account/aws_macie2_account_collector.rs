@@ -23,7 +23,7 @@
 //! ClassificationJob.samplingPercentage                                 → 100
 //! ClassificationJob.lastRunErrorStatus.code                            → "NONE"
 //! ClassificationJob.scheduleFrequency.weeklySchedule.dayOfWeek         → "MONDAY"
-//! ClassificationJob.s3JobDefinition.bucketDefinitions.0.buckets.0      → "example-org-security-findings"
+//! ClassificationJob.s3JobDefinition.bucketDefinitions.0.buckets.0      → "prooflayer-demo-security-findings"
 //! ```
 
 ///////////////////////////////////////////////////////

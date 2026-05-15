@@ -9,8 +9,8 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! NetworkAclId                                → "acl-0123456789abcdef0"
-//! VpcId                                       → "vpc-0123456789abcdef0"
+//! NetworkAclId                                → "acl-0cb139190dfb21ee2"
+//! VpcId                                       → "vpc-0ea38d2598962fda8"
 //! IsDefault                                   → false
 //! Entries.0.CidrBlock                         → "0.0.0.0/0"
 //! Entries.0.Egress                            → true
@@ -19,8 +19,8 @@
 //! Entries.0.RuleNumber                        → 100
 //! Entries.0.PortRange.From                    → 443
 //! Entries.0.PortRange.To                      → 443
-//! Associations.0.SubnetId                     → "subnet-0aaaaaaaaaaaaaaaa"
-//! Associations.0.NetworkAclId                 → "acl-0123456789abcdef0"
+//! Associations.0.SubnetId                     → "subnet-0765f76c6a2dda34e"
+//! Associations.0.NetworkAclId                 → "acl-0cb139190dfb21ee2"
 //! ```
 
 ///////////////////////////////////////////////////////

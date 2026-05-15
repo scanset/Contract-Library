@@ -6,13 +6,13 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! FlowLogId                     → "fl-0123456789abcdef0"
+//! FlowLogId                     → "fl-062ce6db5558b8752"
 //! FlowLogStatus                 → "ACTIVE"
-//! ResourceId                    → "vpc-0fedcba9876543210"
+//! ResourceId                    → "vpc-051afae9e049b137a"
 //! TrafficType                   → "ALL"
 //! LogDestinationType            → "cloud-watch-logs"
 //! LogDestination                → "arn:aws:logs:..."
-//! LogGroupName                  → "/aws/vpc/example-flow-logs"
+//! LogGroupName                  → "/aws/vpc/scanset-flow-logs"
 //! DeliverLogsStatus             → "SUCCESS"
 //! MaxAggregationInterval        → 600
 //! LogFormat                     → "${version} ${account-id} ..."

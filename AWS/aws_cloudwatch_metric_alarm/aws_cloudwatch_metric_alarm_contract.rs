@@ -31,7 +31,7 @@ pub fn create_aws_cloudwatch_metric_alarm_contract() -> CtnContract {
             name: "alarm_name".to_string(),
             data_type: DataType::String,
             description: "Alarm name (exact match)".to_string(),
-            example_values: vec!["example-org-root-login-alarm".to_string()],
+            example_values: vec!["prooflayer-demo-root-login-alarm".to_string()],
             validation_notes: Some("Required; passed as --alarm-names".to_string()),
         });
 
@@ -75,7 +75,7 @@ pub fn create_aws_cloudwatch_metric_alarm_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Alarm name",
-            "example-org-root-login-alarm",
+            "prooflayer-demo-root-login-alarm",
         ),
         (
             "state_value",
@@ -96,7 +96,7 @@ pub fn create_aws_cloudwatch_metric_alarm_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Metric namespace",
-            "ExampleOrg/Security",
+            "ProofLayer/Security",
         ),
         (
             "statistic",

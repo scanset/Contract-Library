@@ -40,7 +40,7 @@ pub fn create_aws_iam_user_contract() -> CtnContract {
             name: "user_name".to_string(),
             data_type: DataType::String,
             description: "IAM user name (exact match, not ARN)".to_string(),
-            example_values: vec!["example-org-esp-scanner".to_string()],
+            example_values: vec!["prooflayer-demo-esp-aws-daemon".to_string()],
             validation_notes: Some(
                 "Required; passed as --user-name to all three calls".to_string(),
             ),
@@ -96,7 +96,7 @@ pub fn create_aws_iam_user_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "IAM user name".to_string(),
-            example_values: vec!["example-org-esp-scanner".to_string()],
+            example_values: vec!["prooflayer-demo-esp-aws-daemon".to_string()],
             validation_notes: None,
         });
 
@@ -108,7 +108,7 @@ pub fn create_aws_iam_user_contract() -> CtnContract {
             allowed_operations: str_full.clone(),
             description: "IAM user ARN".to_string(),
             example_values: vec![
-                "arn:aws:iam::123456789012:user/esp/example-org-esp-scanner".to_string(),
+                "arn:aws:iam::486027077516:user/esp/prooflayer-demo-esp-aws-daemon".to_string(),
             ],
             validation_notes: None,
         });

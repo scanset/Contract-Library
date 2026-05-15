@@ -13,7 +13,7 @@ Validates AWS Config configuration recorder state via two AWS CLI calls: `descri
 
 | Field           | Type   | Required | Description                                | Example                           |
 | --------------- | ------ | -------- | ------------------------------------------ | --------------------------------- |
-| `recorder_name` | string | **Yes**  | Config recorder name (exact match)         | `example-org-config-recorder` |
+| `recorder_name` | string | **Yes**  | Config recorder name (exact match)         | `prooflayer-demo-config-recorder` |
 | `region`        | string | No       | AWS region override (passed as `--region`) | `us-east-1`                       |
 
 ---
@@ -23,7 +23,7 @@ Validates AWS Config configuration recorder state via two AWS CLI calls: `descri
 ### Command 1: describe-configuration-recorders
 
 ```
-aws configservice describe-configuration-recorders --configuration-recorder-names example-org-config-recorder --output json
+aws configservice describe-configuration-recorders --configuration-recorder-names prooflayer-demo-config-recorder --output json
 ```
 
 **Sample response (abbreviated):**
@@ -32,8 +32,8 @@ aws configservice describe-configuration-recorders --configuration-recorder-name
 {
   "ConfigurationRecorders": [
     {
-      "name": "example-org-config-recorder",
-      "roleARN": "arn:aws:iam::123456789012:role/example-org-config-role",
+      "name": "prooflayer-demo-config-recorder",
+      "roleARN": "arn:aws:iam::486027077516:role/prooflayer-demo-config-role",
       "recordingGroup": {
         "allSupported": true,
         "includeGlobalResourceTypes": true
@@ -49,7 +49,7 @@ aws configservice describe-configuration-recorders --configuration-recorder-name
 ### Command 2: describe-configuration-recorder-status
 
 ```
-aws configservice describe-configuration-recorder-status --configuration-recorder-names example-org-config-recorder --output json
+aws configservice describe-configuration-recorder-status --configuration-recorder-names prooflayer-demo-config-recorder --output json
 ```
 
 **Sample response:**
@@ -58,7 +58,7 @@ aws configservice describe-configuration-recorder-status --configuration-recorde
 {
   "ConfigurationRecordersStatus": [
     {
-      "name": "example-org-config-recorder",
+      "name": "prooflayer-demo-config-recorder",
       "lastStartTime": "2026-03-24T16:24:59.146000+00:00",
       "recording": true,
       "lastStatus": "SUCCESS",
@@ -95,8 +95,8 @@ aws configservice describe-configuration-recorder-status --configuration-recorde
 ## RecordData Structure
 
 ```
-Recorder.name                                    → "example-org-config-recorder"
-Recorder.roleARN                                 → "arn:aws:iam::123456789012:role/..."
+Recorder.name                                    → "prooflayer-demo-config-recorder"
+Recorder.roleARN                                 → "arn:aws:iam::486027077516:role/..."
 Recorder.recordingGroup.allSupported             → true
 Recorder.recordingGroup.includeGlobalResourceTypes → true
 Recorder.recordingMode.recordingFrequency        → "CONTINUOUS"
@@ -155,7 +155,7 @@ Status.lastStartTime                             → "2026-03-24T16:24:59.146000
 
 ```esp
 OBJECT config_recorder
-    recorder_name `example-org-config-recorder`
+    recorder_name `prooflayer-demo-config-recorder`
     region `us-east-1`
 OBJECT_END
 

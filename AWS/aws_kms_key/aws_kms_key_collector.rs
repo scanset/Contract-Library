@@ -10,7 +10,7 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! KeyMetadata.KeyId                    → "aaaaaaaa-bbbb-..."
+//! KeyMetadata.KeyId                    → "3c418345-..."
 //! KeyMetadata.Enabled                  → true
 //! KeyMetadata.KeyState                 → "Enabled"
 //! KeyMetadata.KeyUsage                 → "ENCRYPT_DECRYPT"

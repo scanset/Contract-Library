@@ -15,13 +15,13 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! UserName                         → "example-org-esp-scanner"
-//! Arn                              → "arn:aws:iam::123456789012:user/esp/..."
+//! UserName                         → "prooflayer-demo-esp-aws-daemon"
+//! Arn                              → "arn:aws:iam::486027077516:user/esp/..."
 //! Path                             → "/esp/"
 //! UserId                           → "AIDAXCKLYU6GDIZA6BTVK"
 //! Tags.0.Key                       → "Purpose"
 //! Tags.0.Value                     → "ESP AWS daemon dev container identity"
-//! InlinePolicyNames.0              → "example-org-esp-scanner-policy"
+//! InlinePolicyNames.0              → "prooflayer-demo-esp-aws-daemon-policy"
 //! AttachedPolicies.0.PolicyName    → (managed policy name if any)
 //! AttachedPolicies.0.PolicyArn     → (managed policy ARN if any)
 //! ```

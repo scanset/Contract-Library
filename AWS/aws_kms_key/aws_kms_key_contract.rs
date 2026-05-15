@@ -34,8 +34,8 @@ pub fn create_aws_kms_key_contract() -> CtnContract {
             data_type: DataType::String,
             description: "KMS key ID or ARN (NOT an alias)".to_string(),
             example_values: vec![
-                "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee".to_string(),
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "3c418345-78b1-4687-ac90-399246730cae".to_string(),
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: Some(
@@ -88,7 +88,7 @@ pub fn create_aws_kms_key_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Key ID (UUID format)".to_string(),
-            example_values: vec!["aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee".to_string()],
+            example_values: vec!["3c418345-78b1-4687-ac90-399246730cae".to_string()],
             validation_notes: None,
         });
 
@@ -100,7 +100,7 @@ pub fn create_aws_kms_key_contract() -> CtnContract {
             allowed_operations: str_full.clone(),
             description: "Key ARN".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: None,
@@ -194,7 +194,7 @@ pub fn create_aws_kms_key_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Key description".to_string(),
-            example_values: vec!["ExampleOrg secrets encryption key".to_string()],
+            example_values: vec!["ProofLayer secrets encryption key".to_string()],
             validation_notes: None,
         });
 

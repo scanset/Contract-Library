@@ -6,13 +6,13 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! RouteTableId                                → "rtb-0fedcba9876543210"
-//! VpcId                                       → "vpc-0fedcba9876543210"
+//! RouteTableId                                → "rtb-0c1276714de9027b0"
+//! VpcId                                       → "vpc-051afae9e049b137a"
 //! Routes.0.DestinationCidrBlock               → "10.0.0.0/16"
 //! Routes.0.GatewayId                          → "local"
 //! Routes.1.DestinationCidrBlock               → "0.0.0.0/0"
-//! Routes.1.NatGatewayId                       → "nat-0123456789abcdef0"
-//! Associations.0.SubnetId                     → "subnet-0cccccccccccccccc"
+//! Routes.1.NatGatewayId                       → "nat-07495daebb4aa83f8"
+//! Associations.0.SubnetId                     → "subnet-086db34133706913a"
 //! Associations.0.Main                         → false
 //! ```
 

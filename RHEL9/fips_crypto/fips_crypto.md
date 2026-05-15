@@ -1,4 +1,4 @@
-# fips_mode
+# fips_crypto
 
 ## Overview
 
@@ -77,8 +77,8 @@ Also reads:
 
 | Property                     | Value               |
 | ---------------------------- | ------------------- |
-| Collector ID                 | `fips-collector`    |
-| Collector Type               | `fips_mode`         |
+| Collector ID                 | `fips_crypto_collector`    |
+| Collector Type               | `fips_crypto`         |
 | Collection Mode              | Metadata            |
 | Required Capabilities        | `command_execution` |
 | Expected Collection Time     | ~500ms              |
@@ -110,7 +110,7 @@ STATE fips_enabled
     tool_available boolean = true
 STATE_END
 
-CTN fips_mode
+CTN fips_crypto
     TEST all all AND
     STATE_REF fips_enabled
     OBJECT_REF fips_check

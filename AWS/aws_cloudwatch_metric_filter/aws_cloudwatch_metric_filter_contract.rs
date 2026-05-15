@@ -32,7 +32,7 @@ pub fn create_aws_cloudwatch_metric_filter_contract() -> CtnContract {
             name: "filter_name".to_string(),
             data_type: DataType::String,
             description: "Metric filter name (exact match)".to_string(),
-            example_values: vec!["example-org-root-login".to_string()],
+            example_values: vec!["prooflayer-demo-root-login".to_string()],
             validation_notes: Some(
                 "Used as --filter-name-prefix; exact match applied on result".to_string(),
             ),
@@ -44,7 +44,7 @@ pub fn create_aws_cloudwatch_metric_filter_contract() -> CtnContract {
             name: "log_group_name".to_string(),
             data_type: DataType::String,
             description: "Log group the filter is attached to".to_string(),
-            example_values: vec!["/example-org/cloudtrail".to_string()],
+            example_values: vec!["/prooflayer-demo/cloudtrail".to_string()],
             validation_notes: Some("Used as --log-group-name".to_string()),
         });
 
@@ -80,14 +80,14 @@ pub fn create_aws_cloudwatch_metric_filter_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Filter name",
-            "example-org-root-login",
+            "prooflayer-demo-root-login",
         ),
         (
             "log_group_name",
             DataType::String,
             str_eq.clone(),
             "Log group name",
-            "/example-org/cloudtrail",
+            "/prooflayer-demo/cloudtrail",
         ),
         (
             "metric_name",
@@ -101,7 +101,7 @@ pub fn create_aws_cloudwatch_metric_filter_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Metric namespace",
-            "ExampleOrg/Security",
+            "ProofLayer/Security",
         ),
         (
             "filter_pattern",

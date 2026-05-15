@@ -13,7 +13,7 @@ Validates AWS Backup plan configuration via two AWS CLI calls. `list-backup-plan
 
 | Field       | Type   | Required | Description                                         | Example                       |
 | ----------- | ------ | -------- | --------------------------------------------------- | ----------------------------- |
-| `plan_name` | string | **Yes**  | Backup plan name (matched against `BackupPlanName`) | `example-org-backup-plan` |
+| `plan_name` | string | **Yes**  | Backup plan name (matched against `BackupPlanName`) | `prooflayer-demo-backup-plan` |
 | `region`    | string | No       | AWS region override (passed as `--region`)          | `us-east-1`                   |
 
 ---
@@ -38,9 +38,9 @@ aws backup list-backup-plans --output json
 {
   "BackupPlansList": [
     {
-      "BackupPlanArn": "arn:aws:backup:us-east-1:123456789012:backup-plan:cacd09f7-...",
-      "BackupPlanId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-      "BackupPlanName": "example-org-backup-plan",
+      "BackupPlanArn": "arn:aws:backup:us-east-1:486027077516:backup-plan:cacd09f7-...",
+      "BackupPlanId": "cacd09f7-daa8-470b-b3e3-3ee04f9b90a8",
+      "BackupPlanName": "prooflayer-demo-backup-plan",
       "CreationDate": "2026-03-24T17:11:15.248000+00:00",
       "LastExecutionDate": "2026-03-26T03:00:47.134000+00:00"
     }
@@ -59,7 +59,7 @@ The collector finds the first entry where `BackupPlanName == plan_name` and extr
 **Resulting command:**
 
 ```
-aws backup get-backup-plan --backup-plan-id a1b2c3d4-e5f6-7890-abcd-ef1234567890 --output json
+aws backup get-backup-plan --backup-plan-id cacd09f7-daa8-470b-b3e3-3ee04f9b90a8 --output json
 ```
 
 **Sample response:**
@@ -67,7 +67,7 @@ aws backup get-backup-plan --backup-plan-id a1b2c3d4-e5f6-7890-abcd-ef1234567890
 ```json
 {
   "BackupPlan": {
-    "BackupPlanName": "example-org-backup-plan",
+    "BackupPlanName": "prooflayer-demo-backup-plan",
     "Rules": [
       {
         "RuleName": "daily-backup",
@@ -101,8 +101,8 @@ aws backup get-backup-plan --backup-plan-id a1b2c3d4-e5f6-7890-abcd-ef1234567890
       }
     ]
   },
-  "BackupPlanId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "BackupPlanArn": "arn:aws:backup:us-east-1:123456789012:backup-plan:cacd09f7-..."
+  "BackupPlanId": "cacd09f7-daa8-470b-b3e3-3ee04f9b90a8",
+  "BackupPlanArn": "arn:aws:backup:us-east-1:486027077516:backup-plan:cacd09f7-..."
 }
 ```
 
@@ -147,7 +147,7 @@ aws backup get-backup-plan --backup-plan-id a1b2c3d4-e5f6-7890-abcd-ef1234567890
 
 | Path                                                         | Type    | Example Value                    |
 | ------------------------------------------------------------ | ------- | -------------------------------- |
-| `BackupPlan.BackupPlanName`                                  | string  | `"example-org-backup-plan"`  |
+| `BackupPlan.BackupPlanName`                                  | string  | `"prooflayer-demo-backup-plan"`  |
 | `BackupPlan.Rules.0.RuleName`                                | string  | `"daily-backup"`                 |
 | `BackupPlan.Rules.0.ScheduleExpression`                      | string  | `"cron(0 3 * * ? *)"`            |
 | `BackupPlan.Rules.0.Lifecycle.DeleteAfterDays`               | integer | `30`                             |
@@ -210,7 +210,7 @@ aws backup get-backup-plan --backup-plan-id a1b2c3d4-e5f6-7890-abcd-ef1234567890
 
 ```esp
 OBJECT backup_plan
-    plan_name `example-org-backup-plan`
+    plan_name `prooflayer-demo-backup-plan`
     region `us-east-1`
 OBJECT_END
 

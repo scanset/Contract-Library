@@ -43,7 +43,7 @@ aws securityhub describe-hub --region us-east-1 --output json    # with region
 
 ```json
 {
-  "HubArn": "arn:aws:securityhub:us-east-1:123456789012:hub/default",
+  "HubArn": "arn:aws:securityhub:us-east-1:486027077516:hub/default",
   "SubscribedAt": "2026-03-24T16:02:47.820Z",
   "AutoEnableControls": true,
   "ControlFindingGenerator": "SECURITY_CONTROL"
@@ -79,21 +79,21 @@ aws securityhub get-enabled-standards --output json
 {
   "StandardsSubscriptions": [
     {
-      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:123456789012:subscription/cis-aws-foundations-benchmark/v/1.2.0",
+      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:486027077516:subscription/cis-aws-foundations-benchmark/v/1.2.0",
       "StandardsArn": "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0",
       "StandardsInput": {},
       "StandardsStatus": "READY",
       "StandardsControlsUpdatable": "READY_FOR_UPDATES"
     },
     {
-      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:123456789012:subscription/aws-foundational-security-best-practices/v/1.0.0",
+      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:486027077516:subscription/aws-foundational-security-best-practices/v/1.0.0",
       "StandardsArn": "arn:aws:securityhub:us-east-1::standards/aws-foundational-security-best-practices/v/1.0.0",
       "StandardsInput": {},
       "StandardsStatus": "READY",
       "StandardsControlsUpdatable": "READY_FOR_UPDATES"
     },
     {
-      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:123456789012:subscription/nist-800-53/v/5.0.0",
+      "StandardsSubscriptionArn": "arn:aws:securityhub:us-east-1:486027077516:subscription/nist-800-53/v/5.0.0",
       "StandardsArn": "arn:aws:securityhub:us-east-1::standards/nist-800-53/v/5.0.0",
       "StandardsInput": {},
       "StandardsStatus": "READY",
@@ -139,7 +139,7 @@ aws securityhub list-finding-aggregators --output json
 {
   "FindingAggregators": [
     {
-      "FindingAggregatorArn": "arn:aws:securityhub:us-east-1:123456789012:finding-aggregator/c3d4e5f6-7890-1234-abcd-ef5678901234"
+      "FindingAggregatorArn": "arn:aws:securityhub:us-east-1:486027077516:finding-aggregator/94ce904a-cd65-1358-0393-da390c1d2944"
     }
   ]
 }
@@ -163,14 +163,14 @@ Retrieves full aggregator configuration.
 **Resulting command:**
 
 ```
-aws securityhub get-finding-aggregator --finding-aggregator-arn arn:aws:securityhub:us-east-1:123456789012:finding-aggregator/c3d4e5f6-7890-1234-abcd-ef5678901234 --output json
+aws securityhub get-finding-aggregator --finding-aggregator-arn arn:aws:securityhub:us-east-1:486027077516:finding-aggregator/94ce904a-cd65-1358-0393-da390c1d2944 --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "FindingAggregatorArn": "arn:aws:securityhub:us-east-1:123456789012:finding-aggregator/c3d4e5f6-7890-1234-abcd-ef5678901234",
+  "FindingAggregatorArn": "arn:aws:securityhub:us-east-1:486027077516:finding-aggregator/94ce904a-cd65-1358-0393-da390c1d2944",
   "FindingAggregationRegion": "us-east-1",
   "RegionLinkingMode": "ALL_REGIONS"
 }
@@ -238,7 +238,7 @@ let merged = serde_json::json!({
 
 | Path                          | Type    | Example Value                                              |
 | ----------------------------- | ------- | ---------------------------------------------------------- |
-| `Hub.HubArn`                  | string  | `"arn:aws:securityhub:us-east-1:123456789012:hub/default"` |
+| `Hub.HubArn`                  | string  | `"arn:aws:securityhub:us-east-1:486027077516:hub/default"` |
 | `Hub.AutoEnableControls`      | boolean | `true`                                                     |
 | `Hub.ControlFindingGenerator` | string  | `"SECURITY_CONTROL"`                                       |
 | `Hub.SubscribedAt`            | string  | `"2026-03-24T16:02:47.820Z"`                               |
@@ -335,7 +335,7 @@ let merged = serde_json::json!({
 
 ```esp
 META
-    esp_id `example-org-securityhub-compliant`
+    esp_id `prooflayer-securityhub-compliant`
     version `1.0.0`
     dsl_schema_version `1.0.0`
     platform `aws`

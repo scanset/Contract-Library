@@ -47,8 +47,8 @@ pub fn create_aws_cloudtrail_contract() -> CtnContract {
             data_type: DataType::String,
             description: "Trail name or ARN for direct lookup".to_string(),
             example_values: vec![
-                "example-trail".to_string(),
-                "arn:aws:cloudtrail:us-east-1:123456789012:trail/example-trail".to_string(),
+                "scanset-trail".to_string(),
+                "arn:aws:cloudtrail:us-east-1:486027077516:trail/scanset-trail".to_string(),
             ],
             validation_notes: Some(
                 "If not specified, returns first trail from describe-trails".to_string(),
@@ -89,7 +89,7 @@ pub fn create_aws_cloudtrail_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Trail name".to_string(),
-            example_values: vec!["example-trail".to_string()],
+            example_values: vec!["scanset-trail".to_string()],
             validation_notes: Some("Name field from describe-trails".to_string()),
         });
 
@@ -106,7 +106,7 @@ pub fn create_aws_cloudtrail_contract() -> CtnContract {
             ],
             description: "Trail ARN".to_string(),
             example_values: vec![
-                "arn:aws:cloudtrail:us-east-1:123456789012:trail/example-trail".to_string(),
+                "arn:aws:cloudtrail:us-east-1:486027077516:trail/scanset-trail".to_string(),
             ],
             validation_notes: Some("TrailARN from describe-trails".to_string()),
         });
@@ -123,7 +123,7 @@ pub fn create_aws_cloudtrail_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "S3 bucket where trail logs are delivered".to_string(),
-            example_values: vec!["example-org-cloudtrail-123456789012".to_string()],
+            example_values: vec!["scanset-cloudtrail-486027077516".to_string()],
             validation_notes: Some("S3BucketName from describe-trails".to_string()),
         });
 

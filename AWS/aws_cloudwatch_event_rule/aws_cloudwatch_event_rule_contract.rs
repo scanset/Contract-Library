@@ -25,7 +25,7 @@ pub fn create_aws_cloudwatch_event_rule_contract() -> CtnContract {
             name: "rule_name".to_string(),
             data_type: DataType::String,
             description: "EventBridge rule name (exact match)".to_string(),
-            example_values: vec!["example-org-guardduty-findings".to_string()],
+            example_values: vec!["prooflayer-demo-guardduty-findings".to_string()],
             validation_notes: Some("Required; exact rule name".to_string()),
         });
 
@@ -100,7 +100,7 @@ pub fn create_aws_cloudwatch_event_rule_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: string_full.clone(),
             description: "Rule name".to_string(),
-            example_values: vec!["example-org-guardduty-findings".to_string()],
+            example_values: vec!["prooflayer-demo-guardduty-findings".to_string()],
             validation_notes: None,
         });
 
@@ -112,7 +112,7 @@ pub fn create_aws_cloudwatch_event_rule_contract() -> CtnContract {
             allowed_operations: string_full.clone(),
             description: "Rule ARN".to_string(),
             example_values: vec![
-                "arn:aws:events:us-east-1:123456789012:rule/example-org-guardduty-findings"
+                "arn:aws:events:us-east-1:486027077516:rule/prooflayer-demo-guardduty-findings"
                     .to_string(),
             ],
             validation_notes: None,
@@ -148,7 +148,7 @@ pub fn create_aws_cloudwatch_event_rule_contract() -> CtnContract {
             allowed_operations: string_full.clone(),
             description: "ARN of the first target (e.g. CloudWatch log group ARN)".to_string(),
             example_values: vec![
-                "arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings"
+                "arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings"
                     .to_string(),
             ],
             validation_notes: Some(

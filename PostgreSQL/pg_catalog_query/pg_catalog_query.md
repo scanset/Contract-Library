@@ -2,140 +2,223 @@
 
 ## Overview
 
-Runs predefined queries against PostgreSQL system catalogs and returns results
-as structured data for field-level validation. Queries are selected by name
-from a built-in library — arbitrary SQL is not accepted.
+Runs **predefined queries** against PostgreSQL system catalogs and returns results as RecordData for field-level validation. Queries are identified **by name** from a built-in library — arbitrary SQL is not accepted. Used for compliance checks against role configuration, extensions, password hashing, security-definer functions, and similar catalog-introspectable state.
 
-**Pattern:** A (System binary — psql)
-**Executor:** Simple + RecordData support
-**RECORD:** yes
+**Platform:** PostgreSQL (requires `psql` binary, TCP loopback to PostgreSQL)
+**Collection Method:** Single `psql` invocation via the shared `create_psql_executor()` from `commands/pg.rs`
+
+**Note:** Connects via **TCP** (`-h 127.0.0.1`), not Unix socket. Peer auth fails when the assessor runs as root because OS user ≠ postgres role. Set the `ESP_PG_PASS` env var for password auth — it's resolved per scan via the `set_env_from` mechanism. The query library lives in code, not config — adding a query requires a Rust change.
+
+---
 
 ## Object Fields
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `query` | string | Yes | Predefined query name from the built-in library |
-| `filter` | string | No | Filter parameter for parameterized queries (e.g., extension name) |
-| `database` | string | No | Target database. Defaults to `postgres`. Extensions/schemas are per-database. |
-| `host` | string | No | PostgreSQL host. Defaults to `127.0.0.1` |
-| `username` | string | No | PostgreSQL role. Defaults to `postgres` |
+| Field      | Type   | Required | Description                                                                                  | Example                                                  |
+| ---------- | ------ | -------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `query`    | string | **Yes**  | Predefined query name from the built-in library. Arbitrary SQL refused.                      | `password_hashes`, `installed_extensions`, `role_connection_limits`, `security_definer_functions` |
+| `filter`   | string | No       | Optional filter passed to parameterized queries. Usage depends on the query name             | `pgcrypto`, `pgaudit`                                    |
+| `database` | string | No       | Target database for db-scoped queries. Defaults to `postgres`. Extensions/schemas are per-db | `postgres`, `my_app_db`                                  |
+| `host`     | string | No       | PostgreSQL host. Defaults to `127.0.0.1` (TCP loopback)                                      | `127.0.0.1`                                              |
+| `username` | string | No       | PostgreSQL role to connect as. Defaults to `postgres`                                        | `postgres`                                               |
 
-## Query Library
-
-| Query Name | STIG Controls | What It Checks |
-|------------|---------------|----------------|
-| `password_hashes` | V-261891 | Weak/missing password hashes in pg_shadow |
-| `role_connection_limits` | V-261857 | Per-role connection limits from pg_roles |
-| `installed_extensions` | V-261888 | Non-default extensions from pg_extension |
-| `extension_available` | V-261901, V-261930, V-261931 | Check if a specific extension exists (use `filter` for name) |
-| `security_definer_functions` | V-261916 | Functions with SECURITY DEFINER outside system schemas |
-| `role_attributes` | V-261859, V-261862, V-261890, V-261897 | Role privileges (superuser, createdb, login, etc.) |
-| `ssl_settings` | V-261893 | SSL-related file paths from pg_settings |
-
-## Authentication
-
-Same model as `pg_config_param`:
-- TCP loopback (`-h 127.0.0.1`) by default
-- `ESP_PG_PASS` env var -> `PGPASSWORD` via dynamic resolution
-- Uses shared `create_psql_executor()` from `commands/pg.rs`
+---
 
 ## Commands Executed
 
+### Command 1: psql
+
+Looks up the named query in the in-code library, runs it via `psql`, captures rows as JSON.
+
+**Collector call:** `executor.run(query_name, filter, database, host, username)` — the executor is shared with `pg_config_param` (see `commands/pg.rs::create_psql_executor()`).
+
+**Resulting command** (representative):
+
 ```
-psql -U <username> -h <host> -d <database> -At -c "<sql from query library>"
+PGPASSWORD=$ESP_PG_PASS psql \
+    -h 127.0.0.1 -U postgres -d postgres \
+    -A -t -X --no-password \
+    -c "<resolved SQL from query library>"
 ```
 
-All queries wrap results in `json_agg(row_to_json(t))` for machine-parseable output.
+The shared executor:
+- Whitelisted psql paths (RHEL: `/usr/pgsql-16/bin`, Debian, generic)
+- Extended PATH including `/usr/pgsql-16/bin`
+- Dynamic env: `ESP_PG_PASS → PGPASSWORD` via `set_env_from`
 
-**Sample response (password_hashes):**
+**Sample response (varies by query):**
+
+For `password_hashes`:
 ```json
-[{"usename":"postgres","hash_type":"scram-sha-256"},{"usename":"app_user","hash_type":"scram-sha-256"}]
+[
+  {"role": "postgres", "encrypted": true, "method": "scram-sha-256"},
+  {"role": "app_user", "encrypted": true, "method": "scram-sha-256"}
+]
 ```
+
+For `installed_extensions` with `filter=pgcrypto`:
+```json
+[{"name": "pgcrypto", "version": "1.3", "schema": "public"}]
+```
+
+**Response parsing:**
+
+- Rows from psql JSON output → `record` RecordData (array)
+- Row count → `row_count`
+- Any rows present → `found=true`. Empty / failed query → `found=false`.
+
+---
 
 ## Collected Data Fields
 
-| Field | Type | Always Present | Description |
-|-------|------|----------------|-------------|
-| `found` | boolean | Yes | Whether query returned any rows |
-| `row_count` | int | Yes | Number of rows returned |
-| `record` | string (JSON) | When found=true | JSON array of result rows |
+### Scalar Fields
+
+| Field       | Type    | Always Present | Source                              |
+| ----------- | ------- | -------------- | ----------------------------------- |
+| `found`     | boolean | Yes            | Derived — `true` if query returned ≥1 row |
+| `row_count` | int     | Yes            | Number of rows                      |
+
+### RecordData Field
+
+| Field    | Type       | Always Present | Description                                                |
+| -------- | ---------- | -------------- | ---------------------------------------------------------- |
+| `record` | RecordData | Yes            | Query result rows. Path shape depends on the query name    |
+
+---
+
+## RecordData Structure
+
+Path shape depends on the predefined query. Examples:
+
+| Query name                      | RecordData shape                                                    |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `password_hashes`               | `[{role, encrypted, method}, ...]`                                  |
+| `installed_extensions`          | `[{name, version, schema}, ...]`                                    |
+| `role_connection_limits`        | `[{role, connection_limit}, ...]`                                   |
+| `security_definer_functions`    | `[{schema, function, owner}, ...]`                                  |
+
+Use the query library reference (in `assessor-core/src/contract_kit/commands/pg.rs`) to find the exact column names per query.
+
+---
 
 ## State Fields
 
-| Field | Type | Operations | Description |
-|-------|------|------------|-------------|
-| `found` | boolean | =, != | Query returned rows |
-| `row_count` | int | =, !=, >, <, >=, <= | Row count comparison |
-| `record` | RecordData | (record checks) | Field-level validation of results |
+| State Field | Type       | Allowed Operations              | Maps To Collected Field |
+| ----------- | ---------- | ------------------------------- | ----------------------- |
+| `found`     | boolean    | `=`, `!=`                       | `found`                 |
+| `row_count` | int        | `=`, `!=`, `>`, `>=`, `<`, `<=` | `row_count`             |
+| `record`    | RecordData | (record checks)                 | `record`                |
+
+---
+
+## Collection Strategy
+
+| Property                     | Value                          |
+| ---------------------------- | ------------------------------ |
+| Collector ID                 | `pg_catalog_query_collector`   |
+| Collector Type               | `pg_catalog_query`             |
+| Collection Mode              | Metadata                       |
+| Required Capabilities        | `psql_access`                  |
+| Expected Collection Time     | ~100ms                         |
+| Memory Usage                 | ~2MB                           |
+| Network Intensive            | No (loopback)                  |
+| CPU Intensive                | No                             |
+| Requires Elevated Privileges | No                             |
+| Batch Collection             | No                             |
+
+### Required Permissions
+
+The `username` (default `postgres`) needs `CONNECT` on `database` plus `pg_read_server_files` or equivalent role permissions for the target catalogs. Most predefined queries hit `pg_catalog` tables which are world-readable for connected users.
+
+Set `ESP_PG_PASS` environment variable on the assessor host before scan time. The collector resolves it dynamically per scan.
+
+---
 
 ## ESP Examples
 
-### Assert no weak password hashes (V-261891)
+### Assert no roles use the deprecated `md5` password method
 
-```
-OBJECT pg_weak_passwords
+```esp
+OBJECT all_password_hashes
     query `password_hashes`
 OBJECT_END
 
-STATE no_weak_hashes
+STATE no_md5_passwords
     found boolean = true
-    row_count int > 0
+    record
+        field record.*.method string = `scram-sha-256`
+    record_end
 STATE_END
+
+CTN pg_catalog_query
+    TEST all all AND
+    STATE_REF no_md5_passwords
+    OBJECT_REF all_password_hashes
+CTN_END
 ```
 
-Note: This checks that the query runs and returns results. To validate
-that NO weak hashes exist, use a record check on the hash_type field.
+### Confirm `pgcrypto` extension is installed in app database
 
-### Check pgcrypto extension is available (V-261901)
-
-```
-OBJECT pg_pgcrypto
-    query `extension_available`
+```esp
+OBJECT pgcrypto_in_app
+    query `installed_extensions`
     filter `pgcrypto`
+    database `my_app_db`
 OBJECT_END
 
-STATE pgcrypto_available
+STATE pgcrypto_present
     found boolean = true
+    row_count int = `1`
+    record
+        field record.0.name string = `pgcrypto`
+    record_end
 STATE_END
+
+CTN pg_catalog_query
+    TEST all all AND
+    STATE_REF pgcrypto_present
+    OBJECT_REF pgcrypto_in_app
+CTN_END
 ```
 
-### Assert no security definer functions in user schemas (V-261916)
+### Validate no security-definer functions exist outside whitelisted schemas
 
-```
-OBJECT pg_secdef_funcs
+```esp
+OBJECT security_definer_audit
     query `security_definer_functions`
 OBJECT_END
 
-STATE no_secdef_funcs
-    row_count int = 0
+STATE no_unauthorized_definers
+    row_count int = `0`
 STATE_END
+
+CTN pg_catalog_query
+    TEST all all AND
+    STATE_REF no_unauthorized_definers
+    OBJECT_REF security_definer_audit
+CTN_END
 ```
 
-## PG16 STIG Coverage
-
-This CTN covers **~27 controls** across two categories:
-
-**SELECT-based checks (~13 controls):**
-V-261857, V-261888, V-261891, V-261893, V-261901, V-261916, V-261930, V-261931
-
-**Meta-command equivalents (~14 controls):**
-V-261859, V-261862, V-261863, V-261878, V-261884, V-261885, V-261888,
-V-261890, V-261897, V-261898, V-261902, V-261914, V-261923, V-261924
-
-Meta-commands (\du, \dp, \l, etc.) are replaced by their underlying
-catalog queries in the query library.
+---
 
 ## Error Conditions
 
-| Condition | Behavior |
-|-----------|----------|
-| Unknown query name | InvalidObjectConfiguration error |
-| psql connection failed | CollectionFailed error |
-| Auth failed | exit_code != 0, found=false |
-| Query returns no rows | found=false, row_count=0 |
-| Query returns null | found=false, row_count=0 |
+| Condition                                                  | Error Type                   | Outcome             |
+| ---------------------------------------------------------- | ---------------------------- | ------------------- |
+| `query` missing or not in library                          | `InvalidObjectConfiguration` | Error               |
+| `psql` binary not found                                    | `CollectionFailed`           | Error               |
+| Connection refused / network error                         | `CollectionFailed`           | Error               |
+| Auth failure (peer auth as root, missing `ESP_PG_PASS`)    | `CollectionFailed`           | Error               |
+| Query returns zero rows                                    | N/A — not an error           | `found=false`       |
+| `database` doesn't exist                                   | `CollectionFailed`           | Error               |
+| Incompatible CTN type                                      | `CtnContractValidation`      | Error               |
+
+---
 
 ## Related CTN Types
 
-- `pg_config_param` — for SHOW parameter checks (simpler, scalar values)
-- `file_content` — for pg_hba.conf / pg_ident.conf file-level checks
+| CTN Type           | Relationship                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| `pg_config_param`  | SHOW-parameter check — different lookup model (`SHOW`, not catalog query). Sibling.   |
+| `tcp_listener`     | Confirm Postgres is listening on the expected port before connecting                  |
+| `tls_probe`        | Validate Postgres TLS handshake separately                                            |
+| `systemd_service`  | Confirm `postgresql.service` is enabled / active                                      |

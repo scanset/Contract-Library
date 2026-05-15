@@ -13,7 +13,7 @@ Validates AWS Config rule configuration and compliance state via two AWS CLI cal
 
 | Field       | Type   | Required | Description                                | Example                         |
 | ----------- | ------ | -------- | ------------------------------------------ | ------------------------------- |
-| `rule_name` | string | **Yes**  | Config rule name (exact match)             | `example-org-ebs-encrypted` |
+| `rule_name` | string | **Yes**  | Config rule name (exact match)             | `prooflayer-demo-ebs-encrypted` |
 | `region`    | string | No       | AWS region override (passed as `--region`) | `us-east-1`                     |
 
 ---
@@ -23,7 +23,7 @@ Validates AWS Config rule configuration and compliance state via two AWS CLI cal
 ### Command 1: describe-config-rules
 
 ```
-aws configservice describe-config-rules --config-rule-names example-org-ebs-encrypted --output json
+aws configservice describe-config-rules --config-rule-names prooflayer-demo-ebs-encrypted --output json
 ```
 
 **Sample response:**
@@ -32,8 +32,8 @@ aws configservice describe-config-rules --config-rule-names example-org-ebs-encr
 {
   "ConfigRules": [
     {
-      "ConfigRuleName": "example-org-ebs-encrypted",
-      "ConfigRuleArn": "arn:aws:config:us-east-1:123456789012:config-rule/config-rule-yg7y5h",
+      "ConfigRuleName": "prooflayer-demo-ebs-encrypted",
+      "ConfigRuleArn": "arn:aws:config:us-east-1:486027077516:config-rule/config-rule-yg7y5h",
       "ConfigRuleId": "config-rule-yg7y5h",
       "Description": "EBS volumes must be encrypted - KSI-SVC-VRI",
       "Source": {
@@ -49,7 +49,7 @@ aws configservice describe-config-rules --config-rule-names example-org-ebs-encr
 ### Command 2: describe-compliance-by-config-rule
 
 ```
-aws configservice describe-compliance-by-config-rule --config-rule-names example-org-ebs-encrypted --output json
+aws configservice describe-compliance-by-config-rule --config-rule-names prooflayer-demo-ebs-encrypted --output json
 ```
 
 **Sample response:**
@@ -58,7 +58,7 @@ aws configservice describe-compliance-by-config-rule --config-rule-names example
 {
   "ComplianceByConfigRules": [
     {
-      "ConfigRuleName": "example-org-ebs-encrypted",
+      "ConfigRuleName": "prooflayer-demo-ebs-encrypted",
       "Compliance": {
         "ComplianceType": "COMPLIANT"
       }
@@ -98,7 +98,7 @@ aws configservice describe-compliance-by-config-rule --config-rule-names example
 ## RecordData Structure
 
 ```
-Rule.ConfigRuleName          → "example-org-ebs-encrypted"
+Rule.ConfigRuleName          → "prooflayer-demo-ebs-encrypted"
 Rule.ConfigRuleArn           → "arn:aws:config:us-east-1:..."
 Rule.ConfigRuleState         → "ACTIVE"
 Rule.Source.Owner            → "AWS"
@@ -157,7 +157,7 @@ Compliance.Compliance.ComplianceType → "COMPLIANT"
 
 ```esp
 OBJECT ebs_encrypted_rule
-    rule_name `example-org-ebs-encrypted`
+    rule_name `prooflayer-demo-ebs-encrypted`
     region `us-east-1`
 OBJECT_END
 

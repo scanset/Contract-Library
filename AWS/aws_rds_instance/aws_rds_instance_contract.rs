@@ -47,7 +47,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             name: "db_instance_identifier".to_string(),
             data_type: DataType::String,
             description: "RDS DB instance identifier".to_string(),
-            example_values: vec!["example-transparency-log".to_string()],
+            example_values: vec!["scanset-transparency-log".to_string()],
             validation_notes: Some("Required; exact instance identifier".to_string()),
         });
 
@@ -83,7 +83,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "DB instance identifier".to_string(),
-            example_values: vec!["example-transparency-log".to_string()],
+            example_values: vec!["scanset-transparency-log".to_string()],
             validation_notes: Some("DBInstanceIdentifier from API".to_string()),
         });
 
@@ -204,7 +204,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC the DB instance resides in".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("From DBSubnetGroup.VpcId".to_string()),
         });
 
@@ -215,7 +215,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "DB subnet group name".to_string(),
-            example_values: vec!["example-db-subnets".to_string()],
+            example_values: vec!["scanset-db-subnets".to_string()],
             validation_notes: Some("DBSubnetGroup.DBSubnetGroupName from API".to_string()),
         });
 
@@ -243,7 +243,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             ],
             description: "KMS key ARN used for encryption".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/b2c3d4e5-f678-9012-abcd-ef3456789012"
+                "arn:aws:kms:us-east-1:486027077516:key/8783e3f3-edb0-4290-a9b2-521f2cc8815f"
                     .to_string(),
             ],
             validation_notes: Some("KmsKeyId from API; only present if encrypted".to_string()),
@@ -256,7 +256,7 @@ pub fn create_aws_rds_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of the Name tag".to_string(),
-            example_values: vec!["example-transparency-log".to_string()],
+            example_values: vec!["scanset-transparency-log".to_string()],
             validation_notes: Some("Extracted from TagList array".to_string()),
         });
 

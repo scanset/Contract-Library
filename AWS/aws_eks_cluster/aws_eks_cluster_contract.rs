@@ -101,7 +101,7 @@ pub fn create_aws_eks_cluster_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC the cluster runs in".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("resourcesVpcConfig.vpcId from API".to_string()),
         });
 
@@ -138,7 +138,7 @@ pub fn create_aws_eks_cluster_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Cluster security group ID".to_string(),
-            example_values: vec!["sg-0cccccccccccccccc0".to_string()],
+            example_values: vec!["sg-0c25b6408ae5e8fef".to_string()],
             validation_notes: Some(
                 "resourcesVpcConfig.clusterSecurityGroupId from API".to_string(),
             ),
@@ -156,7 +156,7 @@ pub fn create_aws_eks_cluster_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "IAM role ARN for the cluster".to_string(),
-            example_values: vec!["arn:aws:iam::123456789012:role/example-cluster-role".to_string()],
+            example_values: vec!["arn:aws:iam::486027077516:role/scanset-cluster-role".to_string()],
             validation_notes: Some("roleArn from API".to_string()),
         });
 

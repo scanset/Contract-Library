@@ -34,10 +34,10 @@
 //!
 //! 1. RecordData under Tags key — the raw TagSet array for record checks:
 //!    Tags.TagSet.0.Key   → "Name"
-//!    Tags.TagSet.0.Value → "example-org-security-findings"
+//!    Tags.TagSet.0.Value → "prooflayer-demo-security-findings"
 //!
 //! 2. Flattened scalar field `tag_key:<key>` for each tag — enables simple state checks:
-//!    tag_key:Name        → "example-org-security-findings"
+//!    tag_key:Name        → "prooflayer-demo-security-findings"
 //!    tag_key:Environment → "demo"
 //!    tag_key:ManagedBy   → "terraform"
 //! ```

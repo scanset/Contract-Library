@@ -6,12 +6,12 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! InternetGatewayId              → "igw-0123456789abcdef0"
+//! InternetGatewayId              → "igw-067bbc16268608ad6"
 //! Attachments.0.State            → "available"
-//! Attachments.0.VpcId            → "vpc-0fedcba9876543210"
+//! Attachments.0.VpcId            → "vpc-051afae9e049b137a"
 //! Tags.0.Key                     → "Name"
-//! Tags.0.Value                   → "example-igw"
-//! OwnerId                        → "123456789012"
+//! Tags.0.Value                   → "scanset-igw"
+//! OwnerId                        → "486027077516"
 //! ```
 
 ///////////////////////////////////////////////////////

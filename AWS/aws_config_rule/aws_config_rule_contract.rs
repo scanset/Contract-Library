@@ -31,7 +31,7 @@ pub fn create_aws_config_rule_contract() -> CtnContract {
             name: "rule_name".to_string(),
             data_type: DataType::String,
             description: "Config rule name".to_string(),
-            example_values: vec!["example-org-ebs-encrypted".to_string()],
+            example_values: vec!["prooflayer-demo-ebs-encrypted".to_string()],
             validation_notes: Some("Required; exact rule name".to_string()),
         });
 
@@ -72,7 +72,7 @@ pub fn create_aws_config_rule_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Config rule name".to_string(),
-            example_values: vec!["example-org-ebs-encrypted".to_string()],
+            example_values: vec!["prooflayer-demo-ebs-encrypted".to_string()],
             validation_notes: None,
         });
 

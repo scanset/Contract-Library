@@ -11,7 +11,7 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! Rule.Name                                → "example-org-guardduty-findings"
+//! Rule.Name                                → "prooflayer-demo-guardduty-findings"
 //! Rule.State                               → "ENABLED"
 //! Rule.EventBusName                        → "default"
 //! EventPattern.source.0                    → "aws.guardduty"

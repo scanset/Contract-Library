@@ -40,8 +40,8 @@ pub fn create_aws_ssoadmin_permission_set_contract() -> CtnContract {
             data_type: DataType::String,
             description: "Permission set name (exact match)".to_string(),
             example_values: vec![
-                "ExampleOrgAdmin".to_string(),
-                "ExampleOrgReadOnly".to_string(),
+                "ProofLayerAdmin".to_string(),
+                "ProofLayerReadOnly".to_string(),
             ],
             validation_notes: Some(
                 "Used to find the permission set ARN via list-permission-sets + describe loop"
@@ -111,7 +111,7 @@ pub fn create_aws_ssoadmin_permission_set_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Permission set name".to_string(),
-            example_values: vec!["ExampleOrgAdmin".to_string()],
+            example_values: vec!["ProofLayerAdmin".to_string()],
             validation_notes: None,
         });
 
@@ -136,7 +136,7 @@ pub fn create_aws_ssoadmin_permission_set_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_full.clone(),
             description: "Permission set description".to_string(),
-            example_values: vec!["Full admin access to ExampleOrg infrastructure".to_string()],
+            example_values: vec!["Full admin access to ProofLayer infrastructure".to_string()],
             validation_notes: None,
         });
 

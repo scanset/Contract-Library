@@ -15,8 +15,8 @@ Validates AWS VPC configurations via the AWS CLI. Collects from up to three API 
 
 | Field    | Type   | Required | Description                                | Example                     |
 | -------- | ------ | -------- | ------------------------------------------ | --------------------------- |
-| `vpc_id` | string | No\*     | VPC ID for direct lookup                   | `vpc-0fedcba9876543210`     |
-| `tags`   | string | No\*     | Tag filter in `Key=Value` format           | `Name=example-toy-boundary` |
+| `vpc_id` | string | No\*     | VPC ID for direct lookup                   | `vpc-051afae9e049b137a`     |
+| `tags`   | string | No\*     | Tag filter in `Key=Value` format           | `Name=scanset-toy-boundary` |
 | `region` | string | No       | AWS region override (passed as `--region`) | `us-east-1`                 |
 
 \* At least one of `vpc_id` or `tags` must be specified. If neither is provided, the collector returns `InvalidObjectConfiguration`.
@@ -54,13 +54,13 @@ The helper method builds arguments:
 
 ```
 # By VPC ID
-aws ec2 describe-vpcs --vpc-ids vpc-0fedcba9876543210 --output json
+aws ec2 describe-vpcs --vpc-ids vpc-051afae9e049b137a --output json
 
 # By tag
-aws ec2 describe-vpcs --filters Name=tag:Name,Values=example-toy-boundary --output json
+aws ec2 describe-vpcs --filters Name=tag:Name,Values=scanset-toy-boundary --output json
 
 # With region
-aws ec2 describe-vpcs --region us-east-1 --output json --vpc-ids vpc-0fedcba9876543210
+aws ec2 describe-vpcs --region us-east-1 --output json --vpc-ids vpc-051afae9e049b137a
 ```
 
 **Response parsing:**
@@ -90,7 +90,7 @@ Which calls: `client.execute("ec2", "describe-vpc-attribute", &["--vpc-id", vpc_
 **Resulting command:**
 
 ```
-aws ec2 describe-vpc-attribute --vpc-id vpc-0fedcba9876543210 --attribute enableDnsSupport --output json
+aws ec2 describe-vpc-attribute --vpc-id vpc-051afae9e049b137a --attribute enableDnsSupport --output json
 ```
 
 **Response parsing:**
@@ -108,7 +108,7 @@ Which calls: `client.execute("ec2", "describe-vpc-attribute", &["--vpc-id", vpc_
 **Resulting command:**
 
 ```
-aws ec2 describe-vpc-attribute --vpc-id vpc-0fedcba9876543210 --attribute enableDnsHostnames --output json
+aws ec2 describe-vpc-attribute --vpc-id vpc-051afae9e049b137a --attribute enableDnsHostnames --output json
 ```
 
 **Response parsing:**
@@ -228,7 +228,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT my_vpc
-    vpc_id `vpc-0fedcba9876543210`
+    vpc_id `vpc-051afae9e049b137a`
 OBJECT_END
 
 STATE vpc_exists
@@ -246,7 +246,7 @@ CTN_END
 
 ```esp
 OBJECT boundary_vpc
-    tags `Name=example-toy-boundary`
+    tags `Name=scanset-toy-boundary`
     region `us-east-1`
 OBJECT_END
 
@@ -287,7 +287,7 @@ CTN_END
 
 ```esp
 OBJECT internal_vpc
-    vpc_id `vpc-0fedcba9876543210`
+    vpc_id `vpc-051afae9e049b137a`
 OBJECT_END
 
 STATE uses_internal_cidr

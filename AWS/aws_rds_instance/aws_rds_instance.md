@@ -15,7 +15,7 @@ Validates AWS RDS database instance configurations via the AWS CLI. Returns scal
 
 | Field                    | Type   | Required | Description                                | Example                    |
 | ------------------------ | ------ | -------- | ------------------------------------------ | -------------------------- |
-| `db_instance_identifier` | string | **Yes**  | RDS DB instance identifier (exact match)   | `example-transparency-log` |
+| `db_instance_identifier` | string | **Yes**  | RDS DB instance identifier (exact match)   | `scanset-transparency-log` |
 | `region`                 | string | No       | AWS region override (passed as `--region`) | `us-east-1`                |
 
 - `db_instance_identifier` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -40,8 +40,8 @@ Retrieves DB instance configuration by identifier.
 **Resulting command:**
 
 ```
-aws rds describe-db-instances --db-instance-identifier example-transparency-log --output json
-aws rds describe-db-instances --db-instance-identifier example-transparency-log --region us-east-1 --output json    # with region
+aws rds describe-db-instances --db-instance-identifier scanset-transparency-log --output json
+aws rds describe-db-instances --db-instance-identifier scanset-transparency-log --region us-east-1 --output json    # with region
 ```
 
 **Response parsing:**
@@ -91,14 +91,14 @@ Individually extracted fields:
 {
   "DBInstances": [
     {
-      "DBInstanceIdentifier": "example-transparency-log",
+      "DBInstanceIdentifier": "scanset-transparency-log",
       "DBInstanceClass": "db.t4g.micro",
       "DBInstanceStatus": "available",
-      "DBInstanceArn": "arn:aws:rds:us-east-1:123456789012:db:example-transparency-log",
+      "DBInstanceArn": "arn:aws:rds:us-east-1:486027077516:db:scanset-transparency-log",
       "Engine": "postgres",
       "EngineVersion": "16.4",
       "StorageEncrypted": true,
-      "KmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/b2c3d4e5-f678-9012-abcd-ef3456789012",
+      "KmsKeyId": "arn:aws:kms:us-east-1:486027077516:key/8783e3f3-edb0-4290-a9b2-521f2cc8815f",
       "PubliclyAccessible": false,
       "MultiAZ": false,
       "DeletionProtection": false,
@@ -110,23 +110,23 @@ Individually extracted fields:
       "Iops": 3000,
       "MaxAllocatedStorage": 100,
       "Endpoint": {
-        "Address": "example-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com",
+        "Address": "scanset-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com",
         "Port": 5432,
         "HostedZoneId": "Z2R2ITUGPM61AM"
       },
       "VpcSecurityGroups": [
-        { "VpcSecurityGroupId": "sg-0bbbbbbbbbbbbbbbb0", "Status": "active" }
+        { "VpcSecurityGroupId": "sg-037fd81f76602d39c", "Status": "active" }
       ],
       "DBSubnetGroup": {
-        "DBSubnetGroupName": "example-db-subnets",
-        "VpcId": "vpc-0fedcba9876543210",
+        "DBSubnetGroupName": "scanset-db-subnets",
+        "VpcId": "vpc-051afae9e049b137a",
         "Subnets": [
           {
-            "SubnetIdentifier": "subnet-0eeeeeeeeeeeeeeee",
+            "SubnetIdentifier": "subnet-0e673bf8205a96a43",
             "SubnetAvailabilityZone": { "Name": "us-east-1a" }
           },
           {
-            "SubnetIdentifier": "subnet-0cccccccccccccccc",
+            "SubnetIdentifier": "subnet-086db34133706913a",
             "SubnetAvailabilityZone": { "Name": "us-east-1b" }
           }
         ]
@@ -202,10 +202,10 @@ let record_data = RecordData::from_json_value(db.clone());
 
 | Path                   | Type   | Example Value                                                      |
 | ---------------------- | ------ | ------------------------------------------------------------------ |
-| `DBInstanceIdentifier` | string | `"example-transparency-log"`                                       |
+| `DBInstanceIdentifier` | string | `"scanset-transparency-log"`                                       |
 | `DBInstanceStatus`     | string | `"available"`                                                      |
 | `DBInstanceClass`      | string | `"db.t4g.micro"`                                                   |
-| `DBInstanceArn`        | string | `"arn:aws:rds:us-east-1:123456789012:db:example-transparency-log"` |
+| `DBInstanceArn`        | string | `"arn:aws:rds:us-east-1:486027077516:db:scanset-transparency-log"` |
 | `Engine`               | string | `"postgres"`                                                       |
 | `EngineVersion`        | string | `"16.4"`                                                           |
 
@@ -214,7 +214,7 @@ let record_data = RecordData::from_json_value(db.clone());
 | Path                               | Type    | Example Value                                           |
 | ---------------------------------- | ------- | ------------------------------------------------------- |
 | `StorageEncrypted`                 | boolean | `true`                                                  |
-| `KmsKeyId`                         | string  | `"arn:aws:kms:us-east-1:123456789012:key/8783e3f3-..."` |
+| `KmsKeyId`                         | string  | `"arn:aws:kms:us-east-1:486027077516:key/8783e3f3-..."` |
 | `PubliclyAccessible`               | boolean | `false`                                                 |
 | `IAMDatabaseAuthenticationEnabled` | boolean | `false`                                                 |
 | `DeletionProtection`               | boolean | `false`                                                 |
@@ -226,14 +226,14 @@ let record_data = RecordData::from_json_value(db.clone());
 
 | Path                                       | Type    | Example Value                                                         |
 | ------------------------------------------ | ------- | --------------------------------------------------------------------- |
-| `Endpoint.Address`                         | string  | `"example-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com"` |
+| `Endpoint.Address`                         | string  | `"scanset-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com"` |
 | `Endpoint.Port`                            | integer | `5432`                                                                |
-| `VpcSecurityGroups.0.VpcSecurityGroupId`   | string  | `"sg-0bbbbbbbbbbbbbbbb0"`                                              |
+| `VpcSecurityGroups.0.VpcSecurityGroupId`   | string  | `"sg-037fd81f76602d39c"`                                              |
 | `VpcSecurityGroups.0.Status`               | string  | `"active"`                                                            |
 | `VpcSecurityGroups.*.VpcSecurityGroupId`   | string  | (all SG IDs via wildcard)                                             |
-| `DBSubnetGroup.VpcId`                      | string  | `"vpc-0fedcba9876543210"`                                             |
-| `DBSubnetGroup.DBSubnetGroupName`          | string  | `"example-db-subnets"`                                                |
-| `DBSubnetGroup.Subnets.0.SubnetIdentifier` | string  | `"subnet-0eeeeeeeeeeeeeeee"`                                          |
+| `DBSubnetGroup.VpcId`                      | string  | `"vpc-051afae9e049b137a"`                                             |
+| `DBSubnetGroup.DBSubnetGroupName`          | string  | `"scanset-db-subnets"`                                                |
+| `DBSubnetGroup.Subnets.0.SubnetIdentifier` | string  | `"subnet-0e673bf8205a96a43"`                                          |
 | `DBSubnetGroup.Subnets.*.SubnetIdentifier` | string  | (all subnet IDs via wildcard)                                         |
 
 ### Backup and storage
@@ -347,7 +347,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT transparency_db
-    db_instance_identifier `example-transparency-log`
+    db_instance_identifier `scanset-transparency-log`
     region `us-east-1`
 OBJECT_END
 
@@ -371,16 +371,16 @@ CTN_END
 
 ```esp
 OBJECT transparency_db
-    db_instance_identifier `example-transparency-log`
+    db_instance_identifier `scanset-transparency-log`
     region `us-east-1`
 OBJECT_END
 
 STATE rds_network_valid
     found boolean = true
-    vpc_id string = `vpc-0fedcba9876543210`
-    db_subnet_group_name string = `example-db-subnets`
+    vpc_id string = `vpc-051afae9e049b137a`
+    db_subnet_group_name string = `scanset-db-subnets`
     record
-        field VpcSecurityGroups.0.VpcSecurityGroupId string = `sg-0bbbbbbbbbbbbbbbb0`
+        field VpcSecurityGroups.0.VpcSecurityGroupId string = `sg-037fd81f76602d39c`
         field VpcSecurityGroups.0.Status string = `active`
         field Endpoint.Port int = 5432
     record_end
@@ -397,7 +397,7 @@ CTN_END
 
 ```esp
 OBJECT transparency_db
-    db_instance_identifier `example-transparency-log`
+    db_instance_identifier `scanset-transparency-log`
     region `us-east-1`
 OBJECT_END
 
@@ -421,15 +421,15 @@ CTN_END
 
 ```esp
 OBJECT transparency_db
-    db_instance_identifier `example-transparency-log`
+    db_instance_identifier `scanset-transparency-log`
     region `us-east-1`
 OBJECT_END
 
 STATE rds_private_subnets
     found boolean = true
     record
-        field DBSubnetGroup.Subnets.*.SubnetIdentifier string = `subnet-0eeeeeeeeeeeeeeee` at_least_one
-        field DBSubnetGroup.Subnets.*.SubnetIdentifier string = `subnet-0cccccccccccccccc` at_least_one
+        field DBSubnetGroup.Subnets.*.SubnetIdentifier string = `subnet-0e673bf8205a96a43` at_least_one
+        field DBSubnetGroup.Subnets.*.SubnetIdentifier string = `subnet-086db34133706913a` at_least_one
     record_end
 STATE_END
 

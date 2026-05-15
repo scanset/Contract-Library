@@ -90,21 +90,21 @@ aws inspector2 list-coverage --output json
   "coveredResources": [
     {
       "resourceType": "AWS_ACCOUNT",
-      "resourceId": "123456789012",
-      "accountId": "123456789012",
+      "resourceId": "486027077516",
+      "accountId": "486027077516",
       "scanType": "NETWORK",
       "scanStatus": { "statusCode": "ACTIVE", "reason": "SUCCESSFUL" }
     },
     {
       "resourceType": "AWS_EC2_INSTANCE",
-      "resourceId": "i-0123456789abcdef0",
-      "accountId": "123456789012",
+      "resourceId": "i-02dc10f9292c0a933",
+      "accountId": "486027077516",
       "scanType": "PACKAGE",
       "scanStatus": { "statusCode": "ACTIVE", "reason": "SUCCESSFUL" },
       "resourceMetadata": {
         "ec2": {
-          "tags": { "Name": "example-org-vm" },
-          "amiId": "ami-0123456789abcdef0",
+          "tags": { "Name": "prooflayer-demo-vm" },
+          "amiId": "ami-078448b73f6313465",
           "platform": "LINUX"
         }
       },

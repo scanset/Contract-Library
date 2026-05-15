@@ -409,24 +409,28 @@ impl CtnDataCollector for AzVirtualMachineCollector {
             ResolvedValue::Boolean(boot_diag_enabled),
         );
 
-        // Identity
-        if let Some(identity) = resp.get("identity") {
-            if let Some(id_type) = identity.get("type").and_then(|v| v.as_str()) {
+        // Identity. Azure returns `"identity": null` when no managed
+        // identity is attached, so a bare presence check on the field
+        // gives a false positive. An explicit `{ "type": "None" }` is
+        // also possible and represents the same "no identity" state.
+        let id_type = resp
+            .get("identity")
+            .filter(|v| !v.is_null())
+            .and_then(|v| v.get("type"))
+            .and_then(|v| v.as_str());
+        let has_mi = matches!(id_type, Some(t) if t != "None");
+        if has_mi {
+            if let Some(t) = id_type {
                 data.add_field(
                     "identity_type".to_string(),
-                    ResolvedValue::String(id_type.to_string()),
+                    ResolvedValue::String(t.to_string()),
                 );
             }
-            data.add_field(
-                "has_managed_identity".to_string(),
-                ResolvedValue::Boolean(true),
-            );
-        } else {
-            data.add_field(
-                "has_managed_identity".to_string(),
-                ResolvedValue::Boolean(false),
-            );
         }
+        data.add_field(
+            "has_managed_identity".to_string(),
+            ResolvedValue::Boolean(has_mi),
+        );
 
         // Security profile (may be absent)
         let security_profile = resp.get("securityProfile");

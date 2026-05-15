@@ -9,7 +9,7 @@
 //! STATE nat_in_public_subnet
 //!     found boolean = true
 //!     state string = `available`
-//!     subnet_id string = `subnet-0dddddddddddddddd`
+//!     subnet_id string = `subnet-0a25f664fac5d0e6a`
 //!     connectivity_type string = `public`
 //! STATE_END
 //! ```
@@ -44,7 +44,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             name: "nat_gateway_id".to_string(),
             data_type: DataType::String,
             description: "NAT Gateway ID for direct lookup".to_string(),
-            example_values: vec!["nat-0123456789abcdef0".to_string()],
+            example_values: vec!["nat-07495daebb4aa83f8".to_string()],
             validation_notes: Some("Takes precedence over filter-based lookup".to_string()),
         });
 
@@ -54,7 +54,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             name: "vpc_id".to_string(),
             data_type: DataType::String,
             description: "VPC ID to find NAT Gateways".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Filters by vpc-id".to_string()),
         });
 
@@ -64,7 +64,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             name: "tags".to_string(),
             data_type: DataType::String,
             description: "Tag filter in Key=Value format".to_string(),
-            example_values: vec!["Name=example-nat".to_string()],
+            example_values: vec!["Name=scanset-nat".to_string()],
             validation_notes: Some("Used for tag-based lookup".to_string()),
         });
 
@@ -104,7 +104,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "NAT Gateway ID".to_string(),
-            example_values: vec!["nat-0123456789abcdef0".to_string()],
+            example_values: vec!["nat-07495daebb4aa83f8".to_string()],
             validation_notes: Some("Validate the resolved NAT Gateway ID".to_string()),
         });
 
@@ -115,7 +115,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of the Name tag".to_string(),
-            example_values: vec!["example-nat".to_string()],
+            example_values: vec!["scanset-nat".to_string()],
             validation_notes: Some("Extracted from Tags array".to_string()),
         });
 
@@ -142,7 +142,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC the NAT Gateway belongs to".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Validate VPC association".to_string()),
         });
 
@@ -153,7 +153,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "Subnet the NAT Gateway is placed in".to_string(),
-            example_values: vec!["subnet-0dddddddddddddddd".to_string()],
+            example_values: vec!["subnet-0a25f664fac5d0e6a".to_string()],
             validation_notes: Some("Must be a public subnet for public NAT Gateway".to_string()),
         });
 
@@ -181,7 +181,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Public (Elastic) IP address from the primary address".to_string(),
-            example_values: vec!["203.0.113.42".to_string()],
+            example_values: vec!["18.235.52.68".to_string()],
             validation_notes: Some(
                 "PublicIp from NatGatewayAddresses[0]; only present for public NAT".to_string(),
             ),
@@ -198,7 +198,7 @@ pub fn create_aws_nat_gateway_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Private IP address from the primary address".to_string(),
-            example_values: vec!["10.0.0.100".to_string()],
+            example_values: vec!["10.0.0.198".to_string()],
             validation_notes: Some("PrivateIp from NatGatewayAddresses[0]".to_string()),
         });
 

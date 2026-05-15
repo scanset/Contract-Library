@@ -13,7 +13,7 @@ Validates AWS CloudWatch log group configuration via the AWS CLI. Makes a single
 
 | Field            | Type   | Required | Description                                      | Example                              |
 | ---------------- | ------ | -------- | ------------------------------------------------ | ------------------------------------ |
-| `log_group_name` | string | **Yes**  | Log group name (used as exact prefix for lookup) | `/example-org/security/findings` |
+| `log_group_name` | string | **Yes**  | Log group name (used as exact prefix for lookup) | `/prooflayer-demo/security/findings` |
 | `region`         | string | No       | AWS region override (passed as `--region`)       | `us-east-1`                          |
 
 - `log_group_name` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -31,7 +31,7 @@ Validates AWS CloudWatch log group configuration via the AWS CLI. Makes a single
 **Resulting command:**
 
 ```
-aws logs describe-log-groups --log-group-name-prefix /example-org/security/findings --output json
+aws logs describe-log-groups --log-group-name-prefix /prooflayer-demo/security/findings --output json
 ```
 
 **Sample response:**
@@ -40,14 +40,14 @@ aws logs describe-log-groups --log-group-name-prefix /example-org/security/findi
 {
   "logGroups": [
     {
-      "logGroupName": "/example-org/security/findings",
+      "logGroupName": "/prooflayer-demo/security/findings",
       "creationTime": 1774368167576,
       "retentionInDays": 365,
       "metricFilterCount": 0,
-      "arn": "arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings:*",
+      "arn": "arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings:*",
       "storedBytes": 304155,
       "logGroupClass": "STANDARD",
-      "logGroupArn": "arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings",
+      "logGroupArn": "arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings",
       "deletionProtectionEnabled": false
     }
   ]
@@ -108,8 +108,8 @@ The `resource` field contains the full log group object from the API response.
 
 | Path                        | Type    | Example Value                                                                        |
 | --------------------------- | ------- | ------------------------------------------------------------------------------------ |
-| `logGroupName`              | string  | `"/example-org/security/findings"`                                               |
-| `logGroupArn`               | string  | `"arn:aws:logs:us-east-1:123456789012:log-group:/example-org/security/findings"` |
+| `logGroupName`              | string  | `"/prooflayer-demo/security/findings"`                                               |
+| `logGroupArn`               | string  | `"arn:aws:logs:us-east-1:486027077516:log-group:/prooflayer-demo/security/findings"` |
 | `retentionInDays`           | integer | `365`                                                                                |
 | `logGroupClass`             | string  | `"STANDARD"`                                                                         |
 | `storedBytes`               | integer | `304155`                                                                             |
@@ -174,7 +174,7 @@ The `resource` field contains the full log group object from the API response.
 
 ```esp
 OBJECT security_log_group
-    log_group_name `/example-org/security/findings`
+    log_group_name `/prooflayer-demo/security/findings`
     region `us-east-1`
 OBJECT_END
 

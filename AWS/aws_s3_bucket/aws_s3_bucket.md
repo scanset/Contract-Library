@@ -13,7 +13,7 @@ Validates AWS S3 bucket configuration via the AWS CLI. Makes six sequential API 
 
 | Field         | Type   | Required | Description                                | Example                             |
 | ------------- | ------ | -------- | ------------------------------------------ | ----------------------------------- |
-| `bucket_name` | string | **Yes**  | S3 bucket name (exact match)               | `example-org-security-findings` |
+| `bucket_name` | string | **Yes**  | S3 bucket name (exact match)               | `prooflayer-demo-security-findings` |
 | `region`      | string | No       | AWS region override (passed as `--region`) | `us-east-1`                         |
 
 - `bucket_name` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -37,7 +37,7 @@ aws <service> <operation> [--region <region>] --output json [additional args...]
 **Resulting command:**
 
 ```
-aws s3api get-bucket-encryption --bucket example-org-security-findings --output json
+aws s3api get-bucket-encryption --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -49,7 +49,7 @@ aws s3api get-bucket-encryption --bucket example-org-security-findings --output 
       {
         "ApplyServerSideEncryptionByDefault": {
           "SSEAlgorithm": "aws:kms",
-          "KMSMasterKeyID": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+          "KMSMasterKeyID": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
         },
         "BucketKeyEnabled": true
       }
@@ -69,7 +69,7 @@ aws s3api get-bucket-encryption --bucket example-org-security-findings --output 
 **Resulting command:**
 
 ```
-aws s3api get-bucket-versioning --bucket example-org-security-findings --output json
+aws s3api get-bucket-versioning --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -91,7 +91,7 @@ aws s3api get-bucket-versioning --bucket example-org-security-findings --output 
 **Resulting command:**
 
 ```
-aws s3api get-public-access-block --bucket example-org-security-findings --output json
+aws s3api get-public-access-block --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -118,7 +118,7 @@ aws s3api get-public-access-block --bucket example-org-security-findings --outpu
 **Resulting command:**
 
 ```
-aws s3api get-bucket-lifecycle-configuration --bucket example-org-security-findings --output json
+aws s3api get-bucket-lifecycle-configuration --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -162,7 +162,7 @@ aws s3api get-bucket-lifecycle-configuration --bucket example-org-security-findi
 **Resulting command:**
 
 ```
-aws s3api get-bucket-policy --bucket example-org-security-findings --output json
+aws s3api get-bucket-policy --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -184,7 +184,7 @@ aws s3api get-bucket-policy --bucket example-org-security-findings --output json
 **Resulting command:**
 
 ```
-aws s3api get-bucket-location --bucket example-org-security-findings --output json
+aws s3api get-bucket-location --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -206,7 +206,7 @@ aws s3api get-bucket-location --bucket example-org-security-findings --output js
 **Resulting command:**
 
 ```
-aws s3api get-bucket-tagging --bucket example-org-security-findings --output json
+aws s3api get-bucket-tagging --bucket prooflayer-demo-security-findings --output json
 ```
 
 **Sample response:**
@@ -214,10 +214,10 @@ aws s3api get-bucket-tagging --bucket example-org-security-findings --output jso
 ```json
 {
   "TagSet": [
-    { "Key": "Name", "Value": "example-org-security-findings" },
+    { "Key": "Name", "Value": "prooflayer-demo-security-findings" },
     { "Key": "Environment", "Value": "demo" },
     { "Key": "ManagedBy", "Value": "terraform" },
-    { "Key": "Owner", "Value": "admin" }
+    { "Key": "Owner", "Value": "cslone" }
   ]
 }
 ```
@@ -303,7 +303,7 @@ let record_data = RecordData::from_json_value(merged);
 | Path                                                                                                     | Type    | Example Value                                  |
 | -------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------- |
 | `Encryption.ServerSideEncryptionConfiguration.Rules.0.ApplyServerSideEncryptionByDefault.SSEAlgorithm`   | string  | `"aws:kms"`                                    |
-| `Encryption.ServerSideEncryptionConfiguration.Rules.0.ApplyServerSideEncryptionByDefault.KMSMasterKeyID` | string  | `"arn:aws:kms:us-east-1:123456789012:key/..."` |
+| `Encryption.ServerSideEncryptionConfiguration.Rules.0.ApplyServerSideEncryptionByDefault.KMSMasterKeyID` | string  | `"arn:aws:kms:us-east-1:486027077516:key/..."` |
 | `Encryption.ServerSideEncryptionConfiguration.Rules.0.BucketKeyEnabled`                                  | boolean | `true`                                         |
 | `Versioning.Status`                                                                                      | string  | `"Enabled"`                                    |
 | `PublicAccessBlock.PublicAccessBlockConfiguration.BlockPublicAcls`                                       | boolean | `true`                                         |
@@ -327,7 +327,7 @@ let record_data = RecordData::from_json_value(merged);
 | Path                  | Type   | Example Value                         |
 | --------------------- | ------ | ------------------------------------- |
 | `Tags.TagSet.0.Key`   | string | `"Name"`                              |
-| `Tags.TagSet.0.Value` | string | `"example-org-security-findings"` |
+| `Tags.TagSet.0.Value` | string | `"prooflayer-demo-security-findings"` |
 | `Tags.TagSet.1.Key`   | string | `"Environment"`                       |
 | `Tags.TagSet.1.Value` | string | `"demo"`                              |
 
@@ -365,7 +365,7 @@ let record_data = RecordData::from_json_value(merged);
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     behavior include_tagging
 OBJECT_END
 ```
@@ -439,7 +439,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 META
-    esp_id `example-org-security-bucket-hardened`
+    esp_id `prooflayer-security-bucket-hardened`
     version `1.0.0`
     dsl_schema_version `1.0.0`
     platform `aws`
@@ -450,7 +450,7 @@ META_END
 
 DEF
     OBJECT security_bucket
-        bucket_name `example-org-security-findings`
+        bucket_name `prooflayer-demo-security-findings`
         region `us-east-1`
     OBJECT_END
 
@@ -480,7 +480,7 @@ DEF_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     region `us-east-1`
 OBJECT_END
 
@@ -508,14 +508,14 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     region `us-east-1`
 OBJECT_END
 
 STATE correct_kms_key
     found boolean = true
     sse_algorithm string = `aws:kms`
-    kms_master_key_id string starts `arn:aws:kms:us-east-1:123456789012:`
+    kms_master_key_id string starts `arn:aws:kms:us-east-1:486027077516:`
 STATE_END
 
 CTN aws_s3_bucket
@@ -529,7 +529,7 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
 OBJECT_END
 
 STATE no_public_access
@@ -551,7 +551,7 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     region `us-east-1`
 OBJECT_END
 
@@ -579,7 +579,7 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     region `us-east-1`
     behavior include_tagging
 OBJECT_END
@@ -602,7 +602,7 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
     region `us-east-1`
     behavior include_tagging
 OBJECT_END
@@ -623,7 +623,7 @@ CTN_END
 
 ```esp
 OBJECT security_bucket
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
 OBJECT_END
 
 STATE retention_compliant

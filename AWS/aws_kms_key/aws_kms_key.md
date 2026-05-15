@@ -15,7 +15,7 @@ Validates AWS KMS key configuration via the AWS CLI. Makes three sequential API 
 
 | Field    | Type   | Required | Description                                | Example                                |
 | -------- | ------ | -------- | ------------------------------------------ | -------------------------------------- |
-| `key_id` | string | **Yes**  | KMS key ID (UUID) or ARN — NOT an alias    | `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee` |
+| `key_id` | string | **Yes**  | KMS key ID (UUID) or ARN — NOT an alias    | `3c418345-78b1-4687-ac90-399246730cae` |
 | `region` | string | No       | AWS region override (passed as `--region`) | `us-east-1`                            |
 
 ---
@@ -27,7 +27,7 @@ Validates AWS KMS key configuration via the AWS CLI. Makes three sequential API 
 **Resulting command:**
 
 ```
-aws kms describe-key --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --output json
+aws kms describe-key --key-id 3c418345-78b1-4687-ac90-399246730cae --output json
 ```
 
 **Sample response (abbreviated):**
@@ -35,10 +35,10 @@ aws kms describe-key --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --output json
 ```json
 {
   "KeyMetadata": {
-    "KeyId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    "Arn": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "KeyId": "3c418345-78b1-4687-ac90-399246730cae",
+    "Arn": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae",
     "Enabled": true,
-    "Description": "ExampleOrg secrets encryption key",
+    "Description": "ProofLayer secrets encryption key",
     "KeyUsage": "ENCRYPT_DECRYPT",
     "KeyState": "Enabled",
     "Origin": "AWS_KMS",
@@ -56,7 +56,7 @@ aws kms describe-key --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --output json
 **Resulting command:**
 
 ```
-aws kms get-key-rotation-status --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --output json
+aws kms get-key-rotation-status --key-id 3c418345-78b1-4687-ac90-399246730cae --output json
 ```
 
 **Sample response:**
@@ -64,7 +64,7 @@ aws kms get-key-rotation-status --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --
 ```json
 {
   "KeyRotationEnabled": true,
-  "KeyId": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "KeyId": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae",
   "RotationPeriodInDays": 90,
   "NextRotationDate": "2026-06-21T22:08:43.336000+00:00"
 }
@@ -77,7 +77,7 @@ aws kms get-key-rotation-status --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --
 **Resulting command:**
 
 ```
-aws kms get-key-policy --key-id aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --policy-name default --output json
+aws kms get-key-policy --key-id 3c418345-78b1-4687-ac90-399246730cae --policy-name default --output json
 ```
 
 **Sample response (abbreviated):**
@@ -124,7 +124,7 @@ The `Policy` field is a JSON-encoded string. The collector parses it and stores 
 ## RecordData Structure
 
 ```
-KeyMetadata.KeyId                         → "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+KeyMetadata.KeyId                         → "3c418345-78b1-4687-ac90-399246730cae"
 KeyMetadata.Enabled                       → true
 KeyMetadata.KeyState                      → "Enabled"
 KeyMetadata.KeyUsage                      → "ENCRYPT_DECRYPT"
@@ -137,11 +137,11 @@ RotationStatus.RotationPeriodInDays       → 90
 KeyPolicy.Version                         → "2012-10-17"
 KeyPolicy.Statement.0.Sid                 → "RootAccountFullAccess"
 KeyPolicy.Statement.0.Effect              → "Allow"
-KeyPolicy.Statement.0.Principal.AWS       → "arn:aws:iam::123456789012:root"
+KeyPolicy.Statement.0.Principal.AWS       → "arn:aws:iam::486027077516:root"
 KeyPolicy.Statement.1.Sid                 → "SecretsManagerAccess"
 KeyPolicy.Statement.1.Principal.Service   → "secretsmanager.amazonaws.com"
 KeyPolicy.Statement.2.Sid                 → "EC2RoleAccess"
-KeyPolicy.Statement.2.Principal.AWS       → "arn:aws:iam::123456789012:role/example-org-ec2-role"
+KeyPolicy.Statement.2.Principal.AWS       → "arn:aws:iam::486027077516:role/prooflayer-demo-ec2-role"
 KeyPolicy.Statement.3.Sid                 → "CloudWatchLogsKMS"
 KeyPolicy.Statement.4.Sid                 → "CloudTrailKMS"
 KeyPolicy.Statement.5.Sid                 → "GuardDutyKMS"
@@ -203,7 +203,7 @@ KeyPolicy.Statement.5.Sid                 → "GuardDutyKMS"
 
 ```esp
 OBJECT secrets_kms_key
-    key_id `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee`
+    key_id `3c418345-78b1-4687-ac90-399246730cae`
     region `us-east-1`
 OBJECT_END
 

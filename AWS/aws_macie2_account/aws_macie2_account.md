@@ -20,7 +20,7 @@ Validates AWS Macie2 account configuration and classification job status via the
 | Field         | Type   | Required | Description                                          | Example                             |
 | ------------- | ------ | -------- | ---------------------------------------------------- | ----------------------------------- |
 | `region`      | string | No       | AWS region override (passed as `--region`)           | `us-east-1`                         |
-| `bucket_name` | string | No       | S3 bucket name to find associated classification job | `example-org-security-findings` |
+| `bucket_name` | string | No       | S3 bucket name to find associated classification job | `prooflayer-demo-security-findings` |
 
 - If `bucket_name` is provided, the collector finds the first job whose `s3JobDefinition.bucketDefinitions[*].buckets` contains the specified bucket name.
 - If `bucket_name` is omitted, the collector uses the first job returned by `list-classification-jobs`.
@@ -49,7 +49,7 @@ aws macie2 get-macie-session --region us-east-1 --output json    # with region
 {
   "createdAt": "2026-03-24T16:02:47.733000+00:00",
   "findingPublishingFrequency": "FIFTEEN_MINUTES",
-  "serviceRole": "arn:aws:iam::123456789012:role/aws-service-role/macie.amazonaws.com/AWSServiceRoleForAmazonMacie",
+  "serviceRole": "arn:aws:iam::486027077516:role/aws-service-role/macie.amazonaws.com/AWSServiceRoleForAmazonMacie",
   "status": "ENABLED",
   "updatedAt": "2026-03-24T16:02:47.733000+00:00"
 }
@@ -85,15 +85,15 @@ aws macie2 list-classification-jobs --output json
     {
       "bucketDefinitions": [
         {
-          "accountId": "123456789012",
-          "buckets": ["example-org-security-findings"]
+          "accountId": "486027077516",
+          "buckets": ["prooflayer-demo-security-findings"]
         }
       ],
       "createdAt": "2026-03-24T16:09:21.272070+00:00",
-      "jobId": "b2c3d4e5f6789012abcdef3456789012",
+      "jobId": "3e3e26a2c009668f56835f4b9593d989",
       "jobStatus": "IDLE",
       "jobType": "SCHEDULED",
-      "name": "example-org-security-bucket-scan"
+      "name": "prooflayer-demo-security-bucket-scan"
     }
   ]
 }
@@ -117,17 +117,17 @@ Retrieves full classification job configuration.
 **Resulting command:**
 
 ```
-aws macie2 describe-classification-job --job-id b2c3d4e5f6789012abcdef3456789012 --output json
+aws macie2 describe-classification-job --job-id 3e3e26a2c009668f56835f4b9593d989 --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "jobId": "b2c3d4e5f6789012abcdef3456789012",
+  "jobId": "3e3e26a2c009668f56835f4b9593d989",
   "jobStatus": "IDLE",
   "jobType": "SCHEDULED",
-  "name": "example-org-security-bucket-scan",
+  "name": "prooflayer-demo-security-bucket-scan",
   "managedDataIdentifierSelector": "RECOMMENDED",
   "samplingPercentage": 100,
   "scheduleFrequency": {
@@ -137,8 +137,8 @@ aws macie2 describe-classification-job --job-id b2c3d4e5f6789012abcdef3456789012
   "s3JobDefinition": {
     "bucketDefinitions": [
       {
-        "accountId": "123456789012",
-        "buckets": ["example-org-security-findings"]
+        "accountId": "486027077516",
+        "buckets": ["prooflayer-demo-security-findings"]
       }
     ]
   },
@@ -226,12 +226,12 @@ let merged = serde_json::json!({
 | ----------------------------------------------------------------- | ------- | ---------------------------------------- |
 | `ClassificationJob.jobStatus`                                     | string  | `"IDLE"`                                 |
 | `ClassificationJob.jobType`                                       | string  | `"SCHEDULED"`                            |
-| `ClassificationJob.name`                                          | string  | `"example-org-security-bucket-scan"` |
+| `ClassificationJob.name`                                          | string  | `"prooflayer-demo-security-bucket-scan"` |
 | `ClassificationJob.managedDataIdentifierSelector`                 | string  | `"RECOMMENDED"`                          |
 | `ClassificationJob.samplingPercentage`                            | integer | `100`                                    |
 | `ClassificationJob.lastRunErrorStatus.code`                       | string  | `"NONE"`                                 |
 | `ClassificationJob.scheduleFrequency.weeklySchedule.dayOfWeek`    | string  | `"MONDAY"`                               |
-| `ClassificationJob.s3JobDefinition.bucketDefinitions.0.buckets.0` | string  | `"example-org-security-findings"`    |
+| `ClassificationJob.s3JobDefinition.bucketDefinitions.0.buckets.0` | string  | `"prooflayer-demo-security-findings"`    |
 
 ---
 
@@ -310,7 +310,7 @@ let merged = serde_json::json!({
 ```esp
 OBJECT macie_account
     region `us-east-1`
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
 OBJECT_END
 
 STATE macie_compliant
@@ -336,7 +336,7 @@ CTN_END
 ```esp
 OBJECT macie_account
     region `us-east-1`
-    bucket_name `example-org-security-findings`
+    bucket_name `prooflayer-demo-security-findings`
 OBJECT_END
 
 STATE macie_details

@@ -11,8 +11,8 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! RoleName                                                    → "example-node-role"
-//! Arn                                                         → "arn:aws:iam::123456789012:role/example-node-role"
+//! RoleName                                                    → "scanset-node-role"
+//! Arn                                                         → "arn:aws:iam::486027077516:role/scanset-node-role"
 //! AssumeRolePolicyDocument.Statement.0.Principal.Service      → "ec2.amazonaws.com"
 //! AssumeRolePolicyDocument.Statement.0.Action                 → "sts:AssumeRole"
 //! AttachedPolicies.0.PolicyName                               → "AmazonEKS_CNI_Policy"

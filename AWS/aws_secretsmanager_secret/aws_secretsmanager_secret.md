@@ -17,7 +17,7 @@ Validates AWS Secrets Manager secret configuration via the AWS CLI. Makes a sing
 
 | Field       | Type   | Required | Description                                | Example                          |
 | ----------- | ------ | -------- | ------------------------------------------ | -------------------------------- |
-| `secret_id` | string | **Yes**  | Secret name or ARN                         | `example-org/db/credentials` |
+| `secret_id` | string | **Yes**  | Secret name or ARN                         | `prooflayer-demo/db/credentials` |
 | `region`    | string | No       | AWS region override (passed as `--region`) | `us-east-1`                      |
 
 ---
@@ -31,17 +31,17 @@ Validates AWS Secrets Manager secret configuration via the AWS CLI. Makes a sing
 **Resulting command:**
 
 ```
-aws secretsmanager describe-secret --secret-id example-org/db/credentials --output json
+aws secretsmanager describe-secret --secret-id prooflayer-demo/db/credentials --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:123456789012:secret:example-org/db/credentials-Sp6FkL",
-  "Name": "example-org/db/credentials",
-  "Description": "ExampleOrg PostgreSQL credentials",
-  "KmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "ARN": "arn:aws:secretsmanager:us-east-1:486027077516:secret:prooflayer-demo/db/credentials-Sp6FkL",
+  "Name": "prooflayer-demo/db/credentials",
+  "Description": "ProofLayer PostgreSQL credentials",
+  "KmsKeyId": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae",
   "LastChangedDate": "2026-03-23T22:16:21.656000+00:00",
   "LastAccessedDate": "2026-03-25T00:00:00+00:00",
   "Tags": [
@@ -107,10 +107,10 @@ aws secretsmanager describe-secret --secret-id example-org/db/credentials --outp
 
 | Path                                | Type   | Example Value                                                                                  |
 | ----------------------------------- | ------ | ---------------------------------------------------------------------------------------------- |
-| `Name`                              | string | `"example-org/db/credentials"`                                                             |
-| `ARN`                               | string | `"arn:aws:secretsmanager:us-east-1:123456789012:secret:example-org/db/credentials-Sp6FkL"` |
-| `KmsKeyId`                          | string | `"arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-..."`                                        |
-| `Description`                       | string | `"ExampleOrg PostgreSQL credentials"`                                                          |
+| `Name`                              | string | `"prooflayer-demo/db/credentials"`                                                             |
+| `ARN`                               | string | `"arn:aws:secretsmanager:us-east-1:486027077516:secret:prooflayer-demo/db/credentials-Sp6FkL"` |
+| `KmsKeyId`                          | string | `"arn:aws:kms:us-east-1:486027077516:key/3c418345-..."`                                        |
+| `Description`                       | string | `"ProofLayer PostgreSQL credentials"`                                                          |
 | `VersionIdsToStages.<version-id>.0` | string | `"AWSCURRENT"`                                                                                 |
 | `Tags.0.Key`                        | string | `"SecretType"`                                                                                 |
 | `Tags.0.Value`                      | string | `"database"`                                                                                   |
@@ -166,7 +166,7 @@ aws secretsmanager describe-secret --secret-id example-org/db/credentials --outp
 
 ```esp
 OBJECT db_secret
-    secret_id `example-org/db/credentials`
+    secret_id `prooflayer-demo/db/credentials`
     region `us-east-1`
 OBJECT_END
 

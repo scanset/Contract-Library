@@ -13,7 +13,7 @@ Validates AWS Backup vault configuration via the AWS CLI. Makes a single API cal
 
 | Field        | Type   | Required | Description                                | Example                        |
 | ------------ | ------ | -------- | ------------------------------------------ | ------------------------------ |
-| `vault_name` | string | **Yes**  | Backup vault name (exact match)            | `example-org-backup-vault` |
+| `vault_name` | string | **Yes**  | Backup vault name (exact match)            | `prooflayer-demo-backup-vault` |
 | `region`     | string | No       | AWS region override (passed as `--region`) | `us-east-1`                    |
 
 - `vault_name` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -29,17 +29,17 @@ Validates AWS Backup vault configuration via the AWS CLI. Makes a single API cal
 **Resulting command:**
 
 ```
-aws backup describe-backup-vault --backup-vault-name example-org-backup-vault --output json
+aws backup describe-backup-vault --backup-vault-name prooflayer-demo-backup-vault --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "BackupVaultName": "example-org-backup-vault",
-  "BackupVaultArn": "arn:aws:backup:us-east-1:123456789012:backup-vault:example-org-backup-vault",
+  "BackupVaultName": "prooflayer-demo-backup-vault",
+  "BackupVaultArn": "arn:aws:backup:us-east-1:486027077516:backup-vault:prooflayer-demo-backup-vault",
   "VaultType": "BACKUP_VAULT",
-  "EncryptionKeyArn": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "EncryptionKeyArn": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae",
   "CreationDate": "2026-03-24T17:11:14.822000+00:00",
   "NumberOfRecoveryPoints": 4,
   "Locked": true,
@@ -151,7 +151,7 @@ aws backup describe-backup-vault --backup-vault-name example-org-backup-vault --
 
 ```esp
 OBJECT primary_vault
-    vault_name `example-org-backup-vault`
+    vault_name `prooflayer-demo-backup-vault`
     region `us-east-1`
 OBJECT_END
 

@@ -11,9 +11,9 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! Name                              → "example-trail"
+//! Name                              → "scanset-trail"
 //! TrailARN                          → "arn:aws:cloudtrail:..."
-//! S3BucketName                      → "example-org-cloudtrail-123456789012"
+//! S3BucketName                      → "scanset-cloudtrail-486027077516"
 //! IsMultiRegionTrail                → true
 //! LogFileValidationEnabled          → true
 //! IncludeGlobalServiceEvents        → true

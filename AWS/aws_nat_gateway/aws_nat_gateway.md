@@ -15,9 +15,9 @@ Validates AWS EC2 NAT Gateway configurations via the AWS CLI. Returns scalar sum
 
 | Field            | Type   | Required | Description                                | Example                 |
 | ---------------- | ------ | -------- | ------------------------------------------ | ----------------------- |
-| `nat_gateway_id` | string | No\*     | NAT Gateway ID for direct lookup           | `nat-0123456789abcdef0` |
-| `vpc_id`         | string | No\*     | VPC ID to find NAT Gateways                | `vpc-0fedcba9876543210` |
-| `tags`           | string | No\*     | Tag filter in `Key=Value` format           | `Name=example-nat`      |
+| `nat_gateway_id` | string | No\*     | NAT Gateway ID for direct lookup           | `nat-07495daebb4aa83f8` |
+| `vpc_id`         | string | No\*     | VPC ID to find NAT Gateways                | `vpc-051afae9e049b137a` |
+| `tags`           | string | No\*     | Tag filter in `Key=Value` format           | `Name=scanset-nat`      |
 | `region`         | string | No       | AWS region override (passed as `--region`) | `us-east-1`             |
 
 \* At least one of `nat_gateway_id`, `vpc_id`, or `tags` must be specified. If none are provided, the collector returns `InvalidObjectConfiguration`.
@@ -62,16 +62,16 @@ Note: This collector uses `--filter` (singular) for filter arguments, matching t
 
 ```
 # By NAT gateway ID (still includes state filter)
-aws ec2 describe-nat-gateways --nat-gateway-ids nat-0123456789abcdef0 --filter Name=state,Values=available,pending --output json
+aws ec2 describe-nat-gateways --nat-gateway-ids nat-07495daebb4aa83f8 --filter Name=state,Values=available,pending --output json
 
 # By VPC ID
-aws ec2 describe-nat-gateways --filter Name=vpc-id,Values=vpc-0fedcba9876543210 --filter Name=state,Values=available,pending --output json
+aws ec2 describe-nat-gateways --filter Name=vpc-id,Values=vpc-051afae9e049b137a --filter Name=state,Values=available,pending --output json
 
 # By tag
-aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=example-nat --filter Name=state,Values=available,pending --output json
+aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=scanset-nat --filter Name=state,Values=available,pending --output json
 
 # Combined: tag + VPC + region
-aws ec2 describe-nat-gateways --region us-east-1 --output json --filter Name=vpc-id,Values=vpc-0fedcba9876543210 --filter Name=tag:Name,Values=example-nat --filter Name=state,Values=available,pending
+aws ec2 describe-nat-gateways --region us-east-1 --output json --filter Name=vpc-id,Values=vpc-051afae9e049b137a --filter Name=tag:Name,Values=scanset-nat --filter Name=state,Values=available,pending
 ```
 
 **Response parsing:**
@@ -100,24 +100,24 @@ aws ec2 describe-nat-gateways --region us-east-1 --output json --filter Name=vpc
 {
   "NatGateways": [
     {
-      "NatGatewayId": "nat-0123456789abcdef0",
+      "NatGatewayId": "nat-07495daebb4aa83f8",
       "State": "available",
-      "VpcId": "vpc-0fedcba9876543210",
-      "SubnetId": "subnet-0dddddddddddddddd",
+      "VpcId": "vpc-051afae9e049b137a",
+      "SubnetId": "subnet-0a25f664fac5d0e6a",
       "ConnectivityType": "public",
-      "OwnerId": "123456789012",
+      "OwnerId": "486027077516",
       "CreateTime": "2026-02-21T06:23:38+00:00",
       "NatGatewayAddresses": [
         {
-          "PublicIp": "203.0.113.42",
-          "PrivateIp": "10.0.0.100",
+          "PublicIp": "18.235.52.68",
+          "PrivateIp": "10.0.0.198",
           "AllocationId": "eipalloc-00ce2060da88c68b2",
-          "NetworkInterfaceId": "eni-0aaaaaaaaaaaaaaa0",
+          "NetworkInterfaceId": "eni-0703600c92a525384",
           "IsPrimary": true,
           "Status": "succeeded"
         }
       ],
-      "Tags": [{ "Key": "Name", "Value": "example-nat" }]
+      "Tags": [{ "Key": "Name", "Value": "scanset-nat" }]
     }
   ]
 }
@@ -176,22 +176,22 @@ let record_data = RecordData::from_json_value(nat.clone());
 
 | Path               | Type   | Example Value                 |
 | ------------------ | ------ | ----------------------------- |
-| `NatGatewayId`     | string | `"nat-0123456789abcdef0"`     |
+| `NatGatewayId`     | string | `"nat-07495daebb4aa83f8"`     |
 | `State`            | string | `"available"`                 |
-| `VpcId`            | string | `"vpc-0fedcba9876543210"`     |
-| `SubnetId`         | string | `"subnet-0dddddddddddddddd"`  |
+| `VpcId`            | string | `"vpc-051afae9e049b137a"`     |
+| `SubnetId`         | string | `"subnet-0a25f664fac5d0e6a"`  |
 | `ConnectivityType` | string | `"public"`                    |
-| `OwnerId`          | string | `"123456789012"`              |
+| `OwnerId`          | string | `"486027077516"`              |
 | `CreateTime`       | string | `"2026-02-21T06:23:38+00:00"` |
 
 ### Address paths (`NatGatewayAddresses.*`)
 
 | Path                                       | Type    | Example Value                  |
 | ------------------------------------------ | ------- | ------------------------------ |
-| `NatGatewayAddresses.0.PublicIp`           | string  | `"203.0.113.42"`               |
-| `NatGatewayAddresses.0.PrivateIp`          | string  | `"10.0.0.100"`                 |
+| `NatGatewayAddresses.0.PublicIp`           | string  | `"18.235.52.68"`               |
+| `NatGatewayAddresses.0.PrivateIp`          | string  | `"10.0.0.198"`                 |
 | `NatGatewayAddresses.0.AllocationId`       | string  | `"eipalloc-00ce2060da88c68b2"` |
-| `NatGatewayAddresses.0.NetworkInterfaceId` | string  | `"eni-0aaaaaaaaaaaaaaa0"`      |
+| `NatGatewayAddresses.0.NetworkInterfaceId` | string  | `"eni-0703600c92a525384"`      |
 | `NatGatewayAddresses.0.IsPrimary`          | boolean | `true`                         |
 | `NatGatewayAddresses.0.Status`             | string  | `"succeeded"`                  |
 | `NatGatewayAddresses.*.PublicIp`           | string  | (all public IPs via wildcard)  |
@@ -203,7 +203,7 @@ let record_data = RecordData::from_json_value(nat.clone());
 | Path           | Type   | Example Value                 |
 | -------------- | ------ | ----------------------------- |
 | `Tags.0.Key`   | string | `"Name"`                      |
-| `Tags.0.Value` | string | `"example-nat"`               |
+| `Tags.0.Value` | string | `"scanset-nat"`               |
 | `Tags.*.Key`   | string | (all tag keys via wildcard)   |
 | `Tags.*.Value` | string | (all tag values via wildcard) |
 
@@ -289,17 +289,17 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT boundary_nat
-    tags `Name=example-nat`
-    vpc_id `vpc-0fedcba9876543210`
+    tags `Name=scanset-nat`
+    vpc_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 
 STATE nat_valid
     found boolean = true
     state string = `available`
-    subnet_id string = `subnet-0dddddddddddddddd`
+    subnet_id string = `subnet-0a25f664fac5d0e6a`
     connectivity_type string = `public`
-    vpc_id string = `vpc-0fedcba9876543210`
+    vpc_id string = `vpc-051afae9e049b137a`
 STATE_END
 
 CTN aws_nat_gateway
@@ -313,7 +313,7 @@ CTN_END
 
 ```esp
 OBJECT boundary_nat
-    tags `Name=example-nat`
+    tags `Name=scanset-nat`
     region `us-east-1`
 OBJECT_END
 
@@ -338,13 +338,13 @@ CTN_END
 
 ```esp
 OBJECT private_nat
-    nat_gateway_id `nat-0123456789abcdef0`
+    nat_gateway_id `nat-07495daebb4aa83f8`
     region `us-east-1`
 OBJECT_END
 
 STATE nat_is_route_target
     found boolean = true
-    nat_gateway_id string = `nat-0123456789abcdef0`
+    nat_gateway_id string = `nat-07495daebb4aa83f8`
     state string = `available`
 STATE_END
 

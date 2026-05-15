@@ -16,7 +16,7 @@
 //! ## Lookup Modes
 //!
 //! - By `route_table_id`: Direct lookup of a specific route table
-//! - By `tags` + `vpc_id`: Filter-based lookup (e.g., Name=example-private-rt)
+//! - By `tags` + `vpc_id`: Filter-based lookup (e.g., Name=scanset-private-rt)
 //! - By `vpc_id` alone: Returns first matching RT (use with caution)
 //!
 //! ## Example ESP Policy
@@ -63,7 +63,7 @@ pub fn create_aws_route_table_contract() -> CtnContract {
             name: "route_table_id".to_string(),
             data_type: DataType::String,
             description: "Route table ID for direct lookup".to_string(),
-            example_values: vec!["rtb-0fedcba9876543210".to_string()],
+            example_values: vec!["rtb-0c1276714de9027b0".to_string()],
             validation_notes: Some(
                 "Takes precedence over tag-based lookup if specified".to_string(),
             ),
@@ -75,7 +75,7 @@ pub fn create_aws_route_table_contract() -> CtnContract {
             name: "vpc_id".to_string(),
             data_type: DataType::String,
             description: "VPC ID to scope the route table lookup".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Used as filter; recommended with tags".to_string()),
         });
 
@@ -86,8 +86,8 @@ pub fn create_aws_route_table_contract() -> CtnContract {
             data_type: DataType::String,
             description: "Tag filter in Key=Value format".to_string(),
             example_values: vec![
-                "Name=example-private-rt".to_string(),
-                "Name=example-public-rt".to_string(),
+                "Name=scanset-private-rt".to_string(),
+                "Name=scanset-public-rt".to_string(),
             ],
             validation_notes: Some("Used with vpc_id for precise lookup".to_string()),
         });
@@ -129,7 +129,7 @@ pub fn create_aws_route_table_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Route table ID".to_string(),
-            example_values: vec!["rtb-0fedcba9876543210".to_string()],
+            example_values: vec!["rtb-0c1276714de9027b0".to_string()],
             validation_notes: Some("Validate the resolved route table ID".to_string()),
         });
 
@@ -140,7 +140,7 @@ pub fn create_aws_route_table_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "VPC the route table belongs to".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Validate VPC association".to_string()),
         });
 
@@ -152,8 +152,8 @@ pub fn create_aws_route_table_contract() -> CtnContract {
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of the Name tag".to_string(),
             example_values: vec![
-                "example-private-rt".to_string(),
-                "example-public-rt".to_string(),
+                "scanset-private-rt".to_string(),
+                "scanset-public-rt".to_string(),
             ],
             validation_notes: Some("Extracted from Tags array".to_string()),
         });

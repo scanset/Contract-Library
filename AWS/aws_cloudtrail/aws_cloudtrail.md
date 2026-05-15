@@ -13,7 +13,7 @@ Validates AWS CloudTrail trail configurations via the AWS CLI. Collects from bot
 
 | Field        | Type   | Required | Description                                | Example         |
 | ------------ | ------ | -------- | ------------------------------------------ | --------------- |
-| `trail_name` | string | No       | Trail name or full ARN for direct lookup   | `example-trail` |
+| `trail_name` | string | No       | Trail name or full ARN for direct lookup   | `scanset-trail` |
 | `region`     | string | No       | AWS region override (passed as `--region`) | `us-east-1`     |
 
 - If `trail_name` is omitted, the collector uses the **first trail** returned by `describe-trails`.
@@ -61,9 +61,9 @@ aws cloudtrail describe-trails --region us-east-1 --output json    # with region
 {
   "trailList": [
     {
-      "Name": "example-trail",
-      "TrailARN": "arn:aws:cloudtrail:us-east-1:123456789012:trail/example-trail",
-      "S3BucketName": "example-org-cloudtrail-123456789012",
+      "Name": "scanset-trail",
+      "TrailARN": "arn:aws:cloudtrail:us-east-1:486027077516:trail/scanset-trail",
+      "S3BucketName": "scanset-cloudtrail-486027077516",
       "IsMultiRegionTrail": true,
       "IncludeGlobalServiceEvents": true,
       "LogFileValidationEnabled": true,
@@ -87,8 +87,8 @@ Where `status_name` is the `Name` field extracted from the matched trail in the 
 **Resulting command:**
 
 ```
-aws cloudtrail get-trail-status --name example-trail --output json
-aws cloudtrail get-trail-status --name example-trail --region us-east-1 --output json    # with region
+aws cloudtrail get-trail-status --name scanset-trail --output json
+aws cloudtrail get-trail-status --name scanset-trail --region us-east-1 --output json    # with region
 ```
 
 **Sample response:**
@@ -164,9 +164,9 @@ let record_data = RecordData::from_json_value(merged);
 
 | Path                         | Type    | Example Value                                                     |
 | ---------------------------- | ------- | ----------------------------------------------------------------- |
-| `Name`                       | string  | `"example-trail"`                                                 |
-| `TrailARN`                   | string  | `"arn:aws:cloudtrail:us-east-1:123456789012:trail/example-trail"` |
-| `S3BucketName`               | string  | `"example-org-cloudtrail-123456789012"`                               |
+| `Name`                       | string  | `"scanset-trail"`                                                 |
+| `TrailARN`                   | string  | `"arn:aws:cloudtrail:us-east-1:486027077516:trail/scanset-trail"` |
+| `S3BucketName`               | string  | `"scanset-cloudtrail-486027077516"`                               |
 | `IsMultiRegionTrail`         | boolean | `true`                                                            |
 | `IncludeGlobalServiceEvents` | boolean | `true`                                                            |
 | `LogFileValidationEnabled`   | boolean | `true`                                                            |
@@ -270,7 +270,7 @@ The client does not pass credentials explicitly — it relies on whatever the `a
 
 ```esp
 OBJECT audit_trail
-    trail_name `example-trail`
+    trail_name `scanset-trail`
     region `us-east-1`
 OBJECT_END
 
@@ -293,13 +293,13 @@ CTN_END
 
 ```esp
 OBJECT audit_trail
-    trail_name `example-trail`
+    trail_name `scanset-trail`
     region `us-east-1`
 OBJECT_END
 
 STATE correct_destination
     found boolean = true
-    s3_bucket_name string starts `example-cloudtrail-`
+    s3_bucket_name string starts `scanset-cloudtrail-`
     is_logging boolean = true
 STATE_END
 
@@ -314,7 +314,7 @@ CTN_END
 
 ```esp
 OBJECT audit_trail
-    trail_name `example-trail`
+    trail_name `scanset-trail`
     region `us-east-1`
 OBJECT_END
 

@@ -13,7 +13,7 @@
 //! ```esp
 //! STATE node_role_valid
 //!     found boolean = true
-//!     role_name string = `example-node-role`
+//!     role_name string = `scanset-node-role`
 //!     attached_policy_count int = 3
 //!     inline_policy_count int = 0
 //!     record
@@ -54,8 +54,8 @@ pub fn create_aws_iam_role_contract() -> CtnContract {
             data_type: DataType::String,
             description: "IAM role name (required)".to_string(),
             example_values: vec![
-                "example-node-role".to_string(),
-                "example-flow-logs-role".to_string(),
+                "scanset-node-role".to_string(),
+                "scanset-flow-logs-role".to_string(),
             ],
             validation_notes: Some("Role name, not ARN".to_string()),
         });
@@ -99,7 +99,7 @@ pub fn create_aws_iam_role_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Role name".to_string(),
-            example_values: vec!["example-node-role".to_string()],
+            example_values: vec!["scanset-node-role".to_string()],
             validation_notes: Some("RoleName from get-role".to_string()),
         });
 
@@ -115,7 +115,7 @@ pub fn create_aws_iam_role_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Role ARN".to_string(),
-            example_values: vec!["arn:aws:iam::123456789012:role/example-node-role".to_string()],
+            example_values: vec!["arn:aws:iam::486027077516:role/scanset-node-role".to_string()],
             validation_notes: Some("Arn from get-role".to_string()),
         });
 

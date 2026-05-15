@@ -40,7 +40,7 @@ pub fn create_aws_backup_vault_contract() -> CtnContract {
             name: "vault_name".to_string(),
             data_type: DataType::String,
             description: "Backup vault name (exact match)".to_string(),
-            example_values: vec!["example-org-backup-vault".to_string()],
+            example_values: vec!["prooflayer-demo-backup-vault".to_string()],
             validation_notes: Some("Required; exact vault name".to_string()),
         });
 
@@ -78,7 +78,7 @@ pub fn create_aws_backup_vault_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Vault name".to_string(),
-            example_values: vec!["example-org-backup-vault".to_string()],
+            example_values: vec!["prooflayer-demo-backup-vault".to_string()],
             validation_notes: None,
         });
 
@@ -95,7 +95,7 @@ pub fn create_aws_backup_vault_contract() -> CtnContract {
             ],
             description: "Vault ARN".to_string(),
             example_values: vec![
-                "arn:aws:backup:us-east-1:123456789012:backup-vault:example-org-backup-vault"
+                "arn:aws:backup:us-east-1:486027077516:backup-vault:prooflayer-demo-backup-vault"
                     .to_string(),
             ],
             validation_notes: None,
@@ -114,7 +114,7 @@ pub fn create_aws_backup_vault_contract() -> CtnContract {
             ],
             description: "KMS key ARN used to encrypt the vault".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: None,

@@ -45,7 +45,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             name: "flow_log_id".to_string(),
             data_type: DataType::String,
             description: "Flow Log ID for direct lookup".to_string(),
-            example_values: vec!["fl-0123456789abcdef0".to_string()],
+            example_values: vec!["fl-062ce6db5558b8752".to_string()],
             validation_notes: Some("Takes precedence over resource_id lookup".to_string()),
         });
 
@@ -55,7 +55,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             name: "resource_id".to_string(),
             data_type: DataType::String,
             description: "VPC or subnet ID to find flow logs for".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("Filters by resource-id (typically a VPC ID)".to_string()),
         });
 
@@ -65,7 +65,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             name: "tags".to_string(),
             data_type: DataType::String,
             description: "Tag filter in Key=Value format".to_string(),
-            example_values: vec!["Name=example-vpc-flow-logs".to_string()],
+            example_values: vec!["Name=scanset-vpc-flow-logs".to_string()],
             validation_notes: Some("Used for tag-based lookup".to_string()),
         });
 
@@ -105,7 +105,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Flow Log ID".to_string(),
-            example_values: vec!["fl-0123456789abcdef0".to_string()],
+            example_values: vec!["fl-062ce6db5558b8752".to_string()],
             validation_notes: Some("Validate the resolved flow log ID".to_string()),
         });
 
@@ -127,7 +127,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "Resource ID the flow log is attached to".to_string(),
-            example_values: vec!["vpc-0fedcba9876543210".to_string()],
+            example_values: vec!["vpc-051afae9e049b137a".to_string()],
             validation_notes: Some("VPC or subnet ID".to_string()),
         });
 
@@ -170,7 +170,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             ],
             description: "ARN of the log destination".to_string(),
             example_values: vec![
-                "arn:aws:logs:us-east-1:123456789012:log-group:/aws/vpc/example-flow-logs"
+                "arn:aws:logs:us-east-1:486027077516:log-group:/aws/vpc/scanset-flow-logs"
                     .to_string(),
             ],
             validation_notes: Some("CloudWatch log group ARN or S3 bucket ARN".to_string()),
@@ -189,7 +189,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             ],
             description: "CloudWatch log group name (if destination is cloud-watch-logs)"
                 .to_string(),
-            example_values: vec!["/aws/vpc/example-flow-logs".to_string()],
+            example_values: vec!["/aws/vpc/scanset-flow-logs".to_string()],
             validation_notes: Some("Only present for cloud-watch-logs destination".to_string()),
         });
 
@@ -211,7 +211,7 @@ pub fn create_aws_flow_log_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of the Name tag".to_string(),
-            example_values: vec!["example-vpc-flow-logs".to_string()],
+            example_values: vec!["scanset-vpc-flow-logs".to_string()],
             validation_notes: Some("Extracted from Tags array".to_string()),
         });
 

@@ -15,9 +15,9 @@ Validates AWS EC2 VPC Flow Log configurations via the AWS CLI. Returns scalar su
 
 | Field         | Type   | Required | Description                                | Example                      |
 | ------------- | ------ | -------- | ------------------------------------------ | ---------------------------- |
-| `flow_log_id` | string | No\*     | Flow Log ID for direct lookup              | `fl-0123456789abcdef0`       |
-| `resource_id` | string | No\*     | VPC or subnet ID to find flow logs for     | `vpc-0fedcba9876543210`      |
-| `tags`        | string | No\*     | Tag filter in `Key=Value` format           | `Name=example-vpc-flow-logs` |
+| `flow_log_id` | string | No\*     | Flow Log ID for direct lookup              | `fl-062ce6db5558b8752`       |
+| `resource_id` | string | No\*     | VPC or subnet ID to find flow logs for     | `vpc-051afae9e049b137a`      |
+| `tags`        | string | No\*     | Tag filter in `Key=Value` format           | `Name=scanset-vpc-flow-logs` |
 | `region`      | string | No       | AWS region override (passed as `--region`) | `us-east-1`                  |
 
 \* At least one of `flow_log_id`, `resource_id`, or `tags` must be specified. If none are provided, the collector returns `InvalidObjectConfiguration`.
@@ -57,19 +57,19 @@ The collector builds an argument list from the object fields in this order:
 
 ```
 # By flow log ID
-aws ec2 describe-flow-logs --flow-log-ids fl-0123456789abcdef0 --output json
+aws ec2 describe-flow-logs --flow-log-ids fl-062ce6db5558b8752 --output json
 
 # By resource ID (VPC)
-aws ec2 describe-flow-logs --filter Name=resource-id,Values=vpc-0fedcba9876543210 --output json
+aws ec2 describe-flow-logs --filter Name=resource-id,Values=vpc-051afae9e049b137a --output json
 
 # By tag
-aws ec2 describe-flow-logs --filter Name=tag:Name,Values=example-vpc-flow-logs --output json
+aws ec2 describe-flow-logs --filter Name=tag:Name,Values=scanset-vpc-flow-logs --output json
 
 # By resource ID with region
-aws ec2 describe-flow-logs --region us-east-1 --output json --filter Name=resource-id,Values=vpc-0fedcba9876543210
+aws ec2 describe-flow-logs --region us-east-1 --output json --filter Name=resource-id,Values=vpc-051afae9e049b137a
 
 # Combined: flow log ID + resource filter
-aws ec2 describe-flow-logs --flow-log-ids fl-0123456789abcdef0 --filter Name=resource-id,Values=vpc-0fedcba9876543210 --output json
+aws ec2 describe-flow-logs --flow-log-ids fl-062ce6db5558b8752 --filter Name=resource-id,Values=vpc-051afae9e049b137a --output json
 ```
 
 **Response parsing:**
@@ -85,19 +85,19 @@ aws ec2 describe-flow-logs --flow-log-ids fl-0123456789abcdef0 --filter Name=res
 {
   "FlowLogs": [
     {
-      "FlowLogId": "fl-0123456789abcdef0",
+      "FlowLogId": "fl-062ce6db5558b8752",
       "FlowLogStatus": "ACTIVE",
-      "ResourceId": "vpc-0fedcba9876543210",
+      "ResourceId": "vpc-051afae9e049b137a",
       "TrafficType": "ALL",
       "LogDestinationType": "cloud-watch-logs",
-      "LogDestination": "arn:aws:logs:us-east-1:123456789012:log-group:/aws/vpc/example-flow-logs",
-      "LogGroupName": "/aws/vpc/example-flow-logs",
+      "LogDestination": "arn:aws:logs:us-east-1:486027077516:log-group:/aws/vpc/scanset-flow-logs",
+      "LogGroupName": "/aws/vpc/scanset-flow-logs",
       "DeliverLogsStatus": "SUCCESS",
-      "DeliverLogsPermissionArn": "arn:aws:iam::123456789012:role/example-flow-logs-role",
+      "DeliverLogsPermissionArn": "arn:aws:iam::486027077516:role/scanset-flow-logs-role",
       "MaxAggregationInterval": 600,
       "LogFormat": "${version} ${account-id} ${interface-id} ${srcaddr} ${dstaddr} ${srcport} ${dstport} ${protocol} ${packets} ${bytes} ${start} ${end} ${action} ${log-status}",
       "CreationTime": "2026-02-23T19:47:12.301000+00:00",
-      "Tags": [{ "Key": "Name", "Value": "example-vpc-flow-logs" }]
+      "Tags": [{ "Key": "Name", "Value": "scanset-vpc-flow-logs" }]
     }
   ]
 }
@@ -155,20 +155,20 @@ let record_data = RecordData::from_json_value(fl.clone());
 
 | Path                       | Type    | Example Value                                                                |
 | -------------------------- | ------- | ---------------------------------------------------------------------------- |
-| `FlowLogId`                | string  | `"fl-0123456789abcdef0"`                                                     |
+| `FlowLogId`                | string  | `"fl-062ce6db5558b8752"`                                                     |
 | `FlowLogStatus`            | string  | `"ACTIVE"`                                                                   |
-| `ResourceId`               | string  | `"vpc-0fedcba9876543210"`                                                    |
+| `ResourceId`               | string  | `"vpc-051afae9e049b137a"`                                                    |
 | `TrafficType`              | string  | `"ALL"`                                                                      |
 | `LogDestinationType`       | string  | `"cloud-watch-logs"`                                                         |
-| `LogDestination`           | string  | `"arn:aws:logs:us-east-1:123456789012:log-group:/aws/vpc/example-flow-logs"` |
-| `LogGroupName`             | string  | `"/aws/vpc/example-flow-logs"`                                               |
+| `LogDestination`           | string  | `"arn:aws:logs:us-east-1:486027077516:log-group:/aws/vpc/scanset-flow-logs"` |
+| `LogGroupName`             | string  | `"/aws/vpc/scanset-flow-logs"`                                               |
 | `DeliverLogsStatus`        | string  | `"SUCCESS"`                                                                  |
-| `DeliverLogsPermissionArn` | string  | `"arn:aws:iam::123456789012:role/example-flow-logs-role"`                    |
+| `DeliverLogsPermissionArn` | string  | `"arn:aws:iam::486027077516:role/scanset-flow-logs-role"`                    |
 | `MaxAggregationInterval`   | integer | `600`                                                                        |
 | `LogFormat`                | string  | `"${version} ${account-id} ${interface-id} ..."`                             |
 | `CreationTime`             | string  | `"2026-02-23T19:47:12.301000+00:00"`                                         |
 | `Tags.0.Key`               | string  | `"Name"`                                                                     |
-| `Tags.0.Value`             | string  | `"example-vpc-flow-logs"`                                                    |
+| `Tags.0.Value`             | string  | `"scanset-vpc-flow-logs"`                                                    |
 
 ---
 
@@ -253,7 +253,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT vpc_flow_log
-    resource_id `vpc-0fedcba9876543210`
+    resource_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 
@@ -276,14 +276,14 @@ CTN_END
 
 ```esp
 OBJECT vpc_flow_log
-    resource_id `vpc-0fedcba9876543210`
+    resource_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 
 STATE correct_destination
     found boolean = true
-    log_group_name string = `/aws/vpc/example-flow-logs`
-    log_destination string contains `example-flow-logs`
+    log_group_name string = `/aws/vpc/scanset-flow-logs`
+    log_destination string contains `scanset-flow-logs`
 STATE_END
 
 CTN aws_flow_log
@@ -297,7 +297,7 @@ CTN_END
 
 ```esp
 OBJECT vpc_flow_log
-    tags `Name=example-vpc-flow-logs`
+    tags `Name=scanset-vpc-flow-logs`
     region `us-east-1`
 OBJECT_END
 
@@ -318,7 +318,7 @@ CTN_END
 
 ```esp
 OBJECT vpc_flow_log
-    resource_id `vpc-0fedcba9876543210`
+    resource_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 

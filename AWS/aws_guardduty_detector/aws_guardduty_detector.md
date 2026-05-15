@@ -17,7 +17,7 @@ Validates AWS GuardDuty detector configuration via the AWS CLI. Makes two or thr
 
 | Field         | Type   | Required | Description                                | Example                            |
 | ------------- | ------ | -------- | ------------------------------------------ | ---------------------------------- |
-| `detector_id` | string | **Yes**  | GuardDuty detector ID (exact match)        | `00000000000000000000000000000000` |
+| `detector_id` | string | **Yes**  | GuardDuty detector ID (exact match)        | `e8a9b38b2782492d908be48c7b3d129a` |
 | `region`      | string | No       | AWS region override (passed as `--region`) | `us-east-1`                        |
 
 - `detector_id` is **required**. If missing, the collector returns `InvalidObjectConfiguration`.
@@ -38,7 +38,7 @@ Retrieves full detector configuration including status, data sources, features, 
 **Resulting command:**
 
 ```
-aws guardduty get-detector --detector-id 00000000000000000000000000000000 --output json
+aws guardduty get-detector --detector-id e8a9b38b2782492d908be48c7b3d129a --output json
 ```
 
 **Sample response:**
@@ -47,7 +47,7 @@ aws guardduty get-detector --detector-id 00000000000000000000000000000000 --outp
 {
   "CreatedAt": "2026-03-24T16:02:47.927Z",
   "FindingPublishingFrequency": "FIFTEEN_MINUTES",
-  "ServiceRole": "arn:aws:iam::123456789012:role/aws-service-role/guardduty.amazonaws.com/AWSServiceRoleForAmazonGuardDuty",
+  "ServiceRole": "arn:aws:iam::486027077516:role/aws-service-role/guardduty.amazonaws.com/AWSServiceRoleForAmazonGuardDuty",
   "Status": "ENABLED",
   "UpdatedAt": "2026-03-24T16:02:47.927Z",
   "DataSources": {
@@ -61,7 +61,7 @@ aws guardduty get-detector --detector-id 00000000000000000000000000000000 --outp
     }
   },
   "Tags": {
-    "Name": "example-org-guardduty",
+    "Name": "prooflayer-demo-guardduty",
     "Environment": "demo",
     "ManagedBy": "terraform"
   },
@@ -111,7 +111,7 @@ Retrieves all publishing destinations for the detector.
 **Resulting command:**
 
 ```
-aws guardduty list-publishing-destinations --detector-id 00000000000000000000000000000000 --output json
+aws guardduty list-publishing-destinations --detector-id e8a9b38b2782492d908be48c7b3d129a --output json
 ```
 
 **Sample response:**
@@ -120,7 +120,7 @@ aws guardduty list-publishing-destinations --detector-id 00000000000000000000000
 {
   "Destinations": [
     {
-      "DestinationId": "a1b2c3d4e5f67890abcdef1234567890",
+      "DestinationId": "54ce9050413642f432c61e78a28a6f14",
       "DestinationType": "S3",
       "Status": "PUBLISHING"
     }
@@ -149,19 +149,19 @@ Retrieves full destination detail including ARN and KMS key.
 **Resulting command:**
 
 ```
-aws guardduty describe-publishing-destination --detector-id 00000000000000000000000000000000 --destination-id a1b2c3d4e5f67890abcdef1234567890 --output json
+aws guardduty describe-publishing-destination --detector-id e8a9b38b2782492d908be48c7b3d129a --destination-id 54ce9050413642f432c61e78a28a6f14 --output json
 ```
 
 **Sample response:**
 
 ```json
 {
-  "DestinationId": "a1b2c3d4e5f67890abcdef1234567890",
+  "DestinationId": "54ce9050413642f432c61e78a28a6f14",
   "DestinationType": "S3",
   "Status": "PUBLISHING",
   "DestinationProperties": {
-    "DestinationArn": "arn:aws:s3:::example-org-security-findings",
-    "KmsKeyArn": "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    "DestinationArn": "arn:aws:s3:::prooflayer-demo-security-findings",
+    "KmsKeyArn": "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
   },
   "Tags": {}
 }
@@ -251,7 +251,7 @@ let merged = serde_json::json!({
 | `Detector.DataSources.MalwareProtection.ScanEc2InstanceWithFindings.EbsVolumes.Status` | string | `"ENABLED"`                   |
 | `Detector.Features.0.Name`                                                             | string | `"CLOUD_TRAIL"`               |
 | `Detector.Features.0.Status`                                                           | string | `"ENABLED"`                   |
-| `Detector.Tags.Name`                                                                   | string | `"example-org-guardduty"` |
+| `Detector.Tags.Name`                                                                   | string | `"prooflayer-demo-guardduty"` |
 | `Detector.Tags.Environment`                                                            | string | `"demo"`                      |
 
 ### PublishingDestination paths (from describe-publishing-destination)
@@ -260,8 +260,8 @@ let merged = serde_json::json!({
 | ------------------------------------------------------------ | ------ | -------------------------------------------------- |
 | `PublishingDestination.DestinationType`                      | string | `"S3"`                                             |
 | `PublishingDestination.Status`                               | string | `"PUBLISHING"`                                     |
-| `PublishingDestination.DestinationProperties.DestinationArn` | string | `"arn:aws:s3:::example-org-security-findings"` |
-| `PublishingDestination.DestinationProperties.KmsKeyArn`      | string | `"arn:aws:kms:us-east-1:123456789012:key/..."`     |
+| `PublishingDestination.DestinationProperties.DestinationArn` | string | `"arn:aws:s3:::prooflayer-demo-security-findings"` |
+| `PublishingDestination.DestinationProperties.KmsKeyArn`      | string | `"arn:aws:kms:us-east-1:486027077516:key/..."`     |
 
 ---
 
@@ -356,7 +356,7 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT main_detector
-    detector_id `00000000000000000000000000000000`
+    detector_id `e8a9b38b2782492d908be48c7b3d129a`
     region `us-east-1`
 OBJECT_END
 
@@ -381,7 +381,7 @@ CTN_END
 
 ```esp
 OBJECT main_detector
-    detector_id `00000000000000000000000000000000`
+    detector_id `e8a9b38b2782492d908be48c7b3d129a`
     region `us-east-1`
 OBJECT_END
 
@@ -390,8 +390,8 @@ STATE destination_compliant
     has_publishing_destination boolean = true
     publishing_destination_type string = `S3`
     publishing_destination_status string = `PUBLISHING`
-    publishing_destination_arn string starts `arn:aws:s3:::example-org`
-    publishing_destination_kms_key_arn string starts `arn:aws:kms:us-east-1:123456789012:`
+    publishing_destination_arn string starts `arn:aws:s3:::prooflayer-demo`
+    publishing_destination_kms_key_arn string starts `arn:aws:kms:us-east-1:486027077516:`
 STATE_END
 
 CTN aws_guardduty_detector
@@ -405,7 +405,7 @@ CTN_END
 
 ```esp
 OBJECT main_detector
-    detector_id `00000000000000000000000000000000`
+    detector_id `e8a9b38b2782492d908be48c7b3d129a`
     region `us-east-1`
 OBJECT_END
 
@@ -426,7 +426,7 @@ CTN_END
 
 ```esp
 OBJECT main_detector
-    detector_id `00000000000000000000000000000000`
+    detector_id `e8a9b38b2782492d908be48c7b3d129a`
     region `us-east-1`
 OBJECT_END
 
@@ -438,7 +438,7 @@ STATE detector_deep
         field Detector.DataSources.S3Logs.Status string = `ENABLED`
         field Detector.DataSources.MalwareProtection.ScanEc2InstanceWithFindings.EbsVolumes.Status string = `ENABLED`
         field PublishingDestination.Status string = `PUBLISHING`
-        field PublishingDestination.DestinationProperties.DestinationArn string = `arn:aws:s3:::example-org-security-findings`
+        field PublishingDestination.DestinationProperties.DestinationArn string = `arn:aws:s3:::prooflayer-demo-security-findings`
     record_end
 STATE_END
 

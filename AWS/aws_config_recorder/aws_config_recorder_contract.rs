@@ -29,7 +29,7 @@ pub fn create_aws_config_recorder_contract() -> CtnContract {
             name: "recorder_name".to_string(),
             data_type: DataType::String,
             description: "Config recorder name".to_string(),
-            example_values: vec!["example-org-config-recorder".to_string()],
+            example_values: vec!["prooflayer-demo-config-recorder".to_string()],
             validation_notes: Some("Required; exact recorder name".to_string()),
         });
 
@@ -94,7 +94,7 @@ pub fn create_aws_config_recorder_contract() -> CtnContract {
             DataType::String,
             str_eq.clone(),
             "Recorder name",
-            "example-org-config-recorder",
+            "prooflayer-demo-config-recorder",
         ),
     ] {
         contract

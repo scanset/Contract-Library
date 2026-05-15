@@ -15,9 +15,9 @@ Validates AWS EC2 Internet Gateway configurations via the AWS CLI. Returns scala
 
 | Field                 | Type   | Required | Description                                | Example                 |
 | --------------------- | ------ | -------- | ------------------------------------------ | ----------------------- |
-| `internet_gateway_id` | string | No\*     | IGW ID for direct lookup                   | `igw-0123456789abcdef0` |
-| `vpc_id`              | string | No\*     | VPC ID to find attached IGW                | `vpc-0fedcba9876543210` |
-| `tags`                | string | No\*     | Tag filter in `Key=Value` format           | `Name=example-igw`      |
+| `internet_gateway_id` | string | No\*     | IGW ID for direct lookup                   | `igw-067bbc16268608ad6` |
+| `vpc_id`              | string | No\*     | VPC ID to find attached IGW                | `vpc-051afae9e049b137a` |
+| `tags`                | string | No\*     | Tag filter in `Key=Value` format           | `Name=scanset-igw`      |
 | `region`              | string | No       | AWS region override (passed as `--region`) | `us-east-1`             |
 
 \* At least one of `internet_gateway_id`, `vpc_id`, or `tags` must be specified. If none are provided, the collector returns `InvalidObjectConfiguration`.
@@ -60,16 +60,16 @@ Note: This collector uses `--filters` (plural) for filter arguments, unlike the 
 
 ```
 # By IGW ID
-aws ec2 describe-internet-gateways --internet-gateway-ids igw-0123456789abcdef0 --output json
+aws ec2 describe-internet-gateways --internet-gateway-ids igw-067bbc16268608ad6 --output json
 
 # By VPC ID (find IGW attached to this VPC)
-aws ec2 describe-internet-gateways --filters Name=attachment.vpc-id,Values=vpc-0fedcba9876543210 --output json
+aws ec2 describe-internet-gateways --filters Name=attachment.vpc-id,Values=vpc-051afae9e049b137a --output json
 
 # By tag
-aws ec2 describe-internet-gateways --filters Name=tag:Name,Values=example-igw --output json
+aws ec2 describe-internet-gateways --filters Name=tag:Name,Values=scanset-igw --output json
 
 # With region
-aws ec2 describe-internet-gateways --region us-east-1 --output json --filters Name=attachment.vpc-id,Values=vpc-0fedcba9876543210
+aws ec2 describe-internet-gateways --region us-east-1 --output json --filters Name=attachment.vpc-id,Values=vpc-051afae9e049b137a
 ```
 
 **Response parsing:**
@@ -95,15 +95,15 @@ aws ec2 describe-internet-gateways --region us-east-1 --output json --filters Na
 {
   "InternetGateways": [
     {
-      "InternetGatewayId": "igw-0123456789abcdef0",
-      "OwnerId": "123456789012",
+      "InternetGatewayId": "igw-067bbc16268608ad6",
+      "OwnerId": "486027077516",
       "Attachments": [
         {
           "State": "available",
-          "VpcId": "vpc-0fedcba9876543210"
+          "VpcId": "vpc-051afae9e049b137a"
         }
       ],
-      "Tags": [{ "Key": "Name", "Value": "example-igw" }]
+      "Tags": [{ "Key": "Name", "Value": "scanset-igw" }]
     }
   ]
 }
@@ -157,14 +157,14 @@ let record_data = RecordData::from_json_value(igw.clone());
 
 | Path                  | Type   | Example Value                 |
 | --------------------- | ------ | ----------------------------- |
-| `InternetGatewayId`   | string | `"igw-0123456789abcdef0"`     |
-| `OwnerId`             | string | `"123456789012"`              |
+| `InternetGatewayId`   | string | `"igw-067bbc16268608ad6"`     |
+| `OwnerId`             | string | `"486027077516"`              |
 | `Attachments.0.State` | string | `"available"`                 |
-| `Attachments.0.VpcId` | string | `"vpc-0fedcba9876543210"`     |
+| `Attachments.0.VpcId` | string | `"vpc-051afae9e049b137a"`     |
 | `Attachments.*.VpcId` | string | (all attached VPC IDs)        |
 | `Attachments.*.State` | string | (all attachment states)       |
 | `Tags.0.Key`          | string | `"Name"`                      |
-| `Tags.0.Value`        | string | `"example-igw"`               |
+| `Tags.0.Value`        | string | `"scanset-igw"`               |
 | `Tags.*.Key`          | string | (all tag keys via wildcard)   |
 | `Tags.*.Value`        | string | (all tag values via wildcard) |
 
@@ -247,13 +247,13 @@ The `AwsClient` uses `Command::new("aws")` which relies on the AWS CLI's default
 
 ```esp
 OBJECT boundary_igw
-    vpc_id `vpc-0fedcba9876543210`
+    vpc_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 
 STATE igw_attached
     found boolean = true
-    attached_vpc_id string = `vpc-0fedcba9876543210`
+    attached_vpc_id string = `vpc-051afae9e049b137a`
     attachment_state string = `available`
     attachment_count int = 1
 STATE_END
@@ -269,15 +269,15 @@ CTN_END
 
 ```esp
 OBJECT scanset_igw
-    tags `Name=example-igw`
+    tags `Name=scanset-igw`
     region `us-east-1`
 OBJECT_END
 
 STATE igw_correct
     found boolean = true
-    tag_name string = `example-igw`
-    internet_gateway_id string = `igw-0123456789abcdef0`
-    attached_vpc_id string = `vpc-0fedcba9876543210`
+    tag_name string = `scanset-igw`
+    internet_gateway_id string = `igw-067bbc16268608ad6`
+    attached_vpc_id string = `vpc-051afae9e049b137a`
 STATE_END
 
 CTN aws_internet_gateway
@@ -291,14 +291,14 @@ CTN_END
 
 ```esp
 OBJECT boundary_igw
-    vpc_id `vpc-0fedcba9876543210`
+    vpc_id `vpc-051afae9e049b137a`
     region `us-east-1`
 OBJECT_END
 
 STATE igw_attachment_valid
     found boolean = true
     record
-        field Attachments.0.VpcId string = `vpc-0fedcba9876543210`
+        field Attachments.0.VpcId string = `vpc-051afae9e049b137a`
         field Attachments.0.State string = `available`
     record_end
 STATE_END
@@ -314,7 +314,7 @@ CTN_END
 
 ```esp
 OBJECT specific_igw
-    internet_gateway_id `igw-0123456789abcdef0`
+    internet_gateway_id `igw-067bbc16268608ad6`
     region `us-east-1`
 OBJECT_END
 

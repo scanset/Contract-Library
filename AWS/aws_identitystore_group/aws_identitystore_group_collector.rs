@@ -9,9 +9,9 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! GroupId                → "d0e1f2a3-4567-8901-abcd-ef2345678901"
-//! DisplayName            → "ExampleOrgAdmins"
-//! Description            → "Maps to Entra group aws-example-org-admins"
+//! GroupId                → "5428f418-1091-70f7-0b97-ead5a09be747"
+//! DisplayName            → "ProofLayerAdmins"
+//! Description            → "Maps to Entra group aws-prooflayer-demo-admins"
 //! IdentityStoreId        → "d-906607b0fb"
 //! CreatedAt              → "2026-03-23T19:58:33.760000+00:00"
 //! ```

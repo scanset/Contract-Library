@@ -50,7 +50,7 @@ pub fn create_aws_guardduty_detector_contract() -> CtnContract {
             name: "detector_id".to_string(),
             data_type: DataType::String,
             description: "GuardDuty detector ID".to_string(),
-            example_values: vec!["00000000000000000000000000000000".to_string()],
+            example_values: vec!["e8a9b38b2782492d908be48c7b3d129a".to_string()],
             validation_notes: Some("Required; exact detector ID".to_string()),
         });
 
@@ -86,7 +86,7 @@ pub fn create_aws_guardduty_detector_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual],
             description: "Detector ID (echoed from object field)".to_string(),
-            example_values: vec!["00000000000000000000000000000000".to_string()],
+            example_values: vec!["e8a9b38b2782492d908be48c7b3d129a".to_string()],
             validation_notes: None,
         });
 
@@ -194,7 +194,7 @@ pub fn create_aws_guardduty_detector_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "ARN of the publishing destination (S3 bucket ARN)".to_string(),
-            example_values: vec!["arn:aws:s3:::example-org-security-findings".to_string()],
+            example_values: vec!["arn:aws:s3:::prooflayer-demo-security-findings".to_string()],
             validation_notes: Some(
                 "Only present when has_publishing_destination is true".to_string(),
             ),
@@ -213,7 +213,7 @@ pub fn create_aws_guardduty_detector_contract() -> CtnContract {
             ],
             description: "KMS key ARN used to encrypt published findings".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: Some(

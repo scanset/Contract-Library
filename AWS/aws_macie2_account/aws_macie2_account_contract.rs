@@ -63,7 +63,7 @@ pub fn create_aws_macie2_account_contract() -> CtnContract {
             name: "bucket_name".to_string(),
             data_type: DataType::String,
             description: "S3 bucket name to find associated classification job".to_string(),
-            example_values: vec!["example-org-security-findings".to_string()],
+            example_values: vec!["prooflayer-demo-security-findings".to_string()],
             validation_notes: Some(
                 "If provided, finds the first job whose bucketDefinitions includes this bucket. If omitted, uses the first job returned."
                     .to_string(),
@@ -168,7 +168,7 @@ pub fn create_aws_macie2_account_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Classification job name".to_string(),
-            example_values: vec!["example-org-security-bucket-scan".to_string()],
+            example_values: vec!["prooflayer-demo-security-bucket-scan".to_string()],
             validation_notes: None,
         });
 

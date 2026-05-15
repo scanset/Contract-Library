@@ -28,7 +28,7 @@ pub fn create_aws_ssm_maintenance_window_contract() -> CtnContract {
             name: "window_name".to_string(),
             data_type: DataType::String,
             description: "SSM Maintenance Window name (exact match via filter)".to_string(),
-            example_values: vec!["example-org-backup-prep".to_string()],
+            example_values: vec!["prooflayer-demo-backup-prep".to_string()],
             validation_notes: Some("Required; exact window name".to_string()),
         });
 
@@ -65,7 +65,7 @@ pub fn create_aws_ssm_maintenance_window_contract() -> CtnContract {
                 Operation::StartsWith,
             ],
             description: "Window name".to_string(),
-            example_values: vec!["example-org-backup-prep".to_string()],
+            example_values: vec!["prooflayer-demo-backup-prep".to_string()],
             validation_notes: None,
         });
 

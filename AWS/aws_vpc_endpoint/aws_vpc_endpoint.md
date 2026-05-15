@@ -17,9 +17,9 @@ Validates AWS VPC endpoint configuration via the AWS CLI. Makes a single API cal
 
 | Field          | Type   | Required | Description                                | Example                       |
 | -------------- | ------ | -------- | ------------------------------------------ | ----------------------------- |
-| `endpoint_id`  | string | No\*     | VPC endpoint ID for direct lookup          | `vpce-0aaaaaaaaaaaaaaa0`      |
+| `endpoint_id`  | string | No\*     | VPC endpoint ID for direct lookup          | `vpce-0488e6400e49c4422`      |
 | `service_name` | string | No\*     | AWS service name filter                    | `com.amazonaws.us-east-1.ssm` |
-| `vpc_id`       | string | No\*     | VPC ID to scope the lookup                 | `vpc-0123456789abcdef0`       |
+| `vpc_id`       | string | No\*     | VPC ID to scope the lookup                 | `vpc-0ea38d2598962fda8`       |
 | `region`       | string | No       | AWS region override (passed as `--region`) | `us-east-1`                   |
 
 \* At least one of `endpoint_id`, `service_name`, or `vpc_id` must be specified.
@@ -40,10 +40,10 @@ Validates AWS VPC endpoint configuration via the AWS CLI. Makes a single API cal
 
 ```
 # By endpoint ID
-aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-0aaaaaaaaaaaaaaa0 --output json
+aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-0488e6400e49c4422 --output json
 
 # By service name + VPC
-aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.us-east-1.ssm --filters Name=vpc-id,Values=vpc-0123456789abcdef0 --output json
+aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.us-east-1.ssm --filters Name=vpc-id,Values=vpc-0ea38d2598962fda8 --output json
 ```
 
 **Sample response (Interface endpoint):**
@@ -52,22 +52,22 @@ aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.
 {
   "VpcEndpoints": [
     {
-      "VpcEndpointId": "vpce-0aaaaaaaaaaaaaaa0",
+      "VpcEndpointId": "vpce-0488e6400e49c4422",
       "VpcEndpointType": "Interface",
-      "VpcId": "vpc-0123456789abcdef0",
+      "VpcId": "vpc-0ea38d2598962fda8",
       "ServiceName": "com.amazonaws.us-east-1.ssm",
       "State": "available",
       "PolicyDocument": "{\"Statement\":[{\"Action\":\"*\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Resource\":\"*\"}]}",
-      "SubnetIds": ["subnet-0bbbbbbbbbbbbbbbb", "subnet-0aaaaaaaaaaaaaaaa"],
+      "SubnetIds": ["subnet-06faa62535ba6541e", "subnet-0765f76c6a2dda34e"],
       "Groups": [
         {
-          "GroupId": "sg-0aaaaaaaaaaaaaaa0",
-          "GroupName": "example-org-vpce-sg"
+          "GroupId": "sg-099f80ed84d7834a9",
+          "GroupName": "prooflayer-demo-vpce-sg"
         }
       ],
       "PrivateDnsEnabled": true,
       "RouteTableIds": [],
-      "NetworkInterfaceIds": ["eni-0bbbbbbbbbbbbbbbb0", "eni-0123456789abcdef0"]
+      "NetworkInterfaceIds": ["eni-08126c7b04a378cff", "eni-050f5ec0b815d4c7a"]
     }
   ]
 }
@@ -79,13 +79,13 @@ aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.
 {
   "VpcEndpoints": [
     {
-      "VpcEndpointId": "vpce-0123456789abcdef0",
+      "VpcEndpointId": "vpce-016d5717ba0310558",
       "VpcEndpointType": "Gateway",
-      "VpcId": "vpc-0123456789abcdef0",
+      "VpcId": "vpc-0ea38d2598962fda8",
       "ServiceName": "com.amazonaws.us-east-1.s3",
       "State": "available",
       "PolicyDocument": "{\"Version\":\"2008-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"*\",\"Resource\":\"*\"}]}",
-      "RouteTableIds": ["rtb-0123456789abcdef0"],
+      "RouteTableIds": ["rtb-05a3f415af05a2575"],
       "SubnetIds": [],
       "Groups": [],
       "PrivateDnsEnabled": false
@@ -141,16 +141,16 @@ aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.
 
 | Path                                   | Type    | Example Value                            |
 | -------------------------------------- | ------- | ---------------------------------------- |
-| `VpcEndpointId`                        | string  | `"vpce-0aaaaaaaaaaaaaaa0"`               |
+| `VpcEndpointId`                        | string  | `"vpce-0488e6400e49c4422"`               |
 | `VpcEndpointType`                      | string  | `"Interface"`                            |
 | `ServiceName`                          | string  | `"com.amazonaws.us-east-1.ssm"`          |
 | `State`                                | string  | `"available"`                            |
 | `PrivateDnsEnabled`                    | boolean | `true`                                   |
-| `SubnetIds.0`                          | string  | `"subnet-0bbbbbbbbbbbbbbbb"`             |
-| `SubnetIds.1`                          | string  | `"subnet-0aaaaaaaaaaaaaaaa"`             |
-| `Groups.0.GroupId`                     | string  | `"sg-0aaaaaaaaaaaaaaa0"`                 |
-| `Groups.0.GroupName`                   | string  | `"example-org-vpce-sg"`              |
-| `RouteTableIds.0`                      | string  | `"rtb-0123456789abcdef0"` (Gateway only) |
+| `SubnetIds.0`                          | string  | `"subnet-06faa62535ba6541e"`             |
+| `SubnetIds.1`                          | string  | `"subnet-0765f76c6a2dda34e"`             |
+| `Groups.0.GroupId`                     | string  | `"sg-099f80ed84d7834a9"`                 |
+| `Groups.0.GroupName`                   | string  | `"prooflayer-demo-vpce-sg"`              |
+| `RouteTableIds.0`                      | string  | `"rtb-05a3f415af05a2575"` (Gateway only) |
 | `PolicyDocument.Statement.0.Effect`    | string  | `"Allow"`                                |
 | `PolicyDocument.Statement.0.Principal` | string  | `"*"`                                    |
 | `PolicyDocument.Statement.0.Action`    | string  | `"*"`                                    |
@@ -209,7 +209,7 @@ aws ec2 describe-vpc-endpoints --filters Name=service-name,Values=com.amazonaws.
 ```esp
 OBJECT ssm_endpoint
     service_name `com.amazonaws.us-east-1.ssm`
-    vpc_id `vpc-0123456789abcdef0`
+    vpc_id `vpc-0ea38d2598962fda8`
     region `us-east-1`
 OBJECT_END
 
@@ -233,7 +233,7 @@ CTN_END
 ```esp
 OBJECT s3_endpoint
     service_name `com.amazonaws.us-east-1.s3`
-    vpc_id `vpc-0123456789abcdef0`
+    vpc_id `vpc-0ea38d2598962fda8`
     region `us-east-1`
 OBJECT_END
 

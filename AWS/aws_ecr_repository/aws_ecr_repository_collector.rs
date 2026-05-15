@@ -8,7 +8,7 @@
 //! ```text
 //! repositoryName                            → "scanset/transparency-log"
 //! repositoryArn                             → "arn:aws:ecr:..."
-//! repositoryUri                             → "123456789012.dkr.ecr.us-east-1.amazonaws.com/scanset/transparency-log"
+//! repositoryUri                             → "486027077516.dkr.ecr.us-east-1.amazonaws.com/scanset/transparency-log"
 //! imageTagMutability                        → "IMMUTABLE"
 //! imageScanningConfiguration.scanOnPush     → true
 //! encryptionConfiguration.encryptionType    → "AES256"

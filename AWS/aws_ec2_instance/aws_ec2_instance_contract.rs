@@ -49,7 +49,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             name: "instance_id".to_string(),
             data_type: DataType::String,
             description: "EC2 instance ID".to_string(),
-            example_values: vec!["i-0123456789abcdef0".to_string()],
+            example_values: vec!["i-02dc10f9292c0a933".to_string()],
             validation_notes: Some("Required; exact instance ID".to_string()),
         });
 
@@ -102,7 +102,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "EC2 instance ID".to_string(),
-            example_values: vec!["i-0123456789abcdef0".to_string()],
+            example_values: vec!["i-02dc10f9292c0a933".to_string()],
             validation_notes: None,
         });
 
@@ -135,7 +135,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "AMI ID used to launch the instance".to_string(),
-            example_values: vec!["ami-0123456789abcdef0".to_string()],
+            example_values: vec!["ami-078448b73f6313465".to_string()],
             validation_notes: None,
         });
 
@@ -195,7 +195,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "VPC ID the instance is in".to_string(),
-            example_values: vec!["vpc-0123456789abcdef0".to_string()],
+            example_values: vec!["vpc-0ea38d2598962fda8".to_string()],
             validation_notes: None,
         });
 
@@ -206,7 +206,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Subnet ID the instance is in".to_string(),
-            example_values: vec!["subnet-0aaaaaaaaaaaaaaaa".to_string()],
+            example_values: vec!["subnet-0765f76c6a2dda34e".to_string()],
             validation_notes: None,
         });
 
@@ -218,7 +218,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             allowed_operations: str_full.clone(),
             description: "IAM instance profile ARN".to_string(),
             example_values: vec![
-                "arn:aws:iam::123456789012:instance-profile/example-org-ec2-profile"
+                "arn:aws:iam::486027077516:instance-profile/prooflayer-demo-ec2-profile"
                     .to_string(),
             ],
             validation_notes: None,
@@ -231,7 +231,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "First security group ID attached to the instance".to_string(),
-            example_values: vec!["sg-0123456789abcdef0".to_string()],
+            example_values: vec!["sg-0ee1fed6cac898cc7".to_string()],
             validation_notes: Some("First entry from SecurityGroups array".to_string()),
         });
 
@@ -277,7 +277,7 @@ pub fn create_aws_ec2_instance_contract() -> CtnContract {
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of a specific tag. Field name format: tag_key:<TagKey>".to_string(),
             example_values: vec![
-                "tag_key:Name → `example-org-vm`".to_string(),
+                "tag_key:Name → `prooflayer-demo-vm`".to_string(),
                 "tag_key:ManagedBy → `terraform`".to_string(),
             ],
             validation_notes: None,

@@ -15,7 +15,7 @@ Validates AWS CloudWatch metric alarm configuration via a single AWS CLI call us
 
 | Field        | Type   | Required | Description                                | Example                            |
 | ------------ | ------ | -------- | ------------------------------------------ | ---------------------------------- |
-| `alarm_name` | string | **Yes**  | Alarm name (exact match)                   | `example-org-root-login-alarm` |
+| `alarm_name` | string | **Yes**  | Alarm name (exact match)                   | `prooflayer-demo-root-login-alarm` |
 | `region`     | string | No       | AWS region override (passed as `--region`) | `us-east-1`                        |
 
 ---
@@ -25,7 +25,7 @@ Validates AWS CloudWatch metric alarm configuration via a single AWS CLI call us
 ### Command 1: describe-alarms
 
 ```
-aws cloudwatch describe-alarms --alarm-names example-org-root-login-alarm --output json
+aws cloudwatch describe-alarms --alarm-names prooflayer-demo-root-login-alarm --output json
 ```
 
 **Sample response (abbreviated):**
@@ -34,13 +34,13 @@ aws cloudwatch describe-alarms --alarm-names example-org-root-login-alarm --outp
 {
   "MetricAlarms": [
     {
-      "AlarmName": "example-org-root-login-alarm",
-      "AlarmArn": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:example-org-root-login-alarm",
+      "AlarmName": "prooflayer-demo-root-login-alarm",
+      "AlarmArn": "arn:aws:cloudwatch:us-east-1:486027077516:alarm:prooflayer-demo-root-login-alarm",
       "AlarmDescription": "Root account login detected - KSI-IAM-SUS",
       "ActionsEnabled": true,
       "StateValue": "OK",
       "MetricName": "RootLoginCount",
-      "Namespace": "ExampleOrg/Security",
+      "Namespace": "ProofLayer/Security",
       "Statistic": "Sum",
       "Period": 300,
       "EvaluationPeriods": 1,
@@ -84,10 +84,10 @@ aws cloudwatch describe-alarms --alarm-names example-org-root-login-alarm --outp
 ## RecordData Structure
 
 ```
-AlarmName                 → "example-org-root-login-alarm"
+AlarmName                 → "prooflayer-demo-root-login-alarm"
 StateValue                → "OK"
 MetricName                → "RootLoginCount"
-Namespace                 → "ExampleOrg/Security"
+Namespace                 → "ProofLayer/Security"
 Statistic                 → "Sum"
 Period                    → 300
 EvaluationPeriods         → 1
@@ -154,14 +154,14 @@ AlarmDescription          → "Root account login detected - KSI-IAM-SUS"
 
 ```esp
 OBJECT root_login_alarm
-    alarm_name `example-org-root-login-alarm`
+    alarm_name `prooflayer-demo-root-login-alarm`
     region `us-east-1`
 OBJECT_END
 
 STATE alarm_configured
     found boolean = true
     metric_name string = `RootLoginCount`
-    namespace string = `ExampleOrg/Security`
+    namespace string = `ProofLayer/Security`
     statistic string = `Sum`
     period int = 300
     threshold int = 1

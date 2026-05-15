@@ -13,8 +13,8 @@ Validates AWS CloudWatch metric filter configuration via a single AWS CLI call u
 
 | Field            | Type   | Required | Description                                | Example                       |
 | ---------------- | ------ | -------- | ------------------------------------------ | ----------------------------- |
-| `filter_name`    | string | **Yes**  | Metric filter name (exact match)           | `example-org-root-login`  |
-| `log_group_name` | string | **Yes**  | Log group the filter is attached to        | `/example-org/cloudtrail` |
+| `filter_name`    | string | **Yes**  | Metric filter name (exact match)           | `prooflayer-demo-root-login`  |
+| `log_group_name` | string | **Yes**  | Log group the filter is attached to        | `/prooflayer-demo/cloudtrail` |
 | `region`         | string | No       | AWS region override (passed as `--region`) | `us-east-1`                   |
 
 ---
@@ -25,8 +25,8 @@ Validates AWS CloudWatch metric filter configuration via a single AWS CLI call u
 
 ```
 aws logs describe-metric-filters \
-  --log-group-name /example-org/cloudtrail \
-  --filter-name-prefix example-org-root-login \
+  --log-group-name /prooflayer-demo/cloudtrail \
+  --filter-name-prefix prooflayer-demo-root-login \
   --output json
 ```
 
@@ -38,18 +38,18 @@ The collector then applies an exact match on `filterName == filter_name` from th
 {
   "metricFilters": [
     {
-      "filterName": "example-org-root-login",
+      "filterName": "prooflayer-demo-root-login",
       "filterPattern": "{ $.userIdentity.type = \"Root\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType != \"AwsServiceEvent\" }",
       "metricTransformations": [
         {
           "metricName": "RootLoginCount",
-          "metricNamespace": "ExampleOrg/Security",
+          "metricNamespace": "ProofLayer/Security",
           "metricValue": "1",
           "unit": "None"
         }
       ],
       "creationTime": 1774369676964,
-      "logGroupName": "/example-org/cloudtrail",
+      "logGroupName": "/prooflayer-demo/cloudtrail",
       "applyOnTransformedLogs": false
     }
   ]
@@ -82,11 +82,11 @@ The collector then applies an exact match on `filterName == filter_name` from th
 ## RecordData Structure
 
 ```
-filterName                                → "example-org-root-login"
-logGroupName                              → "/example-org/cloudtrail"
+filterName                                → "prooflayer-demo-root-login"
+logGroupName                              → "/prooflayer-demo/cloudtrail"
 filterPattern                             → "{ $.userIdentity.type = \"Root\" ... }"
 metricTransformations.0.metricName        → "RootLoginCount"
-metricTransformations.0.metricNamespace   → "ExampleOrg/Security"
+metricTransformations.0.metricNamespace   → "ProofLayer/Security"
 metricTransformations.0.metricValue       → "1"
 applyOnTransformedLogs                    → false
 ```
@@ -137,15 +137,15 @@ applyOnTransformedLogs                    → false
 
 ```esp
 OBJECT root_login_filter
-    filter_name `example-org-root-login`
-    log_group_name `/example-org/cloudtrail`
+    filter_name `prooflayer-demo-root-login`
+    log_group_name `/prooflayer-demo/cloudtrail`
     region `us-east-1`
 OBJECT_END
 
 STATE filter_compliant
     found boolean = true
     metric_name string = `RootLoginCount`
-    metric_namespace string = `ExampleOrg/Security`
+    metric_namespace string = `ProofLayer/Security`
 STATE_END
 
 CTN aws_cloudwatch_metric_filter

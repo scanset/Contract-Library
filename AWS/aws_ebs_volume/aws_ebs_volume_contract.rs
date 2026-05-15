@@ -28,7 +28,7 @@ pub fn create_aws_ebs_volume_contract() -> CtnContract {
             name: "volume_id".to_string(),
             data_type: DataType::String,
             description: "EBS volume ID".to_string(),
-            example_values: vec!["vol-0fedcba9876543210".to_string()],
+            example_values: vec!["vol-036890cac9d75b9a5".to_string()],
             validation_notes: Some("Required; exact volume ID".to_string()),
         });
 
@@ -136,7 +136,7 @@ pub fn create_aws_ebs_volume_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Volume ID".to_string(),
-            example_values: vec!["vol-0fedcba9876543210".to_string()],
+            example_values: vec!["vol-036890cac9d75b9a5".to_string()],
             validation_notes: None,
         });
 
@@ -148,7 +148,7 @@ pub fn create_aws_ebs_volume_contract() -> CtnContract {
             allowed_operations: str_full.clone(),
             description: "KMS key ARN used to encrypt the volume".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: Some("Only present when encrypted = true".to_string()),
@@ -194,7 +194,7 @@ pub fn create_aws_ebs_volume_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_eq.clone(),
             description: "Instance ID the volume is attached to".to_string(),
-            example_values: vec!["i-0123456789abcdef0".to_string()],
+            example_values: vec!["i-02dc10f9292c0a933".to_string()],
             validation_notes: Some("From first attachment".to_string()),
         });
 
@@ -216,7 +216,7 @@ pub fn create_aws_ebs_volume_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Value of a specific tag. Field name format: tag_key:<TagKey>".to_string(),
-            example_values: vec!["tag_key:Name → `example-org-data-volume`".to_string()],
+            example_values: vec!["tag_key:Name → `prooflayer-demo-data-volume`".to_string()],
             validation_notes: None,
         });
 

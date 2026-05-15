@@ -33,7 +33,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
             name: "secret_id".to_string(),
             data_type: DataType::String,
             description: "Secret name or ARN".to_string(),
-            example_values: vec!["example-org/db/credentials".to_string()],
+            example_values: vec!["prooflayer-demo/db/credentials".to_string()],
             validation_notes: Some("Required; secret name or full ARN".to_string()),
         });
 
@@ -48,7 +48,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
         });
 
     let bool_ops = vec![Operation::Equals, Operation::NotEqual];
-    let str_eq = vec![Operation::Equals, Operation::NotEqual];
+    let _str_eq = vec![Operation::Equals, Operation::NotEqual];
     let str_full = vec![
         Operation::Equals,
         Operation::NotEqual,
@@ -74,7 +74,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: str_full.clone(),
             description: "Secret name".to_string(),
-            example_values: vec!["example-org/db/credentials".to_string()],
+            example_values: vec!["prooflayer-demo/db/credentials".to_string()],
             validation_notes: None,
         });
 
@@ -84,7 +84,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
         allowed_operations: str_full.clone(),
         description: "Secret ARN".to_string(),
         example_values: vec![
-            "arn:aws:secretsmanager:us-east-1:123456789012:secret:example-org/db/credentials-Sp6FkL"
+            "arn:aws:secretsmanager:us-east-1:486027077516:secret:prooflayer-demo/db/credentials-Sp6FkL"
                 .to_string(),
         ],
         validation_notes: None,
@@ -98,7 +98,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
             allowed_operations: str_full.clone(),
             description: "KMS key ARN used to encrypt the secret".to_string(),
             example_values: vec![
-                "arn:aws:kms:us-east-1:123456789012:key/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+                "arn:aws:kms:us-east-1:486027077516:key/3c418345-78b1-4687-ac90-399246730cae"
                     .to_string(),
             ],
             validation_notes: Some("Absent if using the default AWS managed key".to_string()),
@@ -111,7 +111,7 @@ pub fn create_aws_secretsmanager_secret_contract() -> CtnContract {
             data_type: DataType::String,
             allowed_operations: vec![Operation::Equals, Operation::NotEqual, Operation::Contains],
             description: "Secret description".to_string(),
-            example_values: vec!["ExampleOrg PostgreSQL credentials".to_string()],
+            example_values: vec!["ProofLayer PostgreSQL credentials".to_string()],
             validation_notes: None,
         });
 

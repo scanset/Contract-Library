@@ -7,7 +7,7 @@
 //! ## RecordData Field Paths
 //!
 //! ```text
-//! DBInstanceIdentifier                          → "example-transparency-log"
+//! DBInstanceIdentifier                          → "scanset-transparency-log"
 //! DBInstanceStatus                              → "available"
 //! Engine                                        → "postgres"
 //! EngineVersion                                 → "16.4"
@@ -17,11 +17,11 @@
 //! DeletionProtection                            → false
 //! BackupRetentionPeriod                         → 7
 //! KmsKeyId                                      → "arn:aws:kms:..."
-//! Endpoint.Address                              → "example-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com"
+//! Endpoint.Address                              → "scanset-transparency-log.cmp6mwcmerdo.us-east-1.rds.amazonaws.com"
 //! Endpoint.Port                                 → 5432
-//! VpcSecurityGroups.0.VpcSecurityGroupId        → "sg-0bbbbbbbbbbbbbbbb0"
-//! DBSubnetGroup.VpcId                           → "vpc-0fedcba9876543210"
-//! DBSubnetGroup.Subnets.0.SubnetIdentifier      → "subnet-0eeeeeeeeeeeeeeee"
+//! VpcSecurityGroups.0.VpcSecurityGroupId        → "sg-037fd81f76602d39c"
+//! DBSubnetGroup.VpcId                           → "vpc-051afae9e049b137a"
+//! DBSubnetGroup.Subnets.0.SubnetIdentifier      → "subnet-0e673bf8205a96a43"
 //! ```
 
 ///////////////////////////////////////////////////////

@@ -15,7 +15,7 @@ Validates AWS IAM Identity Center identity store group configuration via a singl
 
 | Field               | Type   | Required | Description                                            | Example            |
 | ------------------- | ------ | -------- | ------------------------------------------------------ | ------------------ |
-| `group_name`        | string | **Yes**  | Group display name (exact match against `DisplayName`) | `ExampleOrgAdmins` |
+| `group_name`        | string | **Yes**  | Group display name (exact match against `DisplayName`) | `ProofLayerAdmins` |
 | `identity_store_id` | string | **Yes**  | Identity store ID for the IAM Identity Center instance | `d-906607b0fb`     |
 | `region`            | string | No       | AWS region override (passed as `--region`)             | `us-east-1`        |
 
@@ -37,9 +37,9 @@ The collector finds the first group where `DisplayName == group_name` exactly.
 {
   "Groups": [
     {
-      "GroupId": "d0e1f2a3-4567-8901-abcd-ef2345678901",
-      "DisplayName": "ExampleOrgAdmins",
-      "Description": "Maps to Entra group aws-example-org-admins",
+      "GroupId": "5428f418-1091-70f7-0b97-ead5a09be747",
+      "DisplayName": "ProofLayerAdmins",
+      "Description": "Maps to Entra group aws-prooflayer-demo-admins",
       "CreatedAt": "2026-03-23T19:58:33.760000+00:00",
       "UpdatedAt": "2026-03-23T19:58:33.760000+00:00",
       "IdentityStoreId": "d-906607b0fb"
@@ -73,9 +73,9 @@ The collector finds the first group where `DisplayName == group_name` exactly.
 ## RecordData Structure
 
 ```
-GroupId          → "d0e1f2a3-4567-8901-abcd-ef2345678901"
-DisplayName      → "ExampleOrgAdmins"
-Description      → "Maps to Entra group aws-example-org-admins"
+GroupId          → "5428f418-1091-70f7-0b97-ead5a09be747"
+DisplayName      → "ProofLayerAdmins"
+Description      → "Maps to Entra group aws-prooflayer-demo-admins"
 IdentityStoreId  → "d-906607b0fb"
 CreatedAt        → "2026-03-23T19:58:33.760000+00:00"
 UpdatedAt        → "2026-03-23T19:58:33.760000+00:00"
@@ -129,14 +129,14 @@ UpdatedAt        → "2026-03-23T19:58:33.760000+00:00"
 
 ```esp
 OBJECT admins_group
-    group_name `ExampleOrgAdmins`
+    group_name `ProofLayerAdmins`
     identity_store_id `d-906607b0fb`
     region `us-east-1`
 OBJECT_END
 
 STATE admins_group_compliant
     found boolean = true
-    display_name string = `ExampleOrgAdmins`
+    display_name string = `ProofLayerAdmins`
     description string contains `Entra group`
     identity_store_id string = `d-906607b0fb`
 STATE_END
